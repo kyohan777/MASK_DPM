@@ -19,21 +19,21 @@
                                   
   		 -->
   		 
-  		 <!-- 
+  		  
   		 <Resource  auth="Container" 
                  name="jdbc/dpmdb" 
                  type="javax.sql.DataSource" 
                  driverClassName="oracle.jdbc.driver.OracleDriver" 
-                 username="MINERVASOFT" 
-                 password="q1w2e3r4"                  
+                 username="IDMASK" 
+                 password="123456"                  
                  url="jdbc:oracle:thin:@192.168.0.157:15210/XE"
                  maxIdle="1" 
                  maxWait="10000" 
                  maxActive="5"
                  validationQuery="select 1 from dual" />
-          -->        
+                  
           
-          
+          <!-- 
           <Resource  auth="Container" 
                  name="jdbc/dpmdb" 
                  type="javax.sql.DataSource" 
@@ -45,5 +45,5 @@
                  maxWait="10000" 
                  maxActive="5"
                  validationQuery="select 1 from dual" />
-                 
+           -->       
   </Context>

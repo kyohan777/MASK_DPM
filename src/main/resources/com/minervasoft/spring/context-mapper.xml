@@ -8,11 +8,11 @@
         <property name="configLocation" value="classpath:/com/minervasoft/sqlmap/sql-mapper-config.xml" />
         <!-- <property name="mapperLocations" value="classpath:/com/minervasoft/sqlmap/mappers/*.xml" />-->
         <!--  property name="mapperLocations" value="classpath:/com/minervasoft/sqlmap/mappers/dpm.sql.db2.xml" /  -->
-        <!-- 
+         
         <property name="mapperLocations" value="classpath:/com/minervasoft/sqlmap/mappers/dpm.sql.oracle.xml" />
-         -->
+        <!-- 
         <property name="mapperLocations" value="classpath:/com/minervasoft/sqlmap/mappers/dpm.sql.maria.xml" />
-        
+        -->
         <!-- 개발시 로그에 SQL 파라미터  적용 -->
         <property name="plugins">
             <bean class="com.minervasoft.backend.common.SqlInterceptor" />
