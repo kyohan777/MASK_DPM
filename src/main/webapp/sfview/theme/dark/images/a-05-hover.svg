@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="18" viewBox="0 0 16 18">
+  <g id="a-05-hover" transform="translate(0.345 0.998)">
+    <path id="빼기_3" data-name="빼기 3" d="M11.787,11H5.5V6.418H0V0H6.418V4.584h5.369V11Z" transform="translate(1.833 2.75)" fill="#00d4ff"/>
+    <path id="빼기_3_-_윤곽선" data-name="빼기 3 - 윤곽선" d="M12.287,11.58,11.75,11.5H5V6.918H-.5V-.5H6.918V4.084h5.369ZM6,10.5h5.286V5.084H5.918V.5H.5V5.918H6Z" transform="translate(1.833 2.75)" fill="rgba(0,0,0,0)"/>
+    <path id="사각형_87" data-name="사각형 87" d="M-.5-.5h8v8h-8Zm7,1H.5v6h6Z" transform="translate(0.155 9.502)" fill="#fff"/>
+    <path id="사각형_88" data-name="사각형 88" d="M-.5-.5h8v9h-8Zm7,1H.5v7h6Z" transform="translate(8.155 -0.498)" fill="#fff"/>
+  </g>
+</svg>

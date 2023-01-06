@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="19.307" height="19.771" viewBox="0 0 19.307 19.771">
+  <g id="ic29" transform="translate(-1118.697 -964.5)">
+    <g id="그룹_80" data-name="그룹 80" transform="translate(1119.197 965)">
+      <path id="패스_22" data-name="패스 22" d="M919.3,715.271H905.5V696.5h18.2v14.225Z" transform="translate(-905.5 -696.5)" fill="rgba(255,255,255,0.5)" fill-rule="evenodd"/>
+      <path id="패스_22_-_윤곽선" data-name="패스 22 - 윤곽선" d="M919.514,715.771H905V696h19.2v14.927Zm-13.514-1h13.09l4.11-4.248V697H906Z" transform="translate(-905.5 -696.5)" fill="#fff"/>
+      <path id="패스_23" data-name="패스 23" d="M921.96,707.5H916.5v5.279" transform="translate(-903.153 -694.595)" fill="rgba(255,255,255,0.5)" fill-rule="evenodd"/>
+      <path id="패스_23_-_윤곽선" data-name="패스 23 - 윤곽선" d="M917,712.779h-1V707h5.96v1H917Z" transform="translate(-903.153 -694.595)" fill="#fff"/>
+    </g>
+    <text id="_100_" data-name="100%" transform="translate(1121 977)" fill="#fff" font-size="7" font-family="DotumChe"><tspan x="0" y="0">100%</tspan></text>
+  </g>
+</svg>

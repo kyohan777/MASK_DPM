@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <Context docBase="" path="" reloadable="true" >
+        <!--          
+		<Resource  auth="Container" 
+                 name="jdbc/dpmdb" 
+                 type="javax.sql.DataSource" 
+                 driverClassName="com.mysql.cj.jdbc.Driver" 
+                 username="root" 
+                 password="123456"                  
+                 url="jdbc:mysql://127.0.0.1:3306/XMASK?useSSL=false&amp;serverTimezone=UTC&amp;characterEncoding=UTF-8"
+                 maxIdle="1" 
+                 maxWait="10000" 
+                 maxActive="5"
+                 validationQuery="select 1 from dual" />
+                 192.168.0.157
+                 url="jdbc:log4jdbc:oracle:thin:@127.0.0.1:15210/XE"
+                 driverClassName="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"
+                 driverClassName="oracle.jdbc.driver.OracleDriver" 	
+                                  
+  		 -->
+  		 
+  		 <!-- 
+  		 <Resource  auth="Container" 
+                 name="jdbc/dpmdb" 
+                 type="javax.sql.DataSource" 
+                 driverClassName="oracle.jdbc.driver.OracleDriver" 
+                 username="MINERVASOFT" 
+                 password="q1w2e3r4"                  
+                 url="jdbc:oracle:thin:@192.168.0.157:15210/XE"
+                 maxIdle="1" 
+                 maxWait="10000" 
+                 maxActive="5"
+                 validationQuery="select 1 from dual" />
+          -->        
+          
+          
+          <Resource  auth="Container" 
+                 name="jdbc/dpmdb" 
+                 type="javax.sql.DataSource" 
+                 driverClassName="com.mysql.cj.jdbc.Driver" 
+                 username="root" 
+                 password="123456"                  
+                 url="jdbc:mysql://192.168.0.157:3307/MINERVA?useSSL=false&amp;serverTimezone=UTC&amp;characterEncoding=UTF-8"
+                 maxIdle="1" 
+                 maxWait="10000" 
+                 maxActive="5"
+                 validationQuery="select 1 from dual" />
+                 
+  </Context>

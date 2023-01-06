@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="21.39" height="22.559" viewBox="0 0 21.39 22.559">
+  <g id="ic22" transform="translate(-1453 -140.441)">
+    <g id="그룹_27" data-name="그룹 27" transform="translate(1008 -1)">
+      <rect id="사각형_21" data-name="사각형 21" width="19" height="12" rx="2" transform="translate(445 147)" fill="#8e8e8e"/>
+      <path id="패스_36" data-name="패스 36" d="M452.5,156.6V164l7.9-7.4Z" transform="translate(2.6)" fill="#8e8e8e"/>
+    </g>
+    <g id="그룹_28" data-name="그룹 28" transform="translate(563.978 -479.085)">
+      <path id="패스_37" data-name="패스 37" d="M898.73,632.189l-3.707,1.426,1.426-3.707,6.846-6.846,2.282,2.282Z" transform="translate(0 1.301)" fill="#fff"/>
+      <path id="패스_37_-_윤곽선" data-name="패스 37 - 윤곽선" d="M895.023,633.615l3.707-1.426,6.846-6.846-2.282-2.282-6.846,6.846-1.426,3.707m0,1a1,1,0,0,1-.934-1.359l1.426-3.707a1,1,0,0,1,.226-.348l6.846-6.846a1,1,0,0,1,1.414,0l2.282,2.282a1,1,0,0,1,0,1.414l-6.846,6.846a1,1,0,0,1-.348.226l-3.707,1.426A1,1,0,0,1,895.023,634.615Z" transform="translate(0 1.301)" fill="#3d3d3d"/>
+      <rect id="사각형_31" data-name="사각형 31" width="3.227" height="3.227" transform="translate(904.435 623.222) rotate(-45)" fill="#fff"/>
+      <path id="사각형_31_-_윤곽선" data-name="사각형 31 - 윤곽선" d="M0,0V3.227H3.227V0H0M0-1H3.227a1,1,0,0,1,1,1V3.227a1,1,0,0,1-1,1H0a1,1,0,0,1-1-1V0A1,1,0,0,1,0-1Z" transform="translate(904.435 623.222) rotate(-45)" fill="#3d3d3d"/>
+    </g>
+  </g>
+</svg>

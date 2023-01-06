@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="15" height="28" viewBox="0 0 15 28">
+  <g id="ic13-hover" transform="translate(692 -644) rotate(90)">
+    <path id="패스_16" data-name="패스 16" d="M652.488,678.81l-6.01,5.949a.4.4,0,0,0,0,.37l6.01,5.947c.062.123.185.123.307,0l1.049-.985-5.086-5.149,5.086-5.084-1.049-1.048c-.122-.125-.245-.125-.307,0Z" fill="#5f7ca5" fill-rule="evenodd"/>
+    <path id="패스_17" data-name="패스 17" d="M672.076,691.074l6.01-5.948a.4.4,0,0,0,0-.37l-6.01-5.947c-.061-.124-.184-.124-.307,0l-1.048.985,5.086,5.148-5.086,5.084,1.048,1.048c.123.125.246.125.307,0Z" transform="translate(-8)" fill="#5f7ca5" fill-rule="evenodd"/>
+    <path id="선_1" data-name="선 1" d="M20,1H0V-1H20Z" transform="translate(648 685)" fill="#5f7ca5"/>
+    <path id="선_2" data-name="선 2" d="M1,15H-1V14H1Zm0-2H-1V12H1Zm0-2H-1V10H1ZM1,9H-1V8H1ZM1,7H-1V6H1ZM1,5H-1V4H1ZM1,3H-1V2H1ZM1,1H-1V0H1Z" transform="translate(671 677)" fill="#173a6a"/>
+    <path id="선_3" data-name="선 3" d="M1,15H-1V14H1Zm0-2H-1V12H1Zm0-2H-1V10H1ZM1,9H-1V8H1ZM1,7H-1V6H1ZM1,5H-1V4H1ZM1,3H-1V2H1ZM1,1H-1V0H1Z" transform="translate(645 677)" fill="#173a6a"/>
+  </g>
+</svg>

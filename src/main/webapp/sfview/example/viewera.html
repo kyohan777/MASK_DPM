@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMG Viewer</title>
+    <script src="/sfview/js/jquery-3.6.0.min.js"></script>
+    <script src="/sfview/js/jszip.min.js"></script>
+
+    <!-- color picker -->
+    <script src='/sfview/spectrum/spectrum.js'></script>
+    <script src='/sfview/spectrum/jquery.spectrum-ko.js'></script>
+    <link rel='stylesheet' href='/sfview/spectrum/spectrum.css' />
+    <!-- drop down list -->
+    <link rel="stylesheet" href="/sfview/dd/dd.css">   
+    <!-- image -->
+    <script src="/sfview/theme/js/toolbar.js"></script>
+    <script src="/sfview/theme/js/page_control.js"></script>
+
+    <script src="/sfview/js/event_map.js"></script>
+    <script src="/sfview/js/thumbnails.js"></script>
+    <script src="/sfview/js/view.js"></script>
+    <!-- css -->
+    <link rel="stylesheet alternative" href="/sfview/theme/dark/css/viewer.css" class="alternative" disabled id="dark">
+    <link rel="stylesheet alternative" href="/sfview/theme/light/css/viewer.css" class="alternative" disabled id="light">
+    <style>
+        @media screen  {	
+            div#top {
+                display: flex; 
+                width:100%; 
+                height:100%;
+                margin: 0;
+            }
+            .biz-box {
+                display: inline-block;
+                position:absolute;
+                width:100px;
+            }
+            
+            div.view-box{
+                display: block;
+                height:100vh;
+                padding-left: 100px; 
+                width:calc(100vw - 100px);
+            }
+            
+			.v-main, iframe.embedded, .v-wrap .v-main .v-toolbar, .v-wrap .v-main .v-anno-wrap {
+			  width: calc(100vw - 171px - 100px);	
+			}
+	
+			.btn {
+				margin: 10px 20px;
+				cursor: pointer;
+			}			
+        }
+        
+    </style>       
+</head>
+<body>
+	<div id="top">
+		<div class="biz-box no-print">
+			<div class="btn" id="mask_rectangle">mask rectangle</div>		
+			<div class="btn" id="mask_ellipse">mask ellipse</div>		
+			<div class="btn" id="highlightpen">highlight pen</div>		
+			<div class="btn" id="arrow">arrow</div>		
+			<div class="btn" id="textbox">text box</div>		
+		</div>
+		<div class="view-box"></div>
+	</div>
+</body>
+<script type="module">
+    import Anno from "/sfview/js/anno/Anno.js";	
+    
+    var $thumbnails = null; 
+    var $view = null; 
+    $('#light').prop('disabled', false);
+    
+    $(document).ready(function(){
+    	initViewer(function(_thumbnails, _view){            
+            $thumbnails = _thumbnails;
+            $view = _view;
+			$('.v-wrap .v-main .v-toolbar .v-memo-wrap li').show();
+
+			Toolbar.setWidth('calc(100vw - 171px - 100px)');
+           
+            Anno.init($view);
+
+			let x = 0;
+			let y = 0;
+	    	$('div#mask_rectangle').click(function(){
+				Anno.drawMask('rectangle', x, y, 100, 100, 'green');
+				Anno.drawShapes();				
+				x += 50; 
+				y += 50; 
+   		 	});
+	    	$('div#mask_ellipse').click(function(){
+				Anno.drawMask('ellipse', x, y, 100, 100, '#80404080');
+				Anno.drawShapes();
+				x += 50; 
+				y += 50; 
+   		 	});
+    		$('div#highlightpen').click(function(){
+				const o = Anno.drawLine('highlightpen', x, y, x + 100, y + 100);
+				o.lineWidth = 10; //default 20
+				Anno.drawShapes();
+				x += 50; 
+				y += 50; 
+     		});
+    		$('div#arrow').click(function(){
+				const o = Anno.drawLine('arrow', x, y, x + 100, y + 100, 'brown');
+				o.lineWidth = 10; //default 20
+				o.lineCapHead.size = 50; //default 14
+				o.lineCapHead.setShape('triangle'); // none, triangle, diamond, circle, bracket
+				o.lineCapTail.size = 50; //default 14
+				o.lineCapTail.setShape('diamond'); // none, triangle, diamond, circle, bracket
+
+				Anno.drawShapes();
+				x += 50; 
+				y += 50; 
+     		});
+	    	$('div#textbox').click(function(){
+				const o = Anno.drawShape('textbox', x, y, 240, 180, 'lightgray');
+				o.lineWidth = 10;
+				o.strokeStyle = 'olive';
+				o.fontColor = 'gray';
+				o.text = 
+`얇은 사(紗) 하이얀 고깔은
+고이 접어서 나빌레라.
+
+파르라니 깍은 머리
+박사(薄紗) 고깔에 감추오고
+
+두 볼에 흐르는 빛이
+정작으로 고와서 서러워라.`;
+				o.setAngle(15); //set rotate angle
+				Anno.drawShapes();
+				x += 50; 
+				y += 50; 
+   		 	});
+
+            $thumbnails.setImg('/sfview/show_file.jsp?filename=/lzwc.tif');
+        });
+    });
+</script>
+<script src='/sfview/dd/dd.min.js'></script>
+</html>

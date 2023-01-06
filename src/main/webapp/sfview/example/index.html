@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMG Viewer</title>
+    <script src="/sfview/js/jquery-3.6.0.min.js"></script>
+    <script src="/sfview/js/jszip.min.js"></script>
+
+    <!-- image -->
+    <script src="/sfview/theme/js/toolbar.js"></script>
+    <script src="/sfview/theme/js/page_control.js"></script>
+
+    <script src="/sfview/js/event_map.js"></script>
+    <script src="/sfview/js/thumbnails.js"></script>
+    <script src="/sfview/js/view.js"></script>
+    <!-- css -->
+    <link rel="stylesheet alternative" href="/sfview/theme/dark/css/viewer.css" class="alternative" disabled id="dark">
+    <link rel="stylesheet alternative" href="/sfview/theme/light/css/viewer.css" class="alternative" disabled id="light">
+</head>
+<body>
+<div class="view-box"></div>
+</body>
+<script type="module">
+    var $thumbnails = null; 
+    var $view = null; 
+    $('#light').prop('disabled', false);
+    
+    $(document).ready(function(){
+    	initViewer(function(_thumbnails, _view){            
+            $thumbnails = _thumbnails;
+            $view = _view;
+            
+            $.get('/sfview/list_file.jsp', { 'folder': '/' }, function(data){
+                $thumbnails.setImg(data);
+            });
+            
+        });
+    });
+</script>   
+</html>

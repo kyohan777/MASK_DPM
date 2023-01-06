@@ -1,0 +1,1 @@
+import Rectangle from"/sfview/js/anno/Rectangle.js";export default class Img extends Rectangle{img;constructor(x=0,y=0,width=1,height=1,img=null){super(x,y,width,height,"#000000",null,(function(ctx){ctx.drawImage(this.img,this.x,this.y,this.width,this.height)}));this.img=img;this.lineWidth=null}getJson(){const json=super.getJson();delete json.style;return json}}

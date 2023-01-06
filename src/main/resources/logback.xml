@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true">
+<!--     <property name="LOGS_ABSOLUTE_PATH" value="./logs" /> -->
+ 
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <charset>UTF-8</charset>
+            <!-- 로그 메시지 패턴 -->
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5p] [%F] %M\(%L\) : %m%n</Pattern>
+        </encoder>
+    </appender>
+    
+<!--     <appender name="SAMPLE" class="ch.qos.logback.core.ConsoleAppender"> -->
+<!--         <encoder> -->
+<!--             <pattern>[%d{yyyy-MM-dd HH:mm:ss}:%-3relative][%thread] %-5level %logger{35} - %msg%n</pattern> -->
+<!--         </encoder> -->
+<!--     </appender> -->
+
+<!--     <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender"> -->
+<!--         <file>${LOGS_ABSOLUTE_PATH}/logback.log</file> -->
+<!--         <encoder> -->
+<!--             <pattern>[%d{yyyy-MM-dd HH:mm:ss}:%-3relative][%thread] %-5level %logger{35} - %msg%n</pattern> -->
+<!--         </encoder> -->
+<!--         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"> -->
+<!--             <fileNamePattern>${LOGS_ABSOLUTE_PATH}/logback.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern> -->
+<!--             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP"> -->
+<!--                 or whenever the file size reaches 100MB -->
+<!--                 <maxFileSize>5MB</maxFileSize> -->
+<!--                 kb, mb, gb -->
+<!--             </timeBasedFileNamingAndTriggeringPolicy> -->
+<!--             <maxHistory>30</maxHistory> -->
+<!--         </rollingPolicy> -->
+<!--     </appender> -->
+    
+    <logger name="org.springframework" level="INFO">
+        <appender-ref ref="console" />
+    </logger>
+    
+    <logger name="com.minervasoft" level="DEBUG">
+        <appender-ref ref="console" />
+    </logger>    
+
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>

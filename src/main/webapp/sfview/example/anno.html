@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMG Viewer</title>
+    <script src="/sfview/js/jquery-3.6.0.min.js"></script>
+    <script src="/sfview/js/jszip.min.js"></script>
+
+    <!-- color picker -->
+    <script src='/sfview/spectrum/spectrum.js'></script>
+    <script src='/sfview/spectrum/jquery.spectrum-ko.js'></script>
+    <link rel='stylesheet' href='/sfview/spectrum/spectrum.css' />
+    <!-- drop down list -->
+    <link rel="stylesheet" href="/sfview/dd/dd.css">   
+    <!-- image -->
+    <script src="/sfview/theme/js/toolbar.js"></script>
+    <script src="/sfview/theme/js/page_control.js"></script>
+
+    <script src="/sfview/js/event_map.js"></script>
+    <script src="/sfview/js/thumbnails.js"></script>
+    <script src="/sfview/js/view.js"></script>
+    <!-- css -->
+    <link rel="stylesheet alternative" href="/sfview/theme/dark/css/viewer.css" class="alternative" disabled id="dark">
+    <link rel="stylesheet alternative" href="/sfview/theme/light/css/viewer.css" class="alternative" disabled id="light">
+    <style>
+    </style>    
+</head>
+<body>
+<div class="view-box"></div>
+</body>
+<script type="module">
+    import Anno from "/sfview/js/anno/Anno.js";	
+    
+    var $thumbnails = null; 
+    var $view = null; 
+    $('#light').prop('disabled', false);
+    
+    function getParameterByName(name, url) {
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+
+    function getJsonPath(imageUrl) {
+        let imagePath = getParameterByName('filename', imageUrl);
+        if (imagePath == null || imagePath == '') {
+            imagePath = imageUrl;
+        }
+
+        const pos = imagePath.lastIndexOf('.');
+        return (pos >= 0 ? imagePath.substring(0, pos): imagePath) + '.json';
+    }
+
+    $(document).ready(function(){
+    	initViewer(function(_thumbnails, _view){            
+            $thumbnails = _thumbnails;
+            $view = _view;
+			$('.v-wrap .v-main .v-toolbar .v-memo-wrap li').show();
+           
+            Anno.init($view);
+
+       		$view.on('load', function(width, height, filename, src, imgUrl, page) {
+				Anno.clear();
+                const jsonPath = getJsonPath(imgUrl);
+                $.get('/sfview/read_json.jsp?filename=' + jsonPath, function(data){
+                    Anno.setJson(data, page);
+                    Anno.drawShapes();
+                });
+			});
+
+       		$view.on('save', function(imgUrl, page, json) {
+                const jsonPath = getJsonPath(imgUrl);
+				console.log(imgUrl, page, json, jsonPath)
+
+				$.post('/sfview/write_json.jsp', {'json': JSON.stringify(json, null, 2), 'filename': jsonPath}, function(data) {
+					console.log('saved json');
+				});
+			});
+
+            $thumbnails.setImg('/sfview/show_file.jsp?filename=/jpeg_5page.tif');
+        });
+    });
+</script>   
+<script src='/sfview/dd/dd.min.js'></script>
+</html>

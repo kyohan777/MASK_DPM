@@ -1,0 +1,1 @@
+import Handler from"/sfview/js/anno/Handler.js";export default class PolylineHandler extends Handler{constructor(){super("grab")}initStep(x,y,shiftKey){Handler.shape.add(x,y)}calcStep(shape,x,y){shape.add(x,y)}endStep(){Handler.shape.normalize()}}

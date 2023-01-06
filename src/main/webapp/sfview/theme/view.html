@@ -1,0 +1,339 @@
+    <div class="v-wrap">
+        <!--side-->
+        <div class="v-side">
+            <div class="v-side-toolbar no-print">
+                <ul class="v-side-wrap">
+                    <li class="v-list-chk">
+                        <label>
+                            <input type="checkbox" id="selectAll">
+                            <em></em>
+                        </label>
+                    </li>
+                    <li>
+                        <button type="button" id="download"></button>
+                    </li>
+                    <li>
+                        <button type="button" id="print"></button>
+                    </li>
+                    <li>
+                        <label class="dark-mode-button">
+                            <input type="checkbox" id="theme" checked/>
+                            <span class="onoff-switch">
+                                <span></span>
+                            </span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="v-page-thumb-list ">
+                <ul id="thumbnails">
+                </ul>
+            </div>
+            <span class="v-page-list-more slide-in aa no-print"></span>
+        </div>
+        <!--view main-->
+        <div class="v-main no-print">
+            <div class="v-toolbar">
+
+                <div class="v-page-name-wrap">
+                    <span class="v-page-icon gif"></span>
+                    <span class="v-page-name"></span>
+                </div>
+
+                <ul class="v-pass-wrap">
+                    <li>
+                        <button type="button" class="firstImage"></button>
+                    </li>
+                    <li>
+                        <button type="button" class="prevImage"></button>
+                    </li>
+                    <li class="v-page-count">
+                        <input type="text" id="seq">
+                        <style>#totalCount::before { content:"/"}</style>
+                        <span id="totalCount" ></span>
+                    </li>
+                    <li>
+                        <button type="button" class="nextImage"></button>
+                    </li>
+                    <li>
+                        <button type="button" class="lastImage"></button>
+                    </li>
+                </ul>
+
+                <ul class="v-zoom-wrap">
+                    <li class="zoom_in">
+                        <button type="button"></button>
+                    </li>
+                    <li class="v-size-percent">
+                        <select id="size-percent">
+                            <option value="label">확대</option>
+                            <option value="fit_hori">너비</option>
+                            <option value="fit_vert">높이</option>
+                            <option value="fit_100">원본</option>
+                            <option value="zoom_30">30%</option>
+                            <option value="zoom_50">50%</option>
+                            <option value="zoom_75">75%</option>
+                            <option value="zoom_150">150%</option>
+                            <option value="zoom_200">200%</option>
+                            <option value="zoom_300">300%</option>
+                            <option value="zoom_500">500%</option>
+                        </select>
+                    </li>
+                    <li class="zoom_out">
+                        <button type="button"></button>
+                    </li>
+                </ul>
+
+                <ul class="v-rotate-wrap">
+                    <li class="rotate_ccw">
+                        <button type="button"></button>
+                    </li>
+                    <li class="rotate_cw">
+                        <button type="button"></button>
+                    </li>
+                </ul>
+
+                <ul class="v-view-wrap">
+                    <li class="fit_hori">
+                        <button type="button"></button>
+                    </li>
+                    <li class="fit_vert">
+                        <button type="button"></button>
+                    </li>
+                </ul>
+
+                <ul class="v-wide-wrap">
+                    <li id="view_dual">
+                        <button type="button"></button>
+                    </li>
+                    <li id="view_single">
+                        <button type="button" class="selected"></button>
+                    </li>
+                    <li id="view_fullscreen">
+                        <button type="button"></button>
+                    </li>
+                </ul>
+
+                <ul class="v-navi-wrap">
+                    <li>
+                        <button type="button"class="v-page-list-more aa"></button>
+                    </li>
+                    <li>
+                        <button type="button" class="v-page-list-more selected"></button>
+                    </li>
+                    <li>
+                        <button type="button" class="v-quick-toggle selected"></button>
+                    </li>
+                </ul>
+
+                <ul class="v-memo-wrap show hori check" style="display:none">
+                    <li id="show.masking" title="마스킹 보기/감추기" class="checked">
+                        <button type="button" class="selected"></button>
+                    </li>
+                    <li id="show.annotation" title="주석 보기/감추기" class="checked">
+                        <button type="button" class="selected"></button>
+                    </li>
+                    <li id="mode" title="편집/보기">
+                        <button type="button"></button>
+                    </li>
+                </ul>
+            </div>
+                <!--주석 toolbar-->
+                <div class="v-anno-wrap anno" style="display:none">
+                    <div>
+                        <ul class="anno-list00 anno hori tb">
+                            <li id="save" title="주석 저장" tb-type="click"><button></button></li>
+                        </ul>
+                        <ul class="anno-list01 anno hori tb">
+                            <li id="clearAll" title="주석 초기화" tb-type="click"><button></button></li>
+                        </ul>
+                        <ul class="anno-list02 anno hori tb">
+                            <li id="zindex.front" title="맨 앞으로 가져오기" tb-type="click"><button></button></li>
+                            <li id="zindex.forward" title="앞으로 가져오기" tb-type="click"><button></button></li>
+                            <li id="zindex.backward" title="뒤로 보내기" tb-type="click"><button></button></li>
+                            <li id="zindex.back" title="맨 뒤로 보내기" tb-type="click"><button></button></li>
+                        </ul>
+                        <ul class="anno-list03 anno create hori radio">
+                            <li id="annotation.rectangle" title="사각형"><button></button></li>
+                            <li id="annotation.ellipse" title="원"><button></button></li>
+                            <li id="annotation.line" title="선"><button></button></li>
+                            <li id="annotation.arrow" title="화살표"><button></button></li>
+                            <li id="annotation.pen" title="펜"><button></button></li>
+                            <li id="annotation.highlightpen" title="형판펜"><button></button></li>
+                            <li id="annotation.textbox" title="메모"><button></button></li>
+                            <li id="annotation.checker" title="체크"><button></button></li>
+                            <li id="annotation.stamp" title="스탬프"><button></button></li>
+                            <li id="masking.rectangle" title="사각형 마스킹"><button></button></li>
+                            <li id="masking.ellipse" title="원형 마스킹"><button></button></li>
+                        </ul>
+                        <ul class="anno-list04 anno hori tb">
+	                        <li title="채우기" class="colorpicker">
+                                <div class="select">
+                                    <input id="fillStyle" class='colorpicker' value="rgba(91,155,213,0.8)"/>
+                                </div>
+                            </li>
+                            <li title="선색" class="colorpicker">
+                                <div class="select">
+                                    <input id="strokeStyle" class='colorpicker' value="#ff0000" />
+                                </div>
+                            </li>
+                            <li title="선두께" class="input-number"><input id="lineWidth" type="number" min="1" max="100" step="1" value="1" disabled style="width:36px"
+                                onKeyPress="if (this.value.length > 3) return false;"/></li>
+                            <li title="선종류">
+                                <div class="select" >
+                                    <select  id="lineDash" name="lineDash" is="ms-dropdown" style="width:38px" disabled>
+                                    <option value="solid" data-image="/sfview/img/line-solid.png"></option>
+                                    <option value="dash" data-image="/sfview/img/line-dash.png"></option>
+                                    <option value="dot" data-image="/sfview/img/line-dot.png"></option>
+                                    <option value="dash-dot" data-image="/sfview/img/line-dash-dot.png"></option>
+                                    <option value="dash-dot-dot" data-image="/sfview/img/line-dash-dot-dot.png"></option>
+                                    </select>
+                                </div>
+                            </li>                        
+                        </ul>
+                        <ul class="anno-list05 anno hori tb sep text" style="display:none"">
+                            <li title="글자색"  class="colorpicker">
+                                <div class="select">
+                                    <input id="fontColor" class='colorpicker' value="#ff0000"  disabled/>
+                                </div>
+                            </li>
+                            <li title="글자크기" class="input-number">
+                                <input id="fontSize" type="number" min="7" max="1000" step="1" value="16" style="width:36px"
+		                            onKeyPress="if (this.value.length > 3) return false;"  disabled/>
+                            </li>
+                            <li  title="글자체">
+                                <select id="fontFamily" disabled class="select-font-wrap">
+                                    <option value="Malgun Gothic">맑은 고딕</option>
+                                    <option value="gulim">굴림</option>
+                                    <option value="Dotum">돋움</option>
+                                    <option value="Arial">Arial</option>
+                                    <option value="Courier New">Courier New</option>
+                                    <option value="Times New Roman">Times New Roman</option>
+                                    <option value="Verdana">Verdana</option>
+                                    <option value="Helvetica">Helvetica</option>
+                                    <option value="Tahoma" selected>Tahoma</option>
+                                </select>
+                            </li>
+                        </ul>
+                        <ul class="anno-list06 anno hori check text font-style">
+                            <li title="기울림" id="italic" class="disabled"><button></button></li>
+                            <li title="굵게" id="bold" class="disabled"><button></button></li>
+                            <li title="밑줄" id="underline" class="disabled"><button></button></li>
+                            <li title="취소선" id="lineThrough" class="disabled"><button></button></li>
+                        </ul>
+                        <ul class="anno hori tb text-align" style="display:none">
+                            <li title="정렬" class="dropdown">
+                                <div class="select"  style="width:38px">
+                                    <select  id="textAlign" name="textAlign" is="ms-dropdown" style="width:34px" disabled >
+                                    <option value="left" data-image="/sfview/theme/light/images/sel6-left.svg"></option>
+                                    <option value="center" data-image="/sfview/theme/light/images/sel6-center.svg"></option>
+                                    <option value="right" data-image="/sfview/theme/light/images/sel6-right.svg"></option>
+                                    </select>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul class="anno-list07 anno hori tb sep">
+                            <li title="머리">
+                                <div class="select">
+                                    <span class="selected-option">
+                                        <div>
+                                            <i><img src="/sfview/theme/light/images/sel7-img.svg" alt=""/></i>
+                                            <span class="txt"><input id="lineCapHeadSize" type="number" min="8" max="100" step="1" value="14" disabled style="width:36px"
+                                                onKeyPress="if (this.value.length > 3) return false;"/></span>
+                                        </div>
+                                    </span>
+                                    <select class="show" id="lineCapHeadShape" name="lineCapHeadShape" is="ms-dropdown" disabled>
+                                        <option value="none" data-image="/sfview/theme/light/images/sel7-s1.svg"></option>
+                                        <option value="triangle" data-image="/sfview/theme/light/images/sel7-s2.svg" selected></option>
+                                        <option value="diamond" data-image="/sfview/theme/light/images/sel7-s3.svg"></option>
+                                        <option value="circle" data-image="/sfview/theme/light/images/sel7-s4.svg"></option>
+                                        <option value="bracket" data-image="/sfview/theme/light/images/sel7-s5.svg"></option>
+                                    </select>
+                                </div>
+                            </li>                            
+                            <li title="꼬리">
+                                <div class="select">
+                                    <span class="selected-option">
+                                        <div>
+                                            <i><img src="/sfview/theme/light/images/sel8-img.svg" alt=""/></i>
+                                            <span class="txt"><input id="lineCapTailSize" type="number" min="8" max="100" step="1" value="14" disabled style="width:36px"
+                                                onKeyPress="if (this.value.length > 3) return false;"/></span>
+                                        </div>
+                                    </span>
+                                    <select class="show" id="lineCapTailShape" name="lineCapTailShape" is="ms-dropdown" disabled>
+                                        <option value="none" data-image="/sfview/theme/light/images/sel7-s1.svg"></option>
+                                        <option value="triangle" data-image="/sfview/theme/light/images/sel7-s2.svg" selected></option>
+                                        <option value="diamond" data-image="/sfview/theme/light/images/sel7-s3.svg"></option>
+                                        <option value="circle" data-image="/sfview/theme/light/images/sel7-s4.svg"></option>
+                                        <option value="bracket" data-image="/sfview/theme/light/images/sel7-s5.svg"></option>
+                                    </select>
+                                </div>
+                            </li>                            
+                        </ul>
+                    </div>
+                </div>
+
+            <div class="v-board">
+                <div class="v-content">
+                	<iframe id="embedded" class="embedded"></iframe>                                	
+                    <div id="sfwork" style="display:block; font-size:0; height:100%; overflow: auto;">
+                        <div id="sfcrop" style="display:block; overflow:hidden">
+                            <div id="sfwrap" style="display:inline-block; position: relative; font-size:0;white-space: nowrap;">
+                                <img id="sfimg" class="sfimg">
+                                <img id="sfimg2" class="sfimg" display="none">
+                                <div id="areaMarker" style="display:none"></div>
+                                <canvas id='sfanno' style="display:none; position: absolute;left:0;height: 100%;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--quick-->
+                <div class="v-quick-wrap">
+                    <ul class="v-quick-pass-wrap">
+                        <li>
+                            <button type="button" class="prevImage">이전</button>
+                        </li>
+                        <li>
+                            <button type="button" class="nextImage">다음</button>
+                        </li>
+                    </ul>
+                    <ul class="v-quick-zoom-wrap">
+                        <li class="zoom_in">
+                            <button type="button"></button>
+                        </li>
+                        <li class="zoom_out">
+                            <button type="button"></button>
+                        </li>
+                    </ul>
+                    <ul class="v-quick-view-wrap">
+                        <li class="fit_hori">
+                            <button type="button"></button>
+                        </li>
+                        <li class="fit_vert">
+                            <button type="button"></button>
+                        </li>
+                        <li class="fit_100">
+                            <button type="button"></button>
+                        </li>
+                    </ul>
+                    <span class="v-quick-close"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div  id="printModal" class="v-pop-wrap v-file-down no-print">
+        <p class="v-pop-text title">파일 다운로드</p>
+        <div class="v-file-num">
+            <span class="seq num">nn</span>
+            <span class="dash">/</span>
+            <span class="total num">nn</span>
+        </div>
+        <div class="v-bar-gauge">
+	        <progress max="100" value="0" class="progress bar-per"></progress>
+        </div>
+        <ul class="v-pop-btn-group">
+            <li class="v-pop-btn-comfirm" id="cancelPrint"><a href="#">취소</a></li>
+        </ul>
+    </div>
+    

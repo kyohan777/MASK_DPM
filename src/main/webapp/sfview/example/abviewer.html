@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Abveiwer 예제</title>
+<script type="text/javascript" src="/sfview/js/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="/sfview/js/event_map.js"></script>
+<script type="text/javascript" src="/sfview/js/thumbnails.js"></script>
+<script type="text/javascript" src="/sfview/js/page_control.js"></script>
+<script type="text/javascript" src="/sfview/js/view.js"></script>
+<script type="text/javascript" src="/sfview/js/toolbar.js"></script>
+<script type="text/javascript" src="/sfview/js/abviewer.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/sfview/css/view.css">
+<link rel="stylesheet" type="text/css" href="/sfview/css/toolbar.css">
+<style>
+@media screen  {	
+	div#top {
+		display: flex; 
+		width:calc(100% -200px); 
+		height:inherit;
+		margin: 0;
+	}
+	
+	div.btn {
+		cursor:pointer;	
+	}	
+}
+</style>
+</head>
+<body>
+	<div style="display:flex;height:100%">
+		<div style="width:200px;background-color:lightgray">
+			<div class="btn" id="view">view</div>
+			<div class="btn" id="clear">clear</div>
+			<div class="btn" id="showImageList">showImageListView(true)</div>
+			<div class="btn" id="hideImageList">showImageListView(false)</div>
+			<div class="btn" id="viewFileListJson">viewFileList(json)</div>
+			<div class="btn" id="viewFileListFolder">viewFileList(folder)</div>
+			<div class="btn" id="getSelectedFilenames">getSelectedFilenames()</div>
+			<div class="btn" id="getSelectedImgs">getSelectedImgs()</div>
+			<br>
+			<div id="board" style="word-wrap:break-word"></div>
+		</div>
+		<div id="top">
+			<div class="thumbnails-box"></div>
+			<div class="view-box thumbnailsOn"></div>
+		</div>
+	</div>
+</body>
+<script>
+$(document).ready(function(){
+	$('div#view').click(function(){
+		AbViewerAPI.view('/g4.tif');		
+	});
+	
+	$('div#clear').click(function(){
+		AbViewerAPI.viewClear();		
+	});
+	
+	$('div#showImageList').click(function(){
+		AbViewerAPI.showImageListView(true);		
+	});
+	
+	$('div#hideImageList').click(function(){
+		AbViewerAPI.showImageListView(false);		
+	});
+
+	$('div#viewFileListJson').click(function(){
+		const list = 	{ 'fileList' : [
+		    { 'imagePath' : '/g4.tif' },
+		    { 'imagePath' : '/100.pdf' },
+		    { 'imagePath' : '/jpeg.tif' }
+		]};
+
+		AbViewerAPI.viewFileList(list);		
+	});
+
+	$('div#viewFileListFolder').click(function(){
+		AbViewerAPI.viewFileList('/');		
+	});
+
+	$('div#getSelectedFilenames').click(function(){
+		const filenames = AbViewerAPI.getSelectedFilenames();
+		let htm = '';
+		
+		for (let i = 0; i < filenames.length; i++) {
+			htm += filenames[i] + '<br>';
+		}
+		
+		
+		$('#board').html(htm);
+	});
+	
+	$('div#getSelectedImgs').click(function(){
+		const imgs = AbViewerAPI.getSelectedImgs();
+		let htm = '';
+		
+		for (let i = 0; i < imgs.length; i++) {
+			htm += $(imgs[i]).attr('title') + '<br>';
+		}
+		
+		
+		$('#board').html(htm);
+	});
+});
+</script>
+</html>

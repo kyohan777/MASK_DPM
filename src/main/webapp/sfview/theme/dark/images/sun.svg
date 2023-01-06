@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="15.535" height="15.535" viewBox="0 0 15.535 15.535">
+  <g id="sun" transform="translate(-701.948 -689.324)">
+    <circle id="타원_9" data-name="타원 9" cx="3.844" cy="3.844" r="3.844" transform="translate(705.741 693.298)" fill="#173a6a"/>
+    <g id="그룹_262" data-name="그룹 262" transform="translate(702.448 689.824)">
+      <path id="선_133" data-name="선 133" d="M0,2.317a.5.5,0,0,1-.5-.5V0A.5.5,0,0,1,0-.5.5.5,0,0,1,.5,0V1.817A.5.5,0,0,1,0,2.317Z" transform="translate(7.268)" fill="#173a6a"/>
+      <path id="선_135" data-name="선 135" d="M1.817.5H0A.5.5,0,0,1-.5,0,.5.5,0,0,1,0-.5H1.817a.5.5,0,0,1,.5.5A.5.5,0,0,1,1.817.5Z" transform="translate(0 7.268)" fill="#173a6a"/>
+      <path id="선_136" data-name="선 136" d="M1.817.5H0A.5.5,0,0,1-.5,0,.5.5,0,0,1,0-.5H1.817a.5.5,0,0,1,.5.5A.5.5,0,0,1,1.817.5Z" transform="translate(12.719 7.268)" fill="#173a6a"/>
+      <path id="선_134" data-name="선 134" d="M0,2.317a.5.5,0,0,1-.5-.5V0A.5.5,0,0,1,0-.5.5.5,0,0,1,.5,0V1.817A.5.5,0,0,1,0,2.317Z" transform="translate(7.268 12.719)" fill="#173a6a"/>
+    </g>
+    <g id="그룹_263" data-name="그룹 263" transform="translate(710.105 686.813) rotate(45)">
+      <path id="선_133-2" data-name="선 133" d="M0,2.317a.5.5,0,0,1-.5-.5V0A.5.5,0,0,1,0-.5.5.5,0,0,1,.5,0V1.817A.5.5,0,0,1,0,2.317Z" transform="translate(7.268 0)" fill="#173a6a"/>
+      <path id="선_135-2" data-name="선 135" d="M1.817.5H0A.5.5,0,0,1-.5,0,.5.5,0,0,1,0-.5H1.817a.5.5,0,0,1,.5.5A.5.5,0,0,1,1.817.5Z" transform="translate(0 7.268)" fill="#173a6a"/>
+      <path id="선_136-2" data-name="선 136" d="M1.817.5H0A.5.5,0,0,1-.5,0,.5.5,0,0,1,0-.5H1.817a.5.5,0,0,1,.5.5A.5.5,0,0,1,1.817.5Z" transform="translate(12.719 7.268)" fill="#173a6a"/>
+      <path id="선_134-2" data-name="선 134" d="M0,2.317a.5.5,0,0,1-.5-.5V0A.5.5,0,0,1,0-.5.5.5,0,0,1,.5,0V1.817A.5.5,0,0,1,0,2.317Z" transform="translate(7.268 12.719)" fill="#173a6a"/>
+    </g>
+  </g>
+</svg>

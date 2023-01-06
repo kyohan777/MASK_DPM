@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="19.307" height="22.375" viewBox="0 0 19.307 22.375">
+  <g id="ic29-hover" transform="translate(-1118.697 -963.188)">
+    <g id="그룹_80" data-name="그룹 80" transform="translate(1119.197 965)">
+      <path id="패스_22" data-name="패스 22" d="M919.3,717.875H905.5V696.5h18.2v16.2Z" transform="translate(-905.5 -697.813)" fill="rgba(255,255,255,0.5)" fill-rule="evenodd"/>
+      <path id="패스_22_-_윤곽선" data-name="패스 22 - 윤곽선" d="M919.533,718.375H905V696h19.2v16.882Zm-13.533-1h13.07l4.13-4.86V697H906Z" transform="translate(-905.5 -697.813)" fill="#173a6a"/>
+      <path id="패스_23" data-name="패스 23" d="M921.96,707.5H916.5v5.279" transform="translate(-903.153 -692.717)" fill="rgba(255,255,255,0.5)" fill-rule="evenodd"/>
+      <path id="패스_23_-_윤곽선" data-name="패스 23 - 윤곽선" d="M917,712.779h-1V707h5.96v1H917Z" transform="translate(-903.153 -692.717)" fill="#173a6a"/>
+    </g>
+    <text id="_100_" data-name="100%" transform="translate(1121 977)" fill="#173a6a" font-size="7" font-family="DotumChe"><tspan x="0" y="0">100%</tspan></text>
+  </g>
+</svg>
