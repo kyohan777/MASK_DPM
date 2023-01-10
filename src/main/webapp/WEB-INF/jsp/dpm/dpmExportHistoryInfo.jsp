@@ -20,14 +20,12 @@
                 <div class="smbc-content-wrap">
                    <div class="smbc-main-content-wrap" id= "contentPage">
                         <div class="smbc-top-search-wrap">
-                        <form id="frmImrResViewerInfo" role="form"  method="post"> 
+                        <form id="frmExportHistoryInfo" role="form"  method="post"> 
                         	<input id="columnName" type="hidden" name="columnName">
 							<input id="sortOrder" type="hidden" name="sortOrder">
                             <ul class="smbc-top-search">
-                             	<li>
-                                    <input type="text" class="input-st01" id="custId" name="custId" style ="background: #E3FFF0; color:black" placeholder="고객번호">
-                                </li>
                                 <li>
+                                   <label>처리일자</label>
                                     <div class="datepicker-wrap">
 										<input id="startPrcDt" name=startPrcDt  type="text" class="form-control "
 									     style="width: 130px; margin-right: 0px; padding-right: 30px;"
@@ -36,8 +34,7 @@
 										<img id="imgStartDt" img src="../images/icon-calendar.png" alt="달력">
 										</span>
                                     </div>
-                                </li>
-                                 <li>
+                                    
                                     <div class="datepicker-wrap">
 										<input id="endPrcDt" name="endPrcDt" type="text" class="form-control "
 									     style="width: 130px; margin-right: 0px; padding-right: 30px;"
@@ -47,13 +44,12 @@
 										</span>
                                     </div>
                                 </li>
-                                
-                                <li>
+                              <%--   <li>
                         			<label>접속자 정보</label>
                         			<input type="text" value="사번 : ${companyId}" disabled style ="color:white">
                         			<input type="text" value="성명 : ${chrrNm}" disabled style ="color:white"> 
                     			</li>
-                    			
+ --%>                    			
                     			<li>
                     				<button id="resetBtn" type="button" class="reset">초기화</button>
                     			</li>
@@ -65,7 +61,7 @@
                         </div>
                         <div class="smbc-data-wrap">
                             <div class="smbc-data-title">
-                                <h3>IMR 결과 열람자 이력 조회</h3>
+                                <h3>반출 이력 조회</h3>
                                 <!-- <ul class="smbc-data-top-menu">
                                     <li><button>엑섹다운로드</button></li>
                                 </ul> -->
@@ -83,6 +79,6 @@
         </div>
     </div>
     <jsp:include page="/WEB-INF/jsp/include/script.jsp" />  
-    <script type="text/javascript" src="/js/dpm/dpmImrResViewerInfo.js"></script>
+    <script type="text/javascript" src="/js/dpm/dpmExportHistoryInfo.js"></script>
 </body>
 </html>

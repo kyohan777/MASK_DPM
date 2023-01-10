@@ -14,10 +14,22 @@
              , COMPANY_ID
              , UYN
              , DEPTNM
+             , ID_NO
+             , TO_CHAR(XP_DTM,'YYYY-MM-DD') AS XP_DTM
           FROM TB_EM_PC_CHRR
          WHERE CHRR_ID = #{chrrId}
            AND UYN = 'Y' 
     </select>
+    
+    <update id="updateChrrPwd"
+    	parameterType="com.minervasoft.backend.vo.LoginChrrVO">
+    	UPDATE TB_EM_PC_CHRR
+		SET 
+			CHG_DTM  = SYSDATE, 
+			CHG_ENO  = #{chrrId}, 
+			CHRR_PWD = #{chrrPwd}
+		WHERE ID_NO=#{idNo}
+    </update>
     
 
 
@@ -751,5 +763,24 @@ WHERE RNUM <![CDATA[>=]]> (((#{pageNumber} - 1) * #{pageSize}) + 1)
      AND   MASK_PRG_STSC > 20
      ORDER BY PRC_DT
     </select>
+    
+    
+    <!-- 
+    2023.01.09 삼성카드
+     -->
+     <!-- 업무별 처리 현황 전체 조회 -->
+     <select id="getDpmInspectStatInfoTotRowCnt" 
+     parameterType="com.minervasoft.backend.vo.InspectVO"
+     	resultType="com.minervasoft.backend.vo.InspectVO">
+     
+     
+     </select>
+     <!-- 업무별 처리 현황 조회 -->
+     <select id="getDpmInspectStatInfo" 
+     parameterType="com.minervasoft.backend.vo.InspectVO"
+     	resultType="com.minervasoft.backend.vo.InspectVO">
+     
+     
+     </select>
        
 </mapper>

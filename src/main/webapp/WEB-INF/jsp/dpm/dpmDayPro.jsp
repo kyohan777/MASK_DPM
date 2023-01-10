@@ -22,13 +22,21 @@
                         <form id="frmDayPro" role="form"  method="post"> 
                             <ul class="smbc-top-search">
                                 <li>
-                                    <label>(처리)월</label>
-                                    <div class="datepicker-wrap">
-										<input id="textPrcDt" name="textPrcDt" type="text" class="form-control "
+                                	 <label>점검일자</label>
+                                   <div class="datepicker-wrap">
+										<input id="startPrcDt" name=startPrcDt  type="text" class="form-control "
 									     style="width: 130px; margin-right: 0px; padding-right: 30px;"
-										maxlength="10" autocomplete="off"onchange="modDpmDayPro.selList();"> 
+										maxlength="10" placeholder="시작일" autocomplete="off"> 
 										<span class="icon-calendar">
 										<img id="imgStartDt" img src="../images/icon-calendar.png" alt="달력">
+										</span>
+                                    </div>
+                                     <div class="datepicker-wrap">
+										<input id="endPrcDt" name="endPrcDt" type="text" class="form-control "
+									     style="width: 130px; margin-right: 0px; padding-right: 30px;"
+										maxlength="10" placeholder="종료일" autocomplete="off"> 
+										<span class="icon-calendar">
+										<img id="imgEndtDt" img src="../images/icon-calendar.png" alt="달력">
 										</span>
                                     </div>
                                 </li>
@@ -42,15 +50,15 @@
 						<input id="gridWidthList" type="hidden" name="gridWidths"> 
 						<input id="gridAlignList" type="hidden" name="gridAligns">
    					</form>
-                           <!--  <ul class="smbc-top-btn-wrap">
+                            <ul class="smbc-top-btn-wrap">
                                 <li class="search-btn"><button id="searchBtn">조회</button></li>
-                            </ul> -->
+                            </ul>
                         </div>
                         <div class="smbc-data-wrap">
                             <div class="smbc-data-title">
-                                <h3>일별 통계</h3>
+                                <h3>일별 점검 현황</h3>
                                 <ul class="smbc-data-top-menu">
-                                    <li><button id="btnExcel">엑셀다운로드</button></li>
+                                    <li><button id="btnExcel">EXCEL</button></li>
                                 </ul>
                             </div>
                             <div class="smbc-data-con-wrap">

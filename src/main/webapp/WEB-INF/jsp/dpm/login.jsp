@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>전자문서관리 시스템</title>
+     <link href="/css/layerPop.css" rel="stylesheet">
 </head>
 <body>
     <div class="smbc-wrap">
@@ -29,13 +30,21 @@
                             </div>
                         </li>
                     </ul>
-                    <span class="info">
-                       <input id="ckbLastLogin" type="checkbox"/>
+                    <div style="float: left;">
+                    <span class="info" style="margin-left: 0px;">
+                     	<label for="ckbLastLogin">
+                            <span style="padding-left: 15px;"><a href="#" onclick="modLogin.layer_popup('#layer');">비밀번호 변경</a></span>
+                        </label>
+                    </span>
+                    </div>
+                    <div style="float:right;">
+                    <span class="info" style="margin-left: -100px;">
+                        <input id="ckbLastLogin" type="checkbox"/>
                         <label for="ckbLastLogin">
                             <span style="padding-left: 15px;">아이디 저장</span>
                         </label>
                     </span>
-                    
+                    </div>
                     <button type ="button"class="login-btn" id="btnLogin">LOGIN</button>
                   <!--   <p class="pw-info">처음 로그인 하시는 분은 <a href="#">'초기비밀번호 설정'</a> 클릭 후
                         비밀번호를 변경하시기 바랍니다.</p> -->
@@ -47,6 +56,7 @@
             </div>
         </div>
     </div>
+    <jsp:include page="/WEB-INF/jsp/dpm/pwdChngLayerPopup.jsp" />  
     <jsp:include page="/WEB-INF/jsp/include/script.jsp" />	
     <script type="text/javascript" src="/js/dpm/login.js"></script>    
 </body>

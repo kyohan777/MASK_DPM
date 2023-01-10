@@ -15,6 +15,7 @@ import com.minervasoft.backend.vo.CodeVO;
 import com.minervasoft.backend.vo.DailyStatsVO;
 import com.minervasoft.backend.vo.GroupAuthVO;
 import com.minervasoft.backend.vo.ImageVerifyVO;
+import com.minervasoft.backend.vo.InspectVO;
 import com.minervasoft.backend.vo.LoginChrrVO;
 import com.minervasoft.backend.vo.MaskingHistoryVO;
 import com.minervasoft.backend.vo.MenuAuthVO;
@@ -329,5 +330,22 @@ public class DpmDAO extends AbstractDpmDAO {
     	return (StatisticsVO) selectOne("getStarDateEndDate");
     }
     
+    //2023.01.06 비밀번호 변경 처리
+    public int updateChrrPwd(LoginChrrVO param) throws Exception {
+    	return (int) update("updateChrrPwd", param);
+    }
+    
+    /****************************************************************
+     * 2023.01.09 삼성카드
+     ****************************************************************/
+    
+    //업무별 처리 현황 전체 조회
+    public InspectVO getDpmInspectStatInfoTotRowCnt(InspectVO paramVO) throws Exception {
+        return (InspectVO) selectOne("getDpmInspectStatInfoTotRowCnt",paramVO);
+    }    
+    //업무별 처리 현황 조회
+    public List<InspectVO> getDpmInspectStatInfo(InspectVO paramVO) throws Exception {
+        return (List<InspectVO>) selectList("getDpmInspectStatInfo", paramVO);
+    }
     
 }

@@ -1,69 +1,56 @@
 
 /**
-  * @File Name : dpmDailyPro.js
-  * @Description : 일일 처리 현황
+  * @File Name : dpmImrResViewerInfo.js
+  * @Description : 반출 이력 조회
   * @Modification Information
   * 
   *   수정일       수정자                   수정내용
   *  -------    --------    ---------------------------
-  *  2022.12.06             최초 생성
-  *  ------------------------------------------------
+  *  2023.01.09             최초 생성
  */
 var currntPageIndex;
 var gridEventFlag;
 var selectByGrid;
 var onSelistfinger;
 var serverDate = modComm.getServerDate();
-var modDpmDailyPro = (function(){    
-    var totRowCnt  = 0;
+var modDpmExportHistoryInfo = (function(){    
+    var totRowCnt = 0;
     var gridHeight = '100%';
 	/**
 	 * 초기화
 	 */	
 	function init() {
-		modComm.setDatepicker("textPrcDt","imgStartDt");
-		console.log($("#prcDt").val());
-		if($("#prcDt").val() != ''){
-			$("#textPrcDt").val($("#prcDt").val().replaceAll('/','-'));
-		}else{
-			$("#textPrcDt").val(modComm.getGridDateFormat(serverDate));	
-		}
+		modComm.setDatepicker("startPrcDt","imgStartDt");
+		modComm.setDatepicker("endPrcDt","imgEndtDt");
 		//마스터 그리드 초기화 시작
+		//$("#txtStartDt").val(modComm.getGridDateFormat(serverDate));
 		$("#jqGrid").jqGrid({
 	    	//jqGrid url 전송선언
-	        url: '/dpm/getDpmDailyProInfo.do',
+	        url: '/dpm/getdpmImrResViewerInfo.do',
 	        mtype: "POST",
 	        datatype: "local",
 	        postData: {},
 	        //jqGrid 양식선언부        
 	        colModel: [
-	            { label: '엘리먼트 ID', 	 name: 'elementId',    index:'ELEMENTID'      , width:'80',	 align: 'left'},
-	            { label: '파일명',         name: 'imgFileName',  index:'IMG_FILE_NAME'  , width:'160', align: 'left'},
-	            { label: '포맷',          name: 'imgFormatType',index:'IMG_FORMAT_TYPE',width:'65',   align: 'center'},
-	            { label: '상태코드', 		 name: 'maskPrgStsc',  index:'MASK_PRG_STSC'  , width:'65',  align: 'center'},
-	            { label: '사용자 확인',     name: 'userConfirm',  index:'USER_CONFIRM'   , width:'80',  align: 'center'},	  
-	            { label: '금융안내', 	  	 name: 'ayn', 		    width:'80',	  align: 'center',sortable: false },
-	            { label: '금융이외', 		 name: 'byn', 		    width:'80',	  align: 'center',sortable: false },
-	            { label: '보험제공', 	  	 name: 'cyn', 		    width:'80',	  align: 'center',sortable: false },
-	            { label: '딜러제공', 		 name: 'dyn', 		    width:'80',   align: 'center',sortable: false },
-	            { label: 'KB제공', 		 name: 'eyn', 		    width:'80',   align: 'center',sortable: false },
-	            { label: '수집-전화', 		 name: 'tmRecvYn', 	    width:'80',   align: 'center',sortable: false },
-	            { label: '수집-문자', 		 name: 'smsRecvYn',     width:'80',   align: 'center',sortable: false },
-	            { label: '수집-DM', 		 name: 'dmRecvYn', 	    width:'80',   align: 'center',sortable: false },
-	            { label: '수집-메일', 		 name: 'emailRecvYn',   width:'80',   align: 'center',sortable: false },
-	            { label: '제공-전화', 		 name: 'tmOfferYn',     width:'80',   align: 'center',sortable: false },
-	            { label: '제공-DM', 		 name: 'dmOfferYn',     width:'80',   align: 'center',sortable: false },
-	            { label: '제공-메일', 		 name: 'emailOfferYn',  width:'80',   align: 'center',sortable: false },
-	            { label: '',  			 name: 'maskPrgStscTxt',width:'0',    align: 'left', hidden:true},
-	            { label: '',  			 name: 'userConfirmTxt',width:'0',    align: 'left', hidden:true},
+	            { label: '열람자 ID',    name: 'chrrId',    	index:'CHRR_ID',	 align: 'center', width :100},
+	            { label: '성명', 	       name: 'chrrNm', 	    index:'CHRR_NM',	 align: 'center', width :100},
+	            { label: '조회 구분', 	   name: '',    	    index:'',		     align: 'center', width :100},
+	            { label: '소속', 		   name: 'deptnm',    	index:'DEPTNM',		 align: 'center', width :100},
+	            { label: '엘리먼트 ID',  name: 'elementId',   index:'ELEMENT_ID',   align: 'left',   width :110},
+	            { label: '고객번호', 	   name: 'custId',      index:'CUST_ID', 	 align: 'center', width :110},
+	            { label: '계약번호', 	   name: 'contractId',  index:'CONTRACT_ID', align: 'center', width :110},
+	            { label: '조회 일자', 	   name: 'prcDt',   	index:'PRC_DT',		 align: 'center', width :100},	  
+	            { label: '조회시간', 	   name: 'prcTm',       index:'PRC_TM',		 align: 'center', width :80},
+	            { label: '조회 사유', 	   name: 'queryReason', index:'QUERT_REASON',align: 'left', width :400},
+	            { label: '목적', 	   name: '', index:'',align: 'left', width :400}
 	        ],
 	       
 	        height: gridHeight,
-	        autowidth:true,
-	        rowNum: 100,
-	        rownumbers: true,
 	        sortable : true,
 			loadonce : false, //이옵션이 정렬시에 다시쿼리 안날리고 화면에서 하는거
+	        autowidth:true,
+	        rowNum: 500,
+	        rownumbers: true,
 	        viewrecords: true,
 	        loadtext: "<img src='/images/loadinfo.net.gif' />",
 	        scrollrows: true,
@@ -77,7 +64,7 @@ var modDpmDailyPro = (function(){
 	        jsonReader : {
 	        	repeatitems: false,
 	        	root: function(data) {
-					if(data.rsYn == "N" && !modComm.isEmpty(data.rsMsg)) alert(data.rsMsg);
+	        		if(data.rsYn == "N" && !modComm.isEmpty(data.rsMsg)) alert(data.rsMsg);
 	        		return data.selList;
 	        	},
 	        	page: function(data) {return data.pageNumber},	//현재 페이지 번호
@@ -95,6 +82,7 @@ var modDpmDailyPro = (function(){
     			$('#sortOrder').val(sortOrder);
     			selListPage(pageNumber,pageSize);
 			},
+	        
 	        //페이지 이벤트
 	        onPaging: function(action) {
 	        	var curPage  = $("#jqGrid").getGridParam("page");
@@ -143,8 +131,6 @@ var modDpmDailyPro = (function(){
 	        //셀더블클릭 이벤트 - deprecated
 	        ondblClickRow: function(rowid, iRow, iCol) {
 	        },
-	        loadComplete: function() {
-			}
 	        
 		});
 
@@ -156,7 +142,7 @@ var modDpmDailyPro = (function(){
 		modComm.addGridColEl("jqGrid", "gridLabelList", "gridNameList", "gridWidthList", "gridAlignList");
 	};
 		
-	
+
 
 
     
@@ -168,7 +154,7 @@ var modDpmDailyPro = (function(){
 		
 		//전체건수 조회
     	var objParam = {};
-    	var arrForm = $("#frmDailyPro").serializeArray();
+    	var arrForm = $("#frmImrResViewerInfo").serializeArray();
     	//console.log(arrForm);
     	if(arrForm) {
     		arrForm.forEach(function(item) {
@@ -181,12 +167,12 @@ var modDpmDailyPro = (function(){
 		
     	//전체건수가 있으면 목록조회
 		if(totRowCnt < 1) {
-			$("#jqGrid > tbody").append("<tr class='ui-widget-content jqgrow ui-ltr'><td colspan='18' class='text-center'>조회된 결과가 없습니다.</td></tr>");
+			$("#jqGrid > tbody").append("<tr class='ui-widget-content jqgrow ui-ltr'><td colspan='9' class='text-center'>조회된 결과가 없습니다.</td></tr>");
 			return;
 		} else {
 			$("#columnName").val("");
 			$("#sortOrder").val("");
-			var pageNumber = 1;
+        	var pageNumber = 1;
 			var pageSize   = $("#jqGridPager").find("select.ui-pg-selbox option:selected").val();
         	objParam.totRowCnt	= totRowCnt;
     		objParam.pageNumber = pageNumber;
@@ -194,7 +180,7 @@ var modDpmDailyPro = (function(){
     		objParam.totPageCnt	= Math.ceil(totRowCnt/pageSize);
     		objParam.startPageNumber = (((pageNumber - 1) * pageSize));
 			$("#jqGrid").setGridParam({datatype : 'json', postData : objParam});
-			$("#jqGrid").trigger('reloadGrid');    				
+			$("#jqGrid").trigger('reloadGrid');    					
 			//selListPage(1, $("#jqGridPager").find("select.ui-pg-selbox option:selected").val());
 		}
 	
@@ -205,7 +191,7 @@ var modDpmDailyPro = (function(){
 	 */  	
 	function selTotalCount(objParam) {
 		totRowCnt = 0;
-		modAjax.request("/dpm/getDpmDailyProInfoTotRowCnt.do", objParam,  {
+		modAjax.request("/dpm/getdpmImrResViewerInfoTotRowCnt.do", objParam,  {
 			async: false,
 			success: function(data) {				
 				if(!modComm.isEmpty(data) && data.rsYn == "Y" && data.hasOwnProperty("totRowCnt")) {
@@ -221,30 +207,32 @@ var modDpmDailyPro = (function(){
     /**
 	 * 마스터 페이징조회
 	 */ 	
-	function selListPage(pageNumber, pageSize) {
+	function selListPage(pageNumber, pageSize) {		
 		var objParam = $("#jqGrid").getGridParam("postData");    	
     	objParam.pageNumber = pageNumber;
     	objParam.pageSize	= pageSize;
     	objParam.totPageCnt	= Math.ceil(objParam.totRowCnt/pageSize);
-    	objParam.startPageNumber = (((pageNumber - 1) * pageSize));
+    	objParam.startPageNumber = (((pageNumber - 1) * pageSize) + 1);
     	objParam.columnName = $("#columnName").val();
-    	objParam.sortOrder = $("#sortOrder").val();
+    	objParam.sortOrder  = $("#sortOrder").val();
     	$("#jqGrid").setGridParam({datatype : 'json', postData : objParam});
     	$("#jqGrid").trigger('reloadGrid');    	
 		//$("#spnTotCnt").text(totRowCnt);
-
-    			
 	};	
 	
+	
+	function search(){
+		
+	}
+
 	
     /**
 	 * 엑셀출력
 	 */ 	
 	function excelWrite() {		
-		
 		//조회조건
 		var objParam = {};
-		var arrForm = $("#frmDailyPro").serializeArray();
+		var arrForm = $("#frmImrResViewerInfo").serializeArray();
 		if(arrForm) {
 			arrForm.forEach(function(item) {
 				objParam[item.name] = item.value;
@@ -255,88 +243,49 @@ var modDpmDailyPro = (function(){
 		
     	//전체건수가 있으면 엑셀출력
 		if(totRowCnt < 1) {
-			alert("조회된 결과가 없습니다.");
-			//$("#jqGrid > tbody").append("<tr class='ui-widget-content jqgrow ui-ltr'><td colspan='18' class='text-center'>조회된 결과가 없습니다.</td></tr>");
+			$("#jqGrid > tbody").append("<tr class='ui-widget-content jqgrow ui-ltr'><td colspan='9' class='text-center'>조회된 결과가 없습니다.</td></tr>");
 			return;
 		} else {			
-			var frmLogin = $("#frmDailyPro")[0];
-			frmLogin.action = "/dpm/selListDpmDailyProExcel.do";
+			var frmLogin = $("#frmImrResViewerInfo")[0];
+			frmLogin.action = "/dpm/selListDpmImrResViewerInfoExcel.do";
 			frmLogin.method = "post";
 			frmLogin.submit();			
 		}		
-	};
-	 /**
-	 * 배치 건수 조회
-	 */  
-	function batchTotCheck(){
-		if(confirm("배치를 돌리시겠습니까?")){
-			modAjax.request("/dpm/getBatchTotCnt.do","",{
-			async: false,
-			success: function(data) {
-				if(data.responseStatisticsVo.rsYn == "Y") {
-					batchStart();
-				}else{
-					alert("처리 할 데이터가 없습니다.");
-					return;
-				}
-			},
-            error: function(response) {
-                console.log(response);
-            }
-    		});		
-			
-    	}		
-	};
-	
-	  /**
-	 * 배치 시작
-	 */  	
-	function batchStart() {
-		modAjax.request("/dpm/dpmBatchStart.do","",{
-			async: false,
-			success: function(data) {
-			},
-            error: function(response) {
-            console.log(response);
-            }
-    	});
 	};
 	
 	return {
 		init: init,
 		selList: selList,
 		selListPage: selListPage,
-		excelWrite: excelWrite,
-		batchTotCheck: batchTotCheck		
+		excelWrite: excelWrite		
 	};
 
 })();
-
+/**
+ * 조회버튼 클릭
+ */
+$("#searchBtn").on("click", function() {
+	modDpmExportHistoryInfo.selList();
+});
 
 /**
  * 엑셀버튼 클릭
  */
 $("#btnExcel").on("click", function() {
-	modDpmDailyPro.excelWrite();
+	modDpmExportHistoryInfo.excelWrite();
 });
 
-$("#searchBtn").on("click", function() {
-	$("#prcDt").val();
-	modDpmDailyPro.selList();
+//검색조건 초기화
+$("#resetBtn").on("click", function() {
+	$("#custId").val('');
+	$("#startPrcDt").val('');
+	$("#endPrcDt").val('');
 });
-
-$("#textPrcDt").keydown(function(key){
-	if(key.keyCode == 13) {
-		modDpmDailyPro.selList();
-	}
-});
-
 
 /**
  * DOM  load 완료 시 실행
  */
 $(document).ready(function() {
-	modDpmDailyPro.init();
-	modDpmDailyPro.selList();
+	modDpmExportHistoryInfo.init();
+	//modDpmExportHistoryInfo.selList();
 });
-//# sourceURL=dpm1010.js

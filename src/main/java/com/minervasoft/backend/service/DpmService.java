@@ -13,6 +13,7 @@ import com.minervasoft.backend.vo.CodeVO;
 import com.minervasoft.backend.vo.DailyStatsVO;
 import com.minervasoft.backend.vo.GroupAuthVO;
 import com.minervasoft.backend.vo.ImageVerifyVO;
+import com.minervasoft.backend.vo.InspectVO;
 import com.minervasoft.backend.vo.LoginChrrVO;
 import com.minervasoft.backend.vo.MaskingHistoryVO;
 import com.minervasoft.backend.vo.MenuAuthVO;
@@ -28,7 +29,8 @@ public interface DpmService {
      * 로그인 및 공통  
      *********************************************/	
     public LoginChrrVO selOneLoginChrr(LoginChrrVO paramVO) throws Exception;
-    
+    //비밀번호 변경 처리
+    public int updateChrrPwd(LoginChrrVO paramVO) throws Exception;
     //public List<MenuAuthVO> selListMenuAuth(MenuAuthVO paramVO) throws Exception;
     
     //public List<CodeVO> selListCode(CodeVO paramVO) throws Exception;    
@@ -184,4 +186,12 @@ public interface DpmService {
     public int updMaskRecover(Map<String, String> param) throws Exception;
     
     public StatisticsVO getBatchTotCnt() throws Exception;
+    
+    /*****************************************************
+     * 2023.01.09 삼성 카드 
+     * ***************************************************/
+    //업무별 점검 현황 전체 cnt 조회
+    public InspectVO getDpmInspectStatInfoTotRowCnt(InspectVO paramVO) throws Exception;
+    //업무별 점검 현황 조회
+    public List<InspectVO> getDpmInspectStatInfo(InspectVO paramVO) throws Exception;
 }

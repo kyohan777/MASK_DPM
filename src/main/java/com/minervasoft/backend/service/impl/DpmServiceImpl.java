@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import com.minervasoft.backend.dao.DpmDAO;
 import com.minervasoft.backend.service.DpmService;
 import com.minervasoft.backend.vo.CalibVerifiVo;
+import com.minervasoft.backend.vo.InspectVO;
 import com.minervasoft.backend.vo.LoginChrrVO;
 import com.minervasoft.backend.vo.StatisticsVO;
 import com.minervasoft.backend.vo.UserManageVo;
@@ -572,5 +573,26 @@ public class DpmServiceImpl implements DpmService {
 		c1.add(Calendar.DATE, 1);
 		}
 	}
+	/**
+	 *2023.01.06 비밀번호 변경 처리 
+	 * */
+	@Override
+	public int updateChrrPwd(LoginChrrVO paramVO) throws Exception {
+		return dpmDao.updateChrrPwd(paramVO);
+	}
+
+	@Override
+	public InspectVO getDpmInspectStatInfoTotRowCnt(InspectVO paramVO) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<InspectVO> getDpmInspectStatInfo(InspectVO paramVO) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 
 }

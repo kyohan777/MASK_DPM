@@ -1,22 +1,13 @@
 
 /**
   * @File Name : dpmMonthPro.js
-  * @Description : 월별 통계
+  * @Description : 월별 점검 현황
   * @Modification Information
   * 
   *   수정일       수정자                   수정내용
   *  -------    --------    ---------------------------
-  *  2022.12.06             최초 생성
-  *
-  *  
-  *  ------------------------------------------------
-  *  jqGrid 4.7.0  jQuery Grid
-  *  Copyright (c) 2008, Tony Tomov, tony@trirand.com
-  *  Dual licensed under the MIT and GPL licenses
-  *  http://www.opensource.org/licenses/mit-license.php
-  *  http://www.gnu.org/licenses/gpl-2.0.html
-  *  Date: 2014-12-08  
-  *  ------------------------------------------------
+  *  2023.01.09             최초 생성
+
  */
 var currntPageIndex;
 var gridEventFlag;
@@ -31,11 +22,8 @@ var modDpmMonthPro = (function(){
 	 * 초기화
 	 */	
 	function init() {
-		//년도 셀렉박스 생성
-		var data = new Date();
-		var selYear = data.getFullYear();
-		getYear(selYear);
-		$("#textPrcDt").val(selYear);
+		modComm.setDatepicker("startPrcDt","imgStartDt");
+		modComm.setDatepicker("endPrcDt","imgEndtDt");
 		//마스터 그리드 초기화 시작
 		$("#jqGrid").jqGrid({
 	    	//jqGrid url 전송선언
@@ -44,51 +32,22 @@ var modDpmMonthPro = (function(){
 	        datatype: "local",
 	        postData: {},
 	        //jqGrid 양식선언부        
-	        colModel: [
-	             { label: '년/월',      name: 'prcDt',    	  index:'PRC_DT',		sorttype:'text',width: 80,align: 'center'},
-	            { label: '대상(A)', 	   name: 'prcDtCnt', 	  index:'PRC_DT_CNT',	sorttype:'int', width: 80,align: 'center', formatter:'integer',formatoptions: { defaultValue: '', thousandsSeparator: ',' }},
-	            { label: '정상(B)', 	   name: 'prcCn',    	  index:'PRC_CN',		sorttype:'int', width: 60, align: 'center', formatter:'integer',formatoptions: { defaultValue: '', thousandsSeparator: ',' }},
-	            { label: '오류(C)', 	   name: 'errCn',    	  index:'ERR_CN',		sorttype:'int', width: 60, align: 'center', formatter:'integer',formatoptions: { defaultValue: '', thousandsSeparator: ',' }},
-	            { label: '오류율', 	   name: 'errRat',   	  index:'ERR_RAT',		sorttype:'int', width: 55, align: 'right'},
-	            { label: '처리율', 	   name: 'prcRat',        index:'PRC_RAT',		sorttype:'int', width: 55, align: 'right'},	  
-	            { label: '검증', 	   	   name: 'verifyCn',      index:'VERIFY_CN', 	sorttype:'int', width: 60, align: 'center', formatter:'integer',formatoptions: { defaultValue: '', thousandsSeparator: ',' }},	  
-	            { label: '수정', 	       name: 'verifyUpdateCn',index:'VERIFY_UPDATE_CN',sorttype:'int', width: 60, align: 'center', formatter:'integer',formatoptions: { defaultValue: '', thousandsSeparator: ',' }},
-	            { label: '수정율', 	   name: 'verifyUpdateRat',index:'VERIFY_UPDATE_RAT',sorttype:'int', width: 55, align: 'right'},
-	            { label: '동의', 	  	   name: 'ay', 		   	  index:'A_Y',			sorttype:'int', width: 50, align: 'center', formatter:'integer',formatoptions: { defaultValue: '', thousandsSeparator: ',' }},
-	            { label: '미동의', 	   name: 'an', 		  	  index:'A_N',			sorttype:'int', width: 50, align: 'center', formatter:'integer',formatoptions: { defaultValue: '', thousandsSeparator: ',' }},
-	            { label: '동의', 		   name: 'by', 		   	  index:'B_Y',			sorttype:'int', width: 50, align: 'center', formatter:'integer',formatoptions: { defaultValue: '', thousandsSeparator: ',' }},
-	            { label: '미동의', 	   name: 'bn',         	  index:'B_N',			sorttype:'int', width: 50, align: 'center', formatter:'integer',formatoptions: { defaultValue: '', thousandsSeparator: ',' }},
-	            { label: '동의', 	  	   name: 'cy', 		   	  index:'C_Y',			sorttype:'int', width: 50, align: 'center', formatter:'integer',formatoptions: { defaultValue: '', thousandsSeparator: ',' }},
-	            { label: '미동의', 	   name: 'cn', 		   	  index:'C_N',			sorttype:'int', width: 50, align: 'center', formatter:'integer',formatoptions: { defaultValue: '', thousandsSeparator: ',' }},
-	            { label: '동의', 		   name: 'dy', 		      index:'D_Y',			sorttype:'int', width: 50, align: 'center', formatter:'integer',formatoptions: { defaultValue: '', thousandsSeparator: ',' }},
-	            { label: '미동의', 	   name: 'dn', 		      index:'D_N',			sorttype:'int', width: 50, align: 'center', formatter:'integer',formatoptions: { defaultValue: '', thousandsSeparator: ',' }},
-	            { label: '동의', 		   name: 'ey', 		      index:'E_Y',			sorttype:'int', width: 50, align: 'center', formatter:'integer',formatoptions: { defaultValue: '', thousandsSeparator: ',' }},
-	            { label: '미동의', 	   name: 'en', 		      index:'E_N',			sorttype:'int', width: 50, align: 'center', formatter:'integer',formatoptions: { defaultValue: '', thousandsSeparator: ',' }},
-	            { label: '동의', 		   name: 'tmRecvY', 	  index:'TM_RECV_Y',	sorttype:'int', width: 50, align: 'center', formatter:'integer',formatoptions: { defaultValue: '', thousandsSeparator: ',' }},
-	            { label: '미동의', 	   name: 'tmRecvN', 	  index:'TM_RECV_N',	sorttype:'int', width: 50, align: 'center', formatter:'integer',formatoptions: { defaultValue: '', thousandsSeparator: ',' }},
-	            { label: '동의', 		   name: 'smsRecvY',      index:'SMS_RECV_Y',	sorttype:'int', width: 50, align: 'center', formatter:'integer',formatoptions: { defaultValue: '', thousandsSeparator: ',' }},
-	            { label: '미동의', 	   name: 'smsRecvN',      index:'SMS_RECV_N',	sorttype:'int', width: 50, align: 'center', formatter:'integer',formatoptions: { defaultValue: '', thousandsSeparator: ',' }},
-	            { label: '동의', 		   name: 'dmRecvY', 	  index:'DM_RECV_Y',	sorttype:'int', width: 50, align: 'center', formatter:'integer',formatoptions: { defaultValue: '', thousandsSeparator: ',' }},
-	            { label: '미동의', 	   name: 'dmRecvN', 	  index:'DM_RECV_N',	sorttype:'int', width: 50, align: 'center', formatter:'integer',formatoptions: { defaultValue: '', thousandsSeparator: ',' }},
-	            { label: '동의', 		   name: 'emailRecvY',    index:'EMAIL_RECV_Y', sorttype:'int', width: 50, align: 'center', formatter:'integer',formatoptions: { defaultValue: '', thousandsSeparator: ',' }},
-	            { label: '미동의', 	   name: 'emailRecvN',    index:'EMAIL_RECV_N', sorttype:'int', width: 50, align: 'center', formatter:'integer',formatoptions: { defaultValue: '', thousandsSeparator: ',' }},
-	            { label: '동의', 		   name: 'tmOfferY',      index:'TM_OFFER_Y',	sorttype:'int', width: 50, align: 'center', formatter:'integer',formatoptions: { defaultValue: '', thousandsSeparator: ',' }},
-	            { label: '미동의', 	   name: 'tmOfferN',      index:'TM_OFFER_N',	sorttype:'int', width: 50, align: 'center', formatter:'integer',formatoptions: { defaultValue: '', thousandsSeparator: ',' }},
-	            { label: '동의', 		   name: 'dmOfferY',      index:'SMS_OFFER_Y',	sorttype:'int', width: 50, align: 'center', formatter:'integer',formatoptions: { defaultValue: '', thousandsSeparator: ',' }},
-	            { label: '미동의', 	   name: 'dmOfferN',      index:'SMS_OFFER_N',	sorttype:'int', width: 50, align: 'center', formatter:'integer',formatoptions: { defaultValue: '', thousandsSeparator: ',' }},
-	            { label: '동의', 		   name: 'emailOfferY',   index:'DM_OFFER_Y',	sorttype:'int', width: 50, align: 'center', formatter:'integer',formatoptions: { defaultValue: '', thousandsSeparator: ',' }},
-	            { label: '미동의', 	   name: 'emailOfferN',   index:'DM_OFFER_N',	sorttype:'int', width: 50, align: 'center', formatter:'integer',formatoptions: { defaultValue: '', thousandsSeparator: ',' }},
-	            { label: '동의', 		   name: 'smsOfferY',     index:'EMAIL_OFFER_Y',sorttype:'int', width: 50, align: 'center', formatter:'integer',formatoptions: { defaultValue: '', thousandsSeparator: ',' }},
-	            { label: '미동의', 	   name: 'smsOfferN',     index:'EMAIL_OFFER_N',sorttype:'int', width: 50, align: 'center', formatter:'integer',formatoptions: { defaultValue: '', thousandsSeparator: ',' }}
+	         colModel: [
+	            { label: '업무 구분', 		    name: '',  index:'', width:'150', align: 'left'},
+	            { label: '대상건수',       name: '',  index:'', width:'150', align: 'left'},
+	            { label: '처리(완료)', name: '',  index:'', width:'150', align: 'center'},
+	            { label: '마스킹(탐지)', 		name: '',  index:'', width:'150', align: 'center'},
+	            { label: '마스킹(미탐)',      name: '',  index:'', width:'150', align: 'center'},	  
+	            { label: '오류', 	  	    name: '',  index:'', width:'150', align: 'center'},
+	            { label: '처리율(B/A)', 		name: '',  index:'', width:'150', align: 'center'},
+	            { label: '탐지율(C/B)', 	name: '',  index:'', width:'150', align: 'center'}
 	        ],
-	       
 	        height: gridHeight,
 	        autowidth:true,
-	        rowNum: 100,
+	        rowNum: 500,
 	        sortable : true,
 			loadonce : false, //이옵션이 정렬시에 다시쿼리 안날리고 화면에서 하는거
 	        rownumbers: true,
-	        rownumWidth : 40,
 	        viewrecords: true,
 	        loadtext: "<img src='/images/loadinfo.net.gif' />",
 	        scrollrows: true,
@@ -178,28 +137,6 @@ var modDpmMonthPro = (function(){
 	        
 		});
 		
-		jQuery("#jqGrid").jqGrid('setGroupHeaders', {
-  			useColSpanStyle: false, 
-  			groupHeaders:[
- 				{startColumnName: 'prcCn',  		numberOfColumns: 3, titleText: '처리 현황'},
- 				{startColumnName: 'verifyCn', 		numberOfColumns: 3, titleText: '검증 현황'},
- 				{startColumnName: 'ay',		    	numberOfColumns: 2, titleText: '금융안내'},
- 				{startColumnName: 'by',		    	numberOfColumns: 2, titleText: '금융이외'},
- 				{startColumnName: 'cy',		    	numberOfColumns: 2, titleText: '보험제공'},
- 				{startColumnName: 'dy',		    	numberOfColumns: 2, titleText: '딜러제공'},
- 				{startColumnName: 'ey',		    	numberOfColumns: 2, titleText: 'KB제공'},
- 				{startColumnName: 'tmRecvY',		numberOfColumns: 2, titleText: '수집-전화'},
- 				{startColumnName: 'smsRecvY',	    numberOfColumns: 2, titleText: '수집-문자'},
- 				{startColumnName: 'dmRecvY',		numberOfColumns: 2, titleText: '수집-DM'},
- 				{startColumnName: 'emailRecvY',	    numberOfColumns: 2, titleText: '수집-메일'},
- 				{startColumnName: 'tmOfferY',	    numberOfColumns: 2, titleText: '제공-전화'},
- 				{startColumnName: 'dmOfferY',	    numberOfColumns: 2, titleText: '제공-DM'},
- 				{startColumnName: 'emailOfferY',	numberOfColumns: 2, titleText: '제공-메일'},
- 				{startColumnName: 'smsOfferY',	    numberOfColumns: 2, titleText: '제공-문자'}
-  			] 
-  			
-		});
-
 		//그리드 초기화 종료
 		//그리드 resize 
 		modComm.resizeJqGridWidth("jqGrid","gridContainer",$("#gridContainer").width(), true);
@@ -317,14 +254,6 @@ var modDpmMonthPro = (function(){
 		}		
 	};
 	
-	function getYear(getY){
-		$("#textPrcDt option").remove();
-		var stY = Number(getY)-20;
-		for(var y = stY; y<=getY;y++){
-			$("#textPrcDt").append("<option value='"+y+"'>"+y+"년</option>")	
-		}
-	}
-	
 	return {
 		init: init,
 		selList: selList,
@@ -361,6 +290,6 @@ $("#textPrcDt").keydown(function(key){
  */
 $(document).ready(function() {
 	modDpmMonthPro.init();
-	modDpmMonthPro.selList();
+	//modDpmMonthPro.selList();
 });
 //# sourceURL=dpm1010.js

@@ -94,12 +94,12 @@ public class WebController {
     
     
     /**
-     * dpmDailyPro 일일 처리 현황
+     * dpmInspectStat 업무별 점검 현황
      * Kimsangmin
      * @param modelMap
      * @return
      */
-    @RequestMapping(value = "/dpm/dpmDailyPro.do")
+    @RequestMapping(value = "/dpm/dpmInspectStat.do")
     public String dpmDailyPro(StatisticsVO pramVo,ModelMap modelMap,HttpServletRequest request) {
     	HttpSession session = request.getSession();
         LoginChrrVO loginVO = (LoginChrrVO) session.getAttribute("loginInfo");
@@ -114,7 +114,7 @@ public class WebController {
             e.printStackTrace();
         }
         
-        return "dpm/dpmDailyPro";
+        return "dpm/dpmInspectStat";
     }
     
     /**
@@ -166,7 +166,7 @@ public class WebController {
      * @param modelMap
      * @return
      */
-    @RequestMapping(value = "/dpm/dpmImrResViewerInfo.do")
+    @RequestMapping(value = "/dpm/dpmExportHistoryInfo.do")
     public String dpmImrResViewerInfo(LoginChrrVO loginInfoVO,ModelMap modelMap,HttpServletRequest request) {
     	HttpSession session = request.getSession();
         LoginChrrVO loginVO = (LoginChrrVO) session.getAttribute("loginInfo");
@@ -178,7 +178,7 @@ public class WebController {
             e.printStackTrace();
         }
         
-        return "dpm/dpmImrResViewerInfo";
+        return "dpm/dpmExportHistoryInfo";
     }
     
     /**

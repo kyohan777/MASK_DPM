@@ -37,16 +37,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.minervasoft.backend.service.DpmService;
 import com.minervasoft.backend.vo.CalibVerifiVo;
 import com.minervasoft.backend.vo.CommonVO;
+import com.minervasoft.backend.vo.InspectVO;
 import com.minervasoft.backend.vo.LoginChrrVO;
 import com.minervasoft.backend.vo.ResponseCalibVerifiVo;
+import com.minervasoft.backend.vo.ResponseInspectVo;
 import com.minervasoft.backend.vo.ResponseSelOneLoginChrrVO;
 import com.minervasoft.backend.vo.ResponseStatisticsVo;
 import com.minervasoft.backend.vo.ResponseUserManageVo;
 import com.minervasoft.backend.vo.StatisticsVO;
 import com.minervasoft.backend.vo.UserManageVo;
-
-//import SafeSignOn.SSO;
-//import SafeSignOn.SsoAuthInfo;
 
 @Controller
 public class DpmController {
@@ -69,7 +68,8 @@ public class DpmController {
     @RequestMapping(value = "/login/loginCheck.do")
     @ResponseBody
     public ResponseSelOneLoginChrrVO selectLoginChkInfo(LoginChrrVO paramVO) {
-        
+    	Calendar getToday = Calendar.getInstance();
+		getToday.setTime(new Date()); //금일 날짜
     	ResponseSelOneLoginChrrVO response = new ResponseSelOneLoginChrrVO();
         
         try {
@@ -84,6 +84,18 @@ public class DpmController {
             		hex = String.format("%064x", new BigInteger(1, md.digest()));
             		if(!hex.equals(one.getChrrPwd())) {
             			one.setPwdYn("N");
+            		}else {//비밀번호 만료일 확인
+            			Date date = new SimpleDateFormat("yyyy-MM-dd").parse(one.getXpDtm());
+            			Calendar cmpDate = Calendar.getInstance();
+            			cmpDate.setTime(date); //특정 일자
+            			long diffSec = (getToday.getTimeInMillis() - cmpDate.getTimeInMillis()) / 1000;
+            			long diffDays = diffSec / (24*60*60); //일자수 차이
+            			if(80 <= diffDays && diffDays<90) {//비밀번호 만료일 10일 전 여부 확인
+            				one.setXp10DayYn("Y");
+            				one.setXpDay(90-diffDays);
+            			}else if (diffDays >= 90) {//만료여부 확인
+            				one.setXpYn("Y");
+            			}
             		}
         	}else {
         		response.setSelOne(one);
@@ -266,6 +278,33 @@ public class DpmController {
         return returnPage;
         
     } 
+    
+    
+    /**
+     * 비밀번호 변경
+     * @param paramVO
+     * @return
+     */
+    @RequestMapping(value = "/login/updateChrrPwd.do")
+    @ResponseBody
+    public ResponseSelOneLoginChrrVO updateChrrPwd(LoginChrrVO paramVO) {
+    	ResponseSelOneLoginChrrVO response = new ResponseSelOneLoginChrrVO();
+        try {
+        	String password = paramVO.getChrrPwd();
+        	String hex = "";
+        	MessageDigest md = MessageDigest.getInstance("SHA-256");
+            // 평문 암호화
+            md.update(password.getBytes());
+            hex = String.format("%064x", new BigInteger(1, md.digest()));
+            paramVO.setChrrPwd(hex);
+            dpmService.updateChrrPwd(paramVO);
+        } catch(Exception e) {
+            e.printStackTrace();
+            response.setRsYn("N");
+        }
+        
+        return response;
+    }    
     
    
     
@@ -590,7 +629,7 @@ public class DpmController {
      * @param CalibVerifiVo
      * @return
      */
-    @RequestMapping(value = "/dpm/getdpmImrResViewerInfo.do")
+    @RequestMapping(value = "/dpm/getdpmExportHistoryInfo.do")
     @ResponseBody
     public ResponseCalibVerifiVo getdpmImrResViewerInfo(CalibVerifiVo paramVO) {
     	ResponseCalibVerifiVo response = new ResponseCalibVerifiVo();
@@ -1119,6 +1158,107 @@ public class DpmController {
     	return response;
     }
     
+    /***************************************************
+     * 2023.01.09
+     * *************************************************/
+    
+    /**
+     *  업무별 처리 현황 전체 cnt 조회
+     *  2023.01.09 
+     * @param paramVO
+     * @return
+     */
+    @RequestMapping(value = "/dpm/getDpmInspectStatInfoTotRowCnt.do")
+    @ResponseBody
+    public ResponseInspectVo getDpmInspectStatInfoTotRowCnt(InspectVO paramVO) {
+    	ResponseInspectVo response = new ResponseInspectVo();
+        
+        try {
+        	InspectVO one = dpmService.getDpmInspectStatInfoTotRowCnt(paramVO);
+        	if(one != null) {
+        		response.setTotRowCnt(one.getTotRowCnt());
+        	}
+            
+        } catch(Exception e) {
+            e.printStackTrace();
+            response.setRsYn("N");
+        }
+        
+        return response;
+    }    
+    
+    /**
+     *  업무별 처리 현황 조회
+     *  2023.01.09
+     * @param paramVO
+     * @return
+     */
+    @RequestMapping(value = "/dpm/getDpmInspectStatInfo.do")
+    @ResponseBody
+    public ResponseInspectVo getDpmInspectStatInfo(InspectVO paramVO) {
+    	ResponseInspectVo response = new ResponseInspectVo();
+        
+        try {
+            List<InspectVO> list = dpmService.getDpmInspectStatInfo(paramVO);
+            
+            response.setSelList(list);
+            response.setPageNumber(paramVO.getPageNumber());
+            response.setTotPageCnt(paramVO.getTotPageCnt());
+            response.setTotRowCnt(paramVO.getTotRowCnt());
+            
+        } catch(Exception e) {
+            e.printStackTrace();
+            response.setRsYn("N");
+            response.setSelList(new ArrayList<InspectVO>());
+        }
+        
+        return response;
+    }
+    
+    
+    
+    /**
+     * 일일 처리 현황 > 엑셀 출력
+     * @param paramVO
+     * @param modelMap
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/dpm/selListDpmInspectStatInfoExcel.do")
+    public void selListDpmInspectStatInfoExcel(InspectVO paramVO, ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) throws Exception {    	
+    	
+    	List<InspectVO> list  = new ArrayList<>();    	
+    	CommonVO commonVO 		 = getServerDateTime();
+    	String filename 		 = commonVO.getServerTime().concat("_업무별 처리 현황.xlsx");    	
+    	setExcelDownloadHeader(request, response, filename);
+    	InspectVO one = dpmService.getDpmInspectStatInfoTotRowCnt(paramVO);
+    	int pageSize   = 10000;
+    	int totRowCnt  = one.getTotRowCnt() ;
+    	int totPageCnt = (int) Math.floor(totRowCnt/pageSize)+1;
+    	paramVO.setPageSize(pageSize);
+    	
+    	for(int pageNumber = 1; pageNumber <= totPageCnt; pageNumber++) {
+    		paramVO.setPageNumber(pageNumber);
+    		List<InspectVO> listPage = dpmService.getDpmInspectStatInfo(paramVO);
+    		 for(InspectVO vo : listPage) {
+                 
+             }
+    		list.addAll(listPage);
+    	}
+    	
+    	modelMap.put("gridLabels", paramVO.getGridLabels());
+    	modelMap.put("gridNames",  paramVO.getGridNames());
+    	modelMap.put("gridWidths", paramVO.getGridWidths());
+    	modelMap.put("headerMergeYn","N");
+    	modelMap.put("VO", "InspectVO");
+    	modelMap.put("excelList", list);
+    	
+    	excelDownload(modelMap,request,response);
+    	
+        
+    }
     
      
 }

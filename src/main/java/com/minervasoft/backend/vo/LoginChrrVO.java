@@ -15,6 +15,17 @@ public class LoginChrrVO extends AbstractVO {
     private String chrrPwd = "";
     
     private String pwdYn="Y";
+    
+    private String idNo = "";
+    
+    private String xpDtm = "";
+    
+    private String xpYn = "N";
+    
+    private String xp10DayYn = "N";
+    
+    private long xpDay;
+    
 
     public String getChrrPwd() {
 		return chrrPwd;
@@ -69,6 +80,46 @@ public class LoginChrrVO extends AbstractVO {
 
 	public void setPwdYn(String pwdYn) {
 		this.pwdYn = pwdYn;
+	}
+
+	public String getIdNo() {
+		return idNo;
+	}
+
+	public void setIdNo(String idNo) {
+		this.idNo = idNo;
+	}
+
+	public String getXpDtm() {
+		return xpDtm;
+	}
+
+	public void setXpDtm(String xpDtm) {
+		this.xpDtm = xpDtm;
+	}
+
+	public String getXpYn() {
+		return xpYn;
+	}
+
+	public void setXpYn(String xpYn) {
+		this.xpYn = xpYn;
+	}
+
+	public String getXp10DayYn() {
+		return xp10DayYn;
+	}
+
+	public void setXp10DayYn(String xp10DayYn) {
+		this.xp10DayYn = xp10DayYn;
+	}
+
+	public long getXpDay() {
+		return xpDay;
+	}
+
+	public void setXpDay(long xpDay) {
+		this.xpDay = xpDay;
 	}
 
 

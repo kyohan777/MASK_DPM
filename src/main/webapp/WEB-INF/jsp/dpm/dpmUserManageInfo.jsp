@@ -46,11 +46,11 @@
 									     </select> 
                                     </div>
                                 </li>
-                                <li>
+                               <%--  <li>
                         			<label>접속자 정보</label>
                         			<input type="text" value="사번 : ${companyId}" disabled style ="color:white">
                         			<input type="text" value="성명 : ${chrrNm}" disabled style ="color:white"> 
-                    			</li>
+                    			</li> --%>
                     			<li>
                     				<button id="resetBtn" type="button" class="reset">초기화</button>
                     			</li>

@@ -59,20 +59,15 @@
 	<ul>
 		<li><a href="#">통계</a>
 			<ul>
-				<li><a href="#" onclick="goPage('Daily');">일일 처리 현황</a></li>
+				<li><a href="#" onclick="goPage('Daily');">업무별 점검 현황</a></li>
 				<li><a href="#" onclick="goPage('Day');">일별 통계</a></li>
 				<li><a href="#" onclick="goPage('Month');">월별 통계</a></li>
 			</ul>
 		</li>
-		<li><a href="#">교정/검증</a>
+		<li><a href="#">이미지 조회</a>
 			<ul>
-				<li><a href="#" onclick="goPage('CalibVerfi');">IMR 교정/검증</a></li>
-				<li><a href="#" onclick="goPage('ImrResult');">IMR 결과 조회</a></li>
-				<!-- 
-				<li><a href="#" onclick="goPage('MaskVerfi');">마스킹 교정/검증</a></li>
-				<li><a href="#" onclick="goPage('MaskResult');">마스킹 결과 조회</a></li>
-				 -->
-				<li><a href="#" onclick="goPage('IMRReader');">열람자 이력 조회</a></li>
+				<li><a href="#" onclick="goPage('CalibVerfi');">이미지 조회</a></li>
+				<li><a href="#" onclick="goPage('Export');">반출이력 조회</a></li>
 			</ul>
 		</li>
 		<c:if test="${chrrId == 'admin'}">

@@ -5,7 +5,7 @@ function goPage(data){
 	switch (data){
 		
 		case 'Daily':
-		frmHeader.action = "/dpm/dpmDailyPro.do";
+		frmHeader.action = "/dpm/dpmInspectStat.do";
 		break;
 		
 		case 'Day':
@@ -16,8 +16,8 @@ function goPage(data){
 		frmHeader.action = "/dpm/dpmMonthPro.do";
 		break;
 		
-		case 'IMRReader':
-		frmHeader.action = "/dpm/dpmImrResViewerInfo.do";
+		case 'Export':
+		frmHeader.action = "/dpm/dpmExportHistoryInfo.do";
 		break;
 		
 		case 'UserManage':
