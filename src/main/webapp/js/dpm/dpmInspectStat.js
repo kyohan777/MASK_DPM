@@ -34,10 +34,10 @@ var modDpmInspectStat = (function(){
 	        //jqGrid 양식선언부        
 	        colModel: [
 	            { label: '업무구분', 	  name:'bprBsnDsc', index:'BPR_BSN_DSC', width:'150', align: 'left'},
-	            { label: '대상건수',    name:'allCn',     index:'ALL_CN', 		 width:'150', align: 'left'},
+	            { label: '대상건수',     name:'allCn',     index:'ALL_CN', 	 width:'150', align: 'center'},
 	            { label: '처리(완료)',   name:'prcCn',    index:'PRC_CN', 		 width:'150', align: 'center'},
 	            { label: '마스킹(탐지)', name:'maskCn',    index:'MASK_CN', 	 width:'150', align: 'center'},
-	            { label: '마스킹(미탐)', name:'nonCn',     index:'NON_CN', 	 width:'150', align: 'center'},	  
+	            { label: '마스킹(미탐)', name:'nomaskCn',  index:'NOMASK_CN', 	 width:'150', align: 'center'},	  
 	            { label: '오류', 	  	  name:'errCn',     index:'ERR_CN', 	 width:'150', align: 'center'},
 	            { label: '처리율(B/A)', name:'prcRat',    index:'PRC_RAT', 	 width:'150', align: 'center'},
 	            { label: '탐지율(C/B)', name:'maskRat',   index:'MASK_RAT', 	 width:'150', align: 'center'}
@@ -258,7 +258,7 @@ var modDpmInspectStat = (function(){
 			modAjax.request("/dpm/getBatchTotCnt.do","",{
 			async: false,
 			success: function(data) {
-				if(data.responseStatisticsVo.rsYn == "Y") {
+				if(data.responseInspectVo.rsYn == "Y") {
 					batchStart();
 				}else{
 					alert("처리 할 데이터가 없습니다.");
@@ -322,6 +322,6 @@ $("#textPrcDt").keydown(function(key){
  */
 $(document).ready(function() {
 	modDpmInspectStat.init();
-	//modDpmInspectStat.selList();
+	modDpmInspectStat.selList();
 });
 //# sourceURL=dpm1010.js

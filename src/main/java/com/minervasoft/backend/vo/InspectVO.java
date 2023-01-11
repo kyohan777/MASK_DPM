@@ -28,6 +28,8 @@ public class InspectVO extends AbstractVO{
 	private String  gridNames = "";
 	private String  gridWidths = "";
 	private String  gridAligns = "";
+	private String  startPrcDt = "";
+	private String  endPrcDt = "";
 	public String getPrcDt() {
 		return prcDt;
 	}
@@ -192,6 +194,18 @@ public class InspectVO extends AbstractVO{
 	public void setGridAligns(String gridAligns) {
 		this.gridAligns = gridAligns;
 	}
+	public String getStartPrcDt() {
+		return startPrcDt;
+	}
+	public void setStartPrcDt(String startPrcDt) {
+		this.startPrcDt = startPrcDt;
+	}
+	public String getEndPrcDt() {
+		return endPrcDt;
+	}
+	public void setEndPrcDt(String endPrcDt) {
+		this.endPrcDt = endPrcDt;
+	}
 	@Override
 	public String toString() {
 		return "InspectVO [prcDt=" + prcDt + ", bprBsnDsc=" + bprBsnDsc + ", prcRat=" + prcRat + ", maskRat=" + maskRat
@@ -201,7 +215,8 @@ public class InspectVO extends AbstractVO{
 				+ ", totPageCnt=" + totPageCnt + ", totRowCnt=" + totRowCnt + ", pageSize=" + pageSize
 				+ ", startPageNumber=" + startPageNumber + ", stPrcDt=" + stPrcDt + ", edPrcDt=" + edPrcDt
 				+ ", columnName=" + columnName + ", sortOrder=" + sortOrder + ", gridLabels=" + gridLabels
-				+ ", gridNames=" + gridNames + ", gridWidths=" + gridWidths + ", gridAligns=" + gridAligns + "]";
+				+ ", gridNames=" + gridNames + ", gridWidths=" + gridWidths + ", gridAligns=" + gridAligns
+				+ ", startPrcDt=" + startPrcDt + ", endPrcDt=" + endPrcDt + "]";
 	}
 	
 

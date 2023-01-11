@@ -249,22 +249,6 @@ public class DpmDAO extends AbstractDpmDAO {
     public StatisticsVO getDpmDailyProInfoTotRowCnt(StatisticsVO paramVO) throws Exception {
         return (StatisticsVO) selectOne("getDpmDailyProInfoTotRowCnt",paramVO);
     }    
-    //일별 통계 조회
-    public List<StatisticsVO> getDpmDayProInfo(StatisticsVO paramVO) throws Exception {
-        return (List<StatisticsVO>) selectList("getDpmDayProInfo", paramVO);
-    }
-    //일별 통계 전체 cnt 조회
-    public StatisticsVO getDpmDayProInfoTotRowCnt(StatisticsVO paramVO) throws Exception {
-        return (StatisticsVO) selectOne("getDpmDayProInfoTotRowCnt",paramVO);
-    }    
-    //월별 통계 조회
-    public List<StatisticsVO> getDpmMonthProInfo(StatisticsVO paramVO) throws Exception {
-        return (List<StatisticsVO>) selectList("getDpmMonthProInfo",paramVO);
-    }
-    //월별 통계 전체 cnt 조회
-    public StatisticsVO getDpmMonthProInfoTotRowCnt(StatisticsVO paramVO) throws Exception {
-        return (StatisticsVO) selectOne("getDpmMonthProInfoTotRowCnt",paramVO);
-    }    
     //IMR 결과 열람자 이력 조회
     public List<CalibVerifiVo> getdpmImrResViewerInfo(CalibVerifiVo paramVO) throws Exception {
         return (List<CalibVerifiVo>) selectList("getdpmImrResViewerInfo",paramVO);
@@ -293,10 +277,6 @@ public class DpmDAO extends AbstractDpmDAO {
     public int deleteUserInfo(UserManageVo paramVO) throws Exception {
         return (int) update("deleteUserInfo",paramVO);
     }
-    //월별 통계 조회
-    public List<StatisticsVO> getDpmBatchInfo() throws Exception {
-        return (List<StatisticsVO>) selectList("getDpmBatchInfo");
-    }
   //사용자 정보 수정
     public int insertDailyStatics(StatisticsVO paramVO) throws Exception {
         return (int) insert("insertDailyStatics",paramVO);
@@ -318,11 +298,6 @@ public class DpmDAO extends AbstractDpmDAO {
     // mask 원복
     public int updMaskRecover(Map<String, String> param) throws Exception {
     	return (int) update("updMaskRecover", param);
-    }
-    
-    // 배치 정보 조회
-    public StatisticsVO getBatchTotCnt() throws Exception {
-    	return (StatisticsVO) selectOne("getBatchTotCnt");
     }
     
     // mask 원복
@@ -347,5 +322,34 @@ public class DpmDAO extends AbstractDpmDAO {
     public List<InspectVO> getDpmInspectStatInfo(InspectVO paramVO) throws Exception {
         return (List<InspectVO>) selectList("getDpmInspectStatInfo", paramVO);
     }
+    
+    // 배치 정보 유무 조회
+    public InspectVO getBatchTotCnt() throws Exception {
+    	return (InspectVO) selectOne("getBatchTotCnt");
+    }
+    //배치 정보 조회
+    public List<InspectVO> getDpmBatchInfo() throws Exception {
+        return (List<InspectVO>) selectList("getDpmBatchInfo");
+    }
+    //배치정보 저장
+    public int insertBatchInfo(InspectVO list) throws Exception {
+    	return (int) insert("insertBatchInfo",list); 
+    }
+    //일별 통계 조회
+    public List<InspectVO> getDpmDayProInfo(InspectVO paramVO) throws Exception {
+        return (List<InspectVO>) selectList("getDpmDayProInfo", paramVO);
+    }
+    //일별 통계 전체 cnt 조회
+    public InspectVO getDpmDayProInfoTotRowCnt(InspectVO paramVO) throws Exception {
+        return (InspectVO) selectOne("getDpmDayProInfoTotRowCnt",paramVO);
+    } 
+    //월별 통계 조회
+    public List<InspectVO> getDpmMonthProInfo(InspectVO paramVO) throws Exception {
+        return (List<InspectVO>) selectList("getDpmMonthProInfo",paramVO);
+    }
+    //월별 통계 전체 cnt 조회
+    public InspectVO getDpmMonthProInfoTotRowCnt(InspectVO paramVO) throws Exception {
+        return (InspectVO) selectOne("getDpmMonthProInfoTotRowCnt",paramVO);
+    }    
     
 }

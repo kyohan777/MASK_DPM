@@ -59,7 +59,7 @@
                                 <h3>업무별 점검 현황</h3>
                                  <ul class="smbc-data-top-menu">
                                     <li><button id="btnExcel">EXCEL</button></li>
-                                    <%-- <c:if test="${chrrId == 'admin'}"> <li><button onclick="modDpmDailyPro.batchTotCheck();">일일 배치</button></li></c:if> --%>
+                                     <c:if test="${chrrId == 'admin'}"> <li><button onclick="modDpmInspectStat.batchTotCheck();">일일 배치</button></li></c:if>
                                 </ul>
                             </div>
                             <div class="smbc-data-con-wrap">
@@ -74,7 +74,6 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="/js/libs/jquery.jqGrid.js"></script>
     <jsp:include page="/WEB-INF/jsp/include/script.jsp" />    
     <script type="text/javascript" src="/js/dpm/dpmInspectStat.js"></script>
    

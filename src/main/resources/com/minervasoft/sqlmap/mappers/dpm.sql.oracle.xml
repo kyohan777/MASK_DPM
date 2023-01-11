@@ -39,224 +39,9 @@
     
    <!-- 2022.12 신규 개발 쿼리 by KSM -->
    
-   <!-- 통계 :: 일별 통계 :: 일별 통계 현황 조회 -->
-    <select id="getDpmDayProInfo"
-        parameterType="com.minervasoft.backend.vo.StatisticsVO"
-        resultType="com.minervasoft.backend.vo.StatisticsVO"
-        >
-	SELECT *
-	FROM
-	(
-  		SELECT TA.*
-     		,ROWNUM RNUM
-  		FROM
-  	(   
-      SELECT 
-		TO_CHAR(TO_DATE(PRC_DT,'YYYYMMDD'),'YYYY/MM/DD') AS PRC_DT,    --기준일자(처리일자)
-		PRC_DT_CNT,							 						   --대상건수
-		PRC_CN,  --처리현황 > 정상
-		ERR_CN,														   --처리현황 > 오류
-		CASE WHEN ERR_CN = 0 THEN '0.0%'
-			 WHEN PRC_CN = 0 THEN '0.0%'
-			 WHEN ROUND((ERR_CN/PRC_DT_CNT)*100,1) = 100 THEN '100%'
-			 ELSE CONCAT(TO_CHAR(ROUND((ERR_CN/PRC_DT_CNT)*100,1),'FM90.0'),'%') 
-			 END      				  AS  ERR_RAT,--오류율
-		CASE WHEN PRC_CN = 0 THEN '0.0%'
-			 WHEN ROUND(((PRC_CN+ERR_CN)/PRC_DT_CNT)*100,1) = 100 THEN '100%'
-			 ELSE CONCAT(TO_CHAR(ROUND(((PRC_CN+ERR_CN)/PRC_DT_CNT)*100,1),'FM90.0'),'%') 
-			 END  					 AS  PRC_RAT,--처리율
-		VERIFY_UPDATE_CN, 											   --검증현황 > 수정건수
-		VERIFY_CN, 				   									   --검증건수 > 검증건수
-		CASE WHEN VERIFY_UPDATE_CN =0 AND VERIFY_CN=0 THEN '0.0%'
-		     WHEN ROUND((VERIFY_UPDATE_CN/VERIFY_CN)*100,1) = 100 THEN '100%'
-		     ELSE CONCAT(TO_CHAR(ROUND((VERIFY_UPDATE_CN/VERIFY_CN)*100,1),'FM90.0'),'%')
-		     END              AS VERIFY_UPDATE_RAT,
-		A_Y 			      AS AY,
-		A_N 				  AS AN,
-		B_Y 			 	  AS "BY",
-		B_N 				  AS BN,
-		C_Y 			 	  AS CY,
-		C_N 				  AS CN,
-		D_Y 			 	  AS DY,
-		D_N 				  AS DN,
-		E_Y 			 	  AS EY,
-		E_N 				  AS EN,
-		TM_RECV_Y, 			      
-		TM_RECV_N,     
-		SMS_RECV_Y, 		      
-		SMS_RECV_N,
-		DM_RECV_Y,
-		DM_RECV_N, 			  
-		EMAIL_RECV_Y,
-		EMAIL_RECV_N,
-		TM_OFFER_Y,
-		TM_OFFER_N,
-		DM_OFFER_Y,
-		DM_OFFER_N,
-		EMAIL_OFFER_Y,
-		EMAIL_OFFER_N,
-		SMS_OFFER_Y,
-		SMS_OFFER_N 
-	FROM TB_EM_IMR_DAILY_STATICS
-	WHERE MAJOR_CLASS ='TOTAL'
-	<if test='textPrcDt != null and textPrcDt !=""'>
-	AND TO_CHAR(TO_DATE(PRC_DT,'YYYYMMDD'),'YYYYMM') = REPLACE(#{textPrcDt},'-','')
-	</if>
-	ORDER BY PRC_DT 
- 	) TA
-    WHERE ROWNUM <![CDATA[<]]> ((#{pageNumber} * #{pageSize}) + 1)
-    <if test='columnName !="" and sortOrder !=""'>
-	ORDER BY TA.${columnName} ${sortOrder} 
-	</if>
-	<if test='columnName =="" and sortOrder ==""'>
-	ORDER BY TA.PRC_DT 
-	</if>      
- 	)
-	WHERE RNUM <![CDATA[>=]]> (((#{pageNumber} - 1) * #{pageSize}) + 1)
-    </select> 
-    
-    <!-- 일별 전체 cnt 값  -->
-    <select id="getDpmDayProInfoTotRowCnt"
-    	 parameterType="com.minervasoft.backend.vo.StatisticsVO"
-        resultType="com.minervasoft.backend.vo.StatisticsVO"
-        >
-        SELECT 
-			COUNT(*) TOT_ROW_CNT
-		FROM TB_EM_IMR_DAILY_STATICS
-		WHERE MAJOR_CLASS ='TOTAL'
-		<if test='textPrcDt != null and textPrcDt !=""'>
-		AND TO_CHAR(TO_DATE(PRC_DT,'YYYYMMDD'),'YYYYMM') = REPLACE(#{textPrcDt},'-','')
-		</if>
-    </select>
-    
-     <!-- 월별 전체 cnt 값  -->
-    <select id="getDpmMonthProInfoTotRowCnt"
-    	parameterType="com.minervasoft.backend.vo.StatisticsVO"
-        resultType="com.minervasoft.backend.vo.StatisticsVO"
-        >
-        SELECT 
-			COUNT(*) TOT_ROW_CNT
- 		from(SELECT 
-				TO_CHAR(TO_DATE(PRC_DT,'YYYYMMDD'),'YYYYMM') AS PRC_DT
-			FROM TB_EM_IMR_DAILY_STATICS
-			WHERE MAJOR_CLASS ='TOTAL'
-			<if test='textPrcDt != null and textPrcDt !=""'>
-			AND TO_CHAR(TO_DATE(PRC_DT,'YYYYMMDD'),'YYYY') = REPLACE(#{textPrcDt},'-','')
-			</if>
-		) T GROUP BY T.PRC_DT
-    </select>
+  
     
     
-    
-       <!-- 통계 :: 일별 통계 :: 일별 통계 현황 조회 -->
-    <select id="getDpmMonthProInfo"
-     parameterType="com.minervasoft.backend.vo.StatisticsVO"
-        resultType="com.minervasoft.backend.vo.StatisticsVO"
-        >
-SELECT *
-FROM
-	(
-  		SELECT TA.*
-     		,ROWNUM RNUM
-  		FROM
-  	(   
-      SELECT 
-			TO_CHAR(TO_DATE(T.PRC_DT,'YYYYMM'),'YYYY/MM') 			    AS PRC_DT, 
-			SUM(T.PRC_DT_CNT) 						 				    AS PRC_DT_CNT,
-			SUM(T.PRC_CN) 							 				    AS PRC_CN,
-			SUM(T.ERR_CN) 							 				    AS ERR_CN,
-			CASE WHEN SUM(T.ERR_CN) = 0 THEN '0.0%'
-			     WHEN SUM(T.PRC_CN) = 0 THEN '0.0%'
-			     WHEN ROUND((SUM(T.ERR_CN)/SUM(T.PRC_DT_CNT))*100,1) = 100 THEN '100%'
-			ELSE CONCAT(TO_CHAR(ROUND((SUM(T.ERR_CN)/SUM(T.PRC_DT_CNT))*100,1),'FM90.0'),'%') 
-			END AS ERR_RAT,
-			CASE WHEN SUM(T.PRC_CN) = 0 THEN '0.0%'
-				 WHEN ROUND(((SUM(T.PRC_CN)+SUM(T.ERR_CN))/SUM(T.PRC_DT_CNT))*100,1) =100 THEN '100%'
-			ELSE CONCAT(TO_CHAR(ROUND(((SUM(T.PRC_CN)+SUM(T.ERR_CN))/SUM(T.PRC_DT_CNT))*100,1),'FM90.0'),'%') 
-			END AS PRC_RAT,    					
-			SUM(T.VERIFY_UPDATE_CN) 				 				    AS VERIFY_UPDATE_CN,
-			SUM(T.VERIFY_CN) 					 				    	AS VERIFY_CN,
-			CASE WHEN SUM(T.VERIFY_UPDATE_CN) =0 AND SUM(T.VERIFY_CN)=0 THEN '0.0%'
-		     WHEN ROUND((SUM(T.VERIFY_UPDATE_CN)/SUM(T.VERIFY_CN))*100,1) = 100 THEN '100%'
-		     ELSE CONCAT(TO_CHAR(ROUND((SUM(T.VERIFY_UPDATE_CN)/SUM(T.VERIFY_CN))*100,1),'FM90.0'),'%')
-		     END              											AS VERIFY_UPDATE_RAT,
-			SUM(T.A_Y) 							 				   	    AS AY,
-			SUM(T.A_N) 							 				   	    AS AN,
-			SUM(T.B_Y) 							 				        AS "BY",
-			SUM(T.B_N) 							 				        AS BN,
-			SUM(T.C_Y) 							 				        AS CY,
-			SUM(T.C_N) 							 				   		AS CN,
-			SUM(T.D_Y) 							 				   		AS DY,
-			SUM(T.D_N) 							 				   		AS DN,
-			SUM(T.E_Y) 							 				   		AS EY,
-			SUM(T.E_N) 							 				   		AS EN,
-			SUM(T.TM_RECV_Y) 							 		   		AS TM_RECV_Y,
-			SUM(T.TM_RECV_N) 							 		   		AS TM_RECV_N,
-			SUM(T.SMS_RECV_Y) 							 		   		AS SMS_RECV_Y,
-			SUM(T.SMS_RECV_N) 							 		   		AS SMS_RECV_N,
-			SUM(T.DM_RECV_Y) 							 		   		AS DM_RECV_Y,
-			SUM(T.DM_RECV_N) 							 		   		AS DM_RECV_N,
-			SUM(T.EMAIL_RECV_Y) 							 	   		AS EMAIL_RECV_Y,
-			SUM(T.EMAIL_RECV_N) 							 	   		AS EMAIL_RECV_N,
-			SUM(T.TM_OFFER_Y) 							 		   		AS TM_OFFER_Y,
-			SUM(T.TM_OFFER_N) 							 		   		AS TM_OFFER_N,
-			SUM(T.DM_OFFER_Y) 							 		   		AS DM_OFFER_Y,
-			SUM(T.DM_OFFER_N) 							 		   		AS DM_OFFER_N,
-			SUM(T.EMAIL_OFFER_Y) 							 	   		AS EMAIL_OFFER_Y,
-			SUM(T.EMAIL_OFFER_N) 							 	   		AS EMAIL_OFFER_N,
-			SUM(T.SMS_OFFER_Y) 							 	   			AS SMS_OFFER_Y,
-			SUM(T.SMS_OFFER_N) 							 	   			AS SMS_OFFER_N
- 	from(SELECT 
-			TO_CHAR(TO_DATE(PRC_DT,'YYYYMMDD'),'YYYYMM') AS PRC_DT, 
-			PRC_DT_CNT,							 						
-			PRC_CN,									
-			ERR_CN,														
-			VERIFY_UPDATE_CN, 											
-			VERIFY_CN, 					
-			A_Y, 			      
-			A_N, 				  
-			B_Y, 			 	 
-			B_N,				 
-			C_Y, 			 	
-			C_N, 				 
-			D_Y, 			 	  
-			D_N, 				  
-			E_Y, 			 	  
-			E_N,				  
-			TM_RECV_Y, 			      
-			TM_RECV_N,     
-			SMS_RECV_Y, 		      
-			SMS_RECV_N,
-			DM_RECV_Y,
-			DM_RECV_N, 			  
-			EMAIL_RECV_Y,
-			EMAIL_RECV_N,
-			TM_OFFER_Y,
-			TM_OFFER_N,
-			DM_OFFER_Y,
-			DM_OFFER_N,
-			EMAIL_OFFER_Y,
-			EMAIL_OFFER_N,
-			SMS_OFFER_Y,
-			SMS_OFFER_N 									
-			FROM TB_EM_IMR_DAILY_STATICS
-		WHERE MAJOR_CLASS ='TOTAL'
-		<if test='textPrcDt != null and textPrcDt !=""'>
-		AND TO_CHAR(TO_DATE(PRC_DT,'YYYYMMDD'),'YYYY') = REPLACE(#{textPrcDt},'-','')
-		</if>
-		ORDER BY PRC_DT  
-	) T GROUP BY T.PRC_DT
- ) TA             
- WHERE ROWNUM <![CDATA[<]]> ((#{pageNumber} * #{pageSize}) + 1)
- <if test='columnName !="" and sortOrder !=""'>
- ORDER BY TA.${columnName} ${sortOrder} 
-</if>
-<if test='columnName =="" and sortOrder ==""'>
-	ORDER BY TA.PRC_DT  
-</if>
- )
-WHERE RNUM <![CDATA[>=]]> (((#{pageNumber} - 1) * #{pageSize}) + 1)
-    </select> 
     
     
     <select id="getdpmImrResViewerInfoTotRowCnt"
@@ -559,33 +344,6 @@ WHERE RNUM <![CDATA[>=]]> (((#{pageNumber} - 1) * #{pageSize}) + 1)
 		
     </select>
     
-    
-    <select id="getDpmBatchInfo"
-    resultType="com.minervasoft.backend.vo.StatisticsVO">
-    SELECT 
-		PRC_DT,									<!-- 대상건 -->
-		CASE WHEN MASK_PRG_STSC > 20 AND MASK_PRG_STSC <![CDATA[<]]> 100 THEN 1  
-		ELSE 0 END AS PRC_CN,					<!-- 처리건 -->
-		CASE WHEN MASK_PRG_STSC > 100 THEN 1
-		ELSE 0 END AS ERR_CN,					<!-- 오류건 -->
-		CASE WHEN USER_CONFIRM ='99' THEN 1
-		ELSE 0 END AS VERIFY_CN,				<!-- 검증건 -->
-		CASE WHEN USER_CONFIRM ='99' AND USER_UPDATE_YN ='01' THEN 1
-		ELSE 0 END AS VERIFY_UPDATE_CN,			<!-- 수정건 -->
-		INTVISION_IMR 							<!-- json data -->
-	FROM TB_EM_IMR_MASK_OBJ 
-      WHERE PRC_DT <![CDATA[<]]> TO_CHAR(SYSDATE,'YYYYMMDD')
-     AND   PRC_DT > 
-     (
-		CASE 
-			WHEN (SELECT COUNT(*) FROM TB_EM_IMR_DAILY_STATICS) > 0 THEN
-     	     (SELECT MAX(PRC_DT) FROM TB_EM_IMR_DAILY_STATICS)
-     	ELSE '0000000'END 
-	 )
-     AND   MASK_PRG_STSC > 20
-     ORDER BY PRC_DT
-    </select>
-    
     <insert id="insertDailyStatics"
     parameterType="com.minervasoft.backend.vo.StatisticsVO">
     INSERT INTO TB_EM_IMR_DAILY_STATICS
@@ -731,28 +489,12 @@ WHERE RNUM <![CDATA[>=]]> (((#{pageNumber} - 1) * #{pageSize}) + 1)
     </update>
     
     
-    <select id="getBatchTotCnt" resultType="com.minervasoft.backend.vo.StatisticsVO">
-     SELECT 
-		COUNT(PRC_DT) TOT_ROW_CNT 	
-	FROM TB_EM_IMR_MASK_OBJ 
-      WHERE PRC_DT <![CDATA[<]]> TO_CHAR(SYSDATE,'YYYYMMDD')
-     AND   PRC_DT > 
-     (
-		CASE 
-			WHEN (SELECT COUNT(*) FROM TB_EM_IMR_DAILY_STATICS) > 0 THEN
-     	     (SELECT MAX(PRC_DT) FROM TB_EM_IMR_DAILY_STATICS)
-     	ELSE '0000000'END 
-	 )
-     AND   MASK_PRG_STSC > 20
-     ORDER BY PRC_DT
-    </select>
-    
      <select id="getStarDateEndDate" resultType="com.minervasoft.backend.vo.StatisticsVO">
      SELECT 
 		MIN(PRC_DT) ST_PRC_DT,
 		TO_CHAR(SYSDATE-1,'YYYYMMDD') ED_PRC_DT
 	FROM TB_EM_IMR_MASK_OBJ 
-      WHERE PRC_DT <![CDATA[<]]> TO_CHAR(SYSDATE,'YYYYMMDD')
+     WHERE PRC_DT <![CDATA[<]]> TO_CHAR(SYSDATE,'YYYYMMDD')
      AND   PRC_DT > 
      (
 		CASE 
@@ -772,15 +514,335 @@ WHERE RNUM <![CDATA[>=]]> (((#{pageNumber} - 1) * #{pageSize}) + 1)
      <select id="getDpmInspectStatInfoTotRowCnt" 
      parameterType="com.minervasoft.backend.vo.InspectVO"
      	resultType="com.minervasoft.backend.vo.InspectVO">
-     
+SELECT	COUNT(*) TOT_ROW_CNT   
+FROM(SELECT 
+		T.BPR_BSN_DSC
+		,SUM(T.ALL_CN) AS ALL_CN
+		,SUM(T.MASK_CN)+SUM(T.NOMASK_CN)+SUM(T.ERR_CN) AS PRC_CN
+		,SUM(T.MASK_CN) AS MASK_CN
+		,SUM(T.NOMASK_CN) AS NOMASK_CN
+		,SUM(T.ERR_CN) AS ERR_CN 
+	FROM(SELECT
+	 		BPR_BSN_DSC
+	   		,1 AS ALL_CN
+       		,CASE WHEN (MASK_PRG_STSC >=90 AND MASK_PRG_STSC<![CDATA[<]]>100) THEN 1
+        	 ELSE 0 END MASK_CN
+       		,CASE WHEN MASK_PRG_STSC = 80 THEN 1 ELSE 0 END NOMASK_CN
+       		,CASE WHEN MASK_PRG_STSC >100 THEN 1 ELSE 0 END ERR_CN
+     	 FROM TB_EM_FPPN_MASK_OBJ
+     	 WHERE 1=1
+     	 AND MASK_PRG_STSC > 20
+     	 <if test='startPrcDt != null and startPrcDt !=""'>
+    	AND PRC_DT <![CDATA[>=]]> REPLACE(#{startPrcDt},'-','')
+    	</if> 
+    	<if test='endPrcDt != null and endPrcDt !=""'>
+    	AND PRC_DT <![CDATA[<=]]> REPLACE(#{endPrcDt},'-','')
+    	</if> 
+     ) T 
+     WHERE 1=1
+     GROUP BY T.BPR_BSN_DSC) 
      
      </select>
      <!-- 업무별 처리 현황 조회 -->
      <select id="getDpmInspectStatInfo" 
      parameterType="com.minervasoft.backend.vo.InspectVO"
      	resultType="com.minervasoft.backend.vo.InspectVO">
-     
-     
+SELECT *FROM
+(SELECT 
+	 TA.*
+ 	,ROWNUM RNUM
+ FROM
+  	(  SELECT
+			TT.BPR_BSN_DSC,
+			TT.ALL_CN,
+			TT.PRC_CN,
+			TT.MASK_CN,
+			TT.NOMASK_CN,
+			TT.ERR_CN,
+			CASE WHEN TT.PRC_CN = 0 THEN '0.0%'
+		 		 WHEN (TT.PRC_CN/TT.ALL_CN)*100 = 100 THEN '100%'
+     	 		 ELSE CONCAT(TO_CHAR(ROUND((TT.PRC_CN/TT.ALL_CN)*100,1),'FM90.0'),'%') END  AS PRC_RAT
+   			,CASE WHEN TT.MASK_CN = 0 THEN '0.0%'
+	 			  WHEN (TT.MASK_CN/TT.PRC_CN)*100 = 100 THEN '100%'
+        		  ELSE CONCAT(TO_CHAR(ROUND((TT.MASK_CN/TT.PRC_CN)*100,1),'FM90.0'),'%') END  AS MASK_RAT
+	   FROM(SELECT 
+				T.BPR_BSN_DSC
+			   ,SUM(T.ALL_CN) AS ALL_CN
+			   ,SUM(T.MASK_CN)+SUM(T.NOMASK_CN)+SUM(T.ERR_CN) AS PRC_CN
+		       ,SUM(T.MASK_CN) AS MASK_CN
+		       ,SUM(T.NOMASK_CN) AS NOMASK_CN
+		       ,SUM(T.ERR_CN) AS ERR_CN 
+		   FROM(SELECT
+	 				BPR_BSN_DSC
+	   	   		   ,1 AS ALL_CN
+       	   		   ,CASE WHEN (MASK_PRG_STSC >=90 AND MASK_PRG_STSC<![CDATA[<]]>100) THEN 1
+       				ELSE 0 END MASK_CN
+       	   		   ,CASE WHEN MASK_PRG_STSC = 80 THEN 1 ELSE 0 END NOMASK_CN
+       	   	       ,CASE WHEN MASK_PRG_STSC >100 THEN 1 ELSE 0 END ERR_CN
+     	 			FROM TB_EM_FPPN_MASK_OBJ
+     	 		WHERE 1=1
+     			AND MASK_PRG_STSC > 20
+     			<if test='startPrcDt != null and startPrcDt !=""'>
+    			AND PRC_DT <![CDATA[>=]]> REPLACE(#{startPrcDt},'-','')
+    			</if> 
+    			<if test='endPrcDt != null and endPrcDt !=""'>
+    			AND PRC_DT <![CDATA[<=]]> REPLACE(#{endPrcDt},'-','')
+    			</if> 
+     			) T 
+			WHERE 1=1
+			GROUP BY T.BPR_BSN_DSC 
+		)TT
+	) TA
+	WHERE ROWNUM <![CDATA[<]]> ((#{pageNumber} * #{pageSize}) + 1)
+)
+WHERE RNUM <![CDATA[>=]]> (((#{pageNumber} - 1) * #{pageSize}) + 1)
+<if test='columnName !="" and sortOrder !=""'>
+ORDER BY TTT.${columnName} ${sortOrder} 
+</if> 
      </select>
+     
+     
+      <select id="getDpmBatchInfo"
+    resultType="com.minervasoft.backend.vo.InspectVO">
+   SELECT 
+		T.PRC_DT
+		,SUM(T.ALL_CN) AS ALL_CN 
+		,SUM(T.MASK_CN)+SUM(T.NOMASK_CN)+SUM(T.ERR_CN) AS PRC_CN
+		,SUM(T.MASK_CN) AS MASK_CN
+		,SUM(T.NOMASK_CN) AS NOMASK_CN
+		,SUM(T.ERR_CN) AS ERR_CN
+		,SUM(T.VERIFY_CN) AS VERIFY_CN
+		,SUM(T.VERIFY_UPDATE_CN) AS VERIFY_UPDATE_CN 
+	FROM(SELECT
+	 		PRC_DT
+	 	   ,1 AS ALL_CN
+       	   ,CASE WHEN (MASK_PRG_STSC >=90 AND MASK_PRG_STSC <![CDATA[<]]> 100) THEN 1
+       		ELSE 0 END MASK_CN
+       	   ,CASE WHEN MASK_PRG_STSC = 80 THEN 1 ELSE 0 END NOMASK_CN
+       	   ,CASE WHEN MASK_PRG_STSC >100 THEN 1 ELSE 0 END ERR_CN
+       	   ,CASE WHEN USER_CONFIRM = 99 THEN 1 ELSE 0 END VERIFY_CN
+       	   ,CASE WHEN (USER_CONFIRM = 99 AND USER_UPDATE_YN =01) THEN 1 ELSE 0 END VERIFY_UPDATE_CN 
+     	 FROM TB_EM_FPPN_MASK_OBJ
+     	 WHERE 1=1
+     	AND MASK_PRG_STSC > 20
+     ) T 
+	WHERE 1=1
+	GROUP BY T.PRC_DT 
+    </select>
+    
+    <select id="getBatchTotCnt"
+    	resultType="com.minervasoft.backend.vo.InspectVO">
+  SELECT COUNT(*) TOT_ROW_CNT FROM  
+   (SELECT 
+		T.PRC_DT
+		,SUM(T.ALL_CN) AS ALL_CN 
+		,SUM(T.MASK_CN)+SUM(T.NOMASK_CN)+SUM(T.ERR_CN) AS PRC_CN
+		,SUM(T.MASK_CN) AS MASK_CN
+		,SUM(T.NOMASK_CN) AS NOMASK_CN
+		,SUM(T.ERR_CN) AS ERR_CN
+		,SUM(T.VERIFY_CN) AS VERIFY_CN
+		,SUM(T.VERIFY_UPDATE_CN) AS VERIFY_UPDATE_CN 
+	FROM(SELECT
+	 		PRC_DT
+	 	   ,1 AS ALL_CN
+       	   ,CASE WHEN (MASK_PRG_STSC >=90 AND MASK_PRG_STSC <![CDATA[<]]> 100) THEN 1
+       		ELSE 0 END MASK_CN
+       	   ,CASE WHEN MASK_PRG_STSC = 80 THEN 1 ELSE 0 END NOMASK_CN
+       	   ,CASE WHEN MASK_PRG_STSC >100 THEN 1 ELSE 0 END ERR_CN
+       	   ,CASE WHEN USER_CONFIRM = 99 THEN 1 ELSE 0 END VERIFY_CN
+       	   ,CASE WHEN (USER_CONFIRM = 99 AND USER_UPDATE_YN =01) THEN 1 ELSE 0 END VERIFY_UPDATE_CN 
+     	 FROM TB_EM_FPPN_MASK_OBJ
+     	 WHERE PRC_DT <![CDATA[<]]> TO_CHAR(SYSDATE,'YYYYMMDD')
+     	 AND   PRC_DT > 
+     	 (
+			CASE 
+				WHEN (SELECT COUNT(*) FROM TB_EM_FPPN_DAILY_STATICS) > 0 THEN
+     	     	(SELECT MAX(PRC_DT) FROM TB_EM_FPPN_DAILY_STATICS)
+     		ELSE '0000000'END 
+	 	 )
+     	 AND   MASK_PRG_STSC > 20
+     	 ORDER BY PRC_DT
+     ) T 
+	WHERE 1=1
+	GROUP BY T.PRC_DT
+	) 
+    </select>
+    
+    <insert id="insertBatchInfo" parameterType="com.minervasoft.backend.vo.InspectVO">
+    INSERT INTO TB_EM_FPPN_DAILY_STATICS
+	(
+		PRC_DT, 
+		MAJOR_CLASS, 
+		PRC_DT_CNT, 
+		PRC_CN, 
+		MASK_CN, 
+		NOMASK_CN, 
+		ERR_CN, 
+		VERIFY_CN, 
+		VERIFY_UPDATE_CN, 
+		IPDT_TIME
+	)
+	VALUES
+		(
+		#{prcDt}, 
+		'TOTAL', 
+		#{allCn}, 
+		#{prcCn}, 
+		#{maskCn}, 
+		#{nomaskCn}, 
+		#{errCn}, 
+		#{verifyCn}, 
+		#{verifyUpdateCn}, 
+		SYSDATE
+		)
+    </insert>
+    
+    
+    
+     <!-- 통계 :: 일별 통계 :: 일별 통계 현황 조회 -->
+    <select id="getDpmDayProInfo"
+        parameterType="com.minervasoft.backend.vo.InspectVO"
+        resultType="com.minervasoft.backend.vo.InspectVO"
+        >
+	SELECT *
+	FROM
+	(
+  		SELECT TA.*
+     		,ROWNUM RNUM
+  		FROM
+  	(
+  		SELECT 
+			TO_CHAR(TO_DATE(PRC_DT,'YYYY-MM-DD'),'YYYY-MM-DD')  AS PRC_DT,
+			PRC_DT_CNT AS ALL_CN,
+			PRC_CN,
+			MASK_CN,
+			NOMASK_CN,
+			ERR_CN,
+			CASE WHEN PRC_CN = 0 THEN '0.0%'
+	     		 WHEN (PRC_CN/PRC_DT_CNT)*100 = 100 THEN '100%'
+	     		 ELSE CONCAT(TO_CHAR(ROUND((PRC_CN/PRC_DT_CNT)*100,1),'FM90.0'),'%')
+	     		 END PRC_RAT,
+    		CASE WHEN MASK_CN = 0 THEN '0.0%'
+	     		 WHEN (MASK_CN/PRC_CN)*100 = 100 THEN '100%'
+	     		 ELSE CONCAT(TO_CHAR(ROUND((MASK_CN /PRC_CN)*100,1),'FM90.0'),'%')
+	     	     END MASK_RAT
+		FROM TB_EM_FPPN_DAILY_STATICS
+		WHERE 1=1
+		AND MAJOR_CLASS ='TOTAL'
+		<if test='startPrcDt != null and startPrcDt !=""'>
+    	AND PRC_DT <![CDATA[>=]]> REPLACE(#{startPrcDt},'-','')
+    	</if> 
+    	<if test='endPrcDt != null and endPrcDt !=""'>
+    	AND PRC_DT <![CDATA[<=]]> REPLACE(#{endPrcDt},'-','')
+    	</if>    
+ 	) TA
+    WHERE ROWNUM <![CDATA[<]]> ((#{pageNumber} * #{pageSize}) + 1)
+    <if test='columnName !="" and sortOrder !=""'>
+	ORDER BY TA.${columnName} ${sortOrder} 
+	</if>
+	<if test='columnName =="" and sortOrder ==""'>
+	ORDER BY TA.PRC_DT 
+	</if>      
+ 	)
+	WHERE RNUM <![CDATA[>=]]> (((#{pageNumber} - 1) * #{pageSize}) + 1)
+    </select> 
+    
+    <!-- 일별 전체 cnt 값  -->
+    <select id="getDpmDayProInfoTotRowCnt"
+    	 parameterType="com.minervasoft.backend.vo.InspectVO"
+        resultType="com.minervasoft.backend.vo.InspectVO"
+        >
+        SELECT 
+			COUNT(*) TOT_ROW_CNT
+		FROM TB_EM_FPPN_DAILY_STATICS
+		WHERE MAJOR_CLASS ='TOTAL'
+		<if test='startPrcDt != null and startPrcDt !=""'>
+    	AND PRC_DT <![CDATA[>=]]> REPLACE(#{startPrcDt},'-','')
+    	</if> 
+    	<if test='endPrcDt != null and endPrcDt !=""'>
+    	AND PRC_DT <![CDATA[<=]]> REPLACE(#{endPrcDt},'-','')
+    	</if>   
+    </select>
+    
+    
+     <!-- 월별 전체 cnt 값  -->
+    <select id="getDpmMonthProInfoTotRowCnt"
+    	parameterType="com.minervasoft.backend.vo.InspectVO"
+        resultType="com.minervasoft.backend.vo.InspectVO"
+        >
+        SELECT 
+			COUNT(*) TOT_ROW_CNT
+ 		from(SELECT 
+				TO_CHAR(TO_DATE(PRC_DT,'YYYYMMDD'),'YYYYMM') AS PRC_DT
+			FROM TB_EM_FPPN_DAILY_STATICS
+			WHERE MAJOR_CLASS ='TOTAL'
+			<if test='startPrcDt != null and startPrcDt !=""'>
+    		AND TO_CHAR(TO_DATE(PRC_DT,'YYYYMMDD'),'YYYYMM') <![CDATA[>=]]> REPLACE(#{startPrcDt},'-','')
+    		</if> 
+    		<if test='endPrcDt != null and endPrcDt !=""'>
+    		AND TO_CHAR(TO_DATE(PRC_DT,'YYYYMMDD'),'YYYYMM') <![CDATA[<=]]> REPLACE(#{endPrcDt},'-','')
+    		</if>   
+		) T GROUP BY T.PRC_DT
+    </select>
+    
+    
+    
+       <!-- 월별 점검 현황 -->
+    <select id="getDpmMonthProInfo"
+     parameterType="com.minervasoft.backend.vo.InspectVO"
+        resultType="com.minervasoft.backend.vo.InspectVO"
+        >
+SELECT *
+FROM
+	(
+  		SELECT TA.*
+     		,ROWNUM RNUM
+  		FROM
+  	(
+  		SELECT
+  			T.PRC_DT, 
+			SUM(T.ALL_CN) ALL_CN,
+			SUM(T.PRC_CN) PRC_CN,
+			SUM(T.MASK_CN) MASK_CN,
+			SUM(T.NOMASK_CN) NOMASK_CN,
+			SUM(T.ERR_CN) ERR_CN,
+			CASE WHEN SUM(T.PRC_CN) = 0 THEN '0.0%'
+		 		 WHEN (SUM(T.PRC_CN)/SUM(T.ALL_CN))*100 = 100 THEN '100%'
+		 		 ELSE CONCAT(TO_CHAR(ROUND((SUM(T.PRC_CN)/SUM(T.ALL_CN))*100,1) ,'FM90.0') ,'%')
+		 		 END PRC_RAT,
+    	 	CASE WHEN SUM(T.MASK_CN) = 0 THEN '0.0%'
+		 		 WHEN (SUM(T.MASK_CN)/SUM(T.PRC_CN))*100 = 100 THEN '100%'
+		 		 ELSE CONCAT(TO_CHAR(ROUND((SUM(T.MASK_CN)/SUM(T.PRC_CN))*100,1) ,'FM90.0') ,'%')
+		 		 END MASK_RAT
+		FROM(
+			SELECT 
+				TO_CHAR(TO_DATE(PRC_DT,'YYYYMMDD'),'YYYYMM')  AS PRC_DT,
+				PRC_DT_CNT AS ALL_CN,
+				PRC_CN,
+				MASK_CN,
+				NOMASK_CN,
+				ERR_CN
+			FROM TB_EM_FPPN_DAILY_STATICS
+			WHERE 1=1
+			AND MAJOR_CLASS ='TOTAL'
+			<if test='startPrcDt != null and startPrcDt !=""'>
+    		AND TO_CHAR(TO_DATE(PRC_DT,'YYYYMMDD'),'YYYYMM') <![CDATA[>=]]> REPLACE(#{startPrcDt},'-','')
+    		</if> 
+    		<if test='endPrcDt != null and endPrcDt !=""'>
+    		AND TO_CHAR(TO_DATE(PRC_DT,'YYYYMMDD'),'YYYYMM') <![CDATA[<=]]> REPLACE(#{endPrcDt},'-','')
+    		</if>   
+		)T
+		GROUP BY T.PRC_DT   
+ ) TA             
+ WHERE ROWNUM <![CDATA[<]]> ((#{pageNumber} * #{pageSize}) + 1)
+ <if test='columnName !="" and sortOrder !=""'>
+ ORDER BY TA.${columnName} ${sortOrder} 
+</if>
+<if test='columnName =="" and sortOrder ==""'>
+	ORDER BY TA.PRC_DT  
+</if>
+ )
+WHERE RNUM <![CDATA[>=]]> (((#{pageNumber} - 1) * #{pageSize}) + 1)
+    </select> 
        
 </mapper>

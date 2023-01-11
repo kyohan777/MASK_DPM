@@ -22,8 +22,8 @@ var modDpmMonthPro = (function(){
 	 * 초기화
 	 */	
 	function init() {
-		modComm.setDatepicker("startPrcDt","imgStartDt");
-		modComm.setDatepicker("endPrcDt","imgEndtDt");
+		modComm.setMonthpicker("startPrcDt","imgStartDt");
+		modComm.setMonthpicker("endPrcDt","imgEndtDt");
 		//마스터 그리드 초기화 시작
 		$("#jqGrid").jqGrid({
 	    	//jqGrid url 전송선언
@@ -33,14 +33,14 @@ var modDpmMonthPro = (function(){
 	        postData: {},
 	        //jqGrid 양식선언부        
 	         colModel: [
-	            { label: '업무 구분', 		    name: '',  index:'', width:'150', align: 'left'},
-	            { label: '대상건수',       name: '',  index:'', width:'150', align: 'left'},
-	            { label: '처리(완료)', name: '',  index:'', width:'150', align: 'center'},
-	            { label: '마스킹(탐지)', 		name: '',  index:'', width:'150', align: 'center'},
-	            { label: '마스킹(미탐)',      name: '',  index:'', width:'150', align: 'center'},	  
-	            { label: '오류', 	  	    name: '',  index:'', width:'150', align: 'center'},
-	            { label: '처리율(B/A)', 		name: '',  index:'', width:'150', align: 'center'},
-	            { label: '탐지율(C/B)', 	name: '',  index:'', width:'150', align: 'center'}
+	            { label: '처리일자', 	  name:'prcDt',    index:'PRC_DT',   width:'150', align: 'left'},
+	            { label: '대상건수',    name:'allCn',    index:'ALL_CN',   width:'150', align: 'center'},
+	            { label: '처리(완료)',  name:'prcCn',    index:'PRC_CN',   width:'150', align: 'center'},
+	            { label: '마스킹(탐지)', name:'maskCn',   index:'MASK_CN',  width:'150', align: 'center'},
+	            { label: '마스킹(미탐)', name:'nomaskCn', index:'NOMASK_CN',width:'150', align: 'center'},	  
+	            { label: '오류', 	  	  name:'errCn',    index:'ERR_CN',   width:'150', align: 'center'},
+	            { label: '처리율(B/A)', name:'prcRat',   index:'PRC_RAT',  width:'150', align: 'center'},
+	            { label: '탐지율(C/B)', name:'maskRat',  index:'MASK_RAT', width:'150', align: 'center'}
 	        ],
 	        height: gridHeight,
 	        autowidth:true,
@@ -290,6 +290,6 @@ $("#textPrcDt").keydown(function(key){
  */
 $(document).ready(function() {
 	modDpmMonthPro.init();
-	//modDpmMonthPro.selList();
+	modDpmMonthPro.selList();
 });
 //# sourceURL=dpm1010.js

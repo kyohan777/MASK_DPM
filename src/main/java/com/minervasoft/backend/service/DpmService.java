@@ -148,14 +148,6 @@ public interface DpmService {
     public List<StatisticsVO> getDpmDailyProInfo(StatisticsVO paramVO) throws Exception;
     //일일 처리 현황 전체 cnt 조회
     public StatisticsVO getDpmDailyProInfoTotRowCnt(StatisticsVO paramVO) throws Exception;
-    //일별 통계 조회
-    public List<StatisticsVO> getDpmDayProInfo(StatisticsVO paramVO) throws Exception;
-    //일별 통계 전체 cnt 조회
-    public StatisticsVO getDpmDayProInfoTotRowCnt(StatisticsVO paramVO) throws Exception;
-    //월별 통계 조회
-    public List<StatisticsVO> getDpmMonthProInfo(StatisticsVO paramVO) throws Exception;
-    //월별 통계 전체 cnt 조회
-    public StatisticsVO getDpmMonthProInfoTotRowCnt(StatisticsVO paramVO) throws Exception;
     //IMR 결과 열람자 이력 조회
     public List<CalibVerifiVo> getdpmImrResViewerInfo(CalibVerifiVo paramVO) throws Exception;
     //IMR 결과 열람자 이력 조회 전체 cnt 조회
@@ -173,8 +165,6 @@ public interface DpmService {
 
     // 교정/검증 화면용 조회
     public List<StatisticsVO> getDpmCalibVerifiInfo(StatisticsVO paramVO) throws Exception;
-    //일일 처리 통계 배치
-    public StatisticsVO getDpmBatchInfo() throws Exception;
     //일일 처리 통계 등록
     public int insertDailyStatics(StatisticsVO paramVO) throws Exception;
     
@@ -185,8 +175,6 @@ public interface DpmService {
     // MASK 원복
     public int updMaskRecover(Map<String, String> param) throws Exception;
     
-    public StatisticsVO getBatchTotCnt() throws Exception;
-    
     /*****************************************************
      * 2023.01.09 삼성 카드 
      * ***************************************************/
@@ -194,4 +182,18 @@ public interface DpmService {
     public InspectVO getDpmInspectStatInfoTotRowCnt(InspectVO paramVO) throws Exception;
     //업무별 점검 현황 조회
     public List<InspectVO> getDpmInspectStatInfo(InspectVO paramVO) throws Exception;
+    //배치정보 조회
+    public List<InspectVO> getDpmBatchInfo(InspectVO paramVO) throws Exception;
+    //배치정보 유무 조회
+    public InspectVO getBatchTotCnt() throws Exception;
+    //배치정보 조회
+    public int insertBatchInfo(List<InspectVO> list) throws Exception;
+    //일별 통계 조회
+    public List<InspectVO> getDpmDayProInfo(InspectVO paramVO) throws Exception;
+    //일별 통계 전체 cnt 조회
+    public InspectVO getDpmDayProInfoTotRowCnt(InspectVO paramVO) throws Exception;
+    //월별 통계 조회
+    public List<InspectVO> getDpmMonthProInfo(InspectVO paramVO) throws Exception;
+    //월별 통계 전체 cnt 조회
+    public InspectVO getDpmMonthProInfoTotRowCnt(InspectVO paramVO) throws Exception;
 }

@@ -491,110 +491,8 @@ public class DpmController {
         return response;
     }
     
-    /**
-     *  [IMR] 일별 통계:: 일별 통계 전체 cnt 조회
-     *  2022.12.08 신규 개발 
-     * @param paramVO
-     * @return
-     */
-    @RequestMapping(value = "/dpm/getDpmDayProInfoTotRowCnt.do")
-    @ResponseBody
-    public ResponseStatisticsVo getDpmDayProInfoTotRowCnt(StatisticsVO paramVO) {
-    	ResponseStatisticsVo response = new ResponseStatisticsVo();
-        
-        try {
-        	StatisticsVO one = dpmService.getDpmDayProInfoTotRowCnt(paramVO);
-        	if(one != null) {
-        		response.setTotRowCnt(one.getTotRowCnt());
-        	}
-            
-        } catch(Exception e) {
-            e.printStackTrace();
-            response.setRsYn("N");
-        }
-        
-        return response;
-    }    
+   
     
-    /**
-     *  [IMR] 일별 통계:: 일별 통계 현황 조회
-     *  2022.12.08 신규 개발 
-     * @param paramVO
-     * @return
-     */
-    @RequestMapping(value = "/dpm/getDpmDayProInfo.do")
-    @ResponseBody
-    public ResponseStatisticsVo getDpmDayProInfo(StatisticsVO paramVO) {
-    	ResponseStatisticsVo response = new ResponseStatisticsVo();
-        
-        try {
-            List<StatisticsVO> list = dpmService.getDpmDayProInfo(paramVO);
-            response.setSelList(list);
-            response.setPageNumber(paramVO.getPageNumber());
-            response.setTotPageCnt(paramVO.getTotPageCnt());
-            response.setTotRowCnt(paramVO.getTotRowCnt());
-            
-        } catch(Exception e) {
-            e.printStackTrace();
-            response.setRsYn("N");
-            response.setSelList(new ArrayList<StatisticsVO>());
-        }
-        
-        return response;
-    }
-    
-    /**
-     *  [IMR] 월별 통계:: 월별 통계 전체 cnt 조회
-     *  2022.12.08 신규 개발 
-     * @param paramVO
-     * @return
-     */
-    @RequestMapping(value = "/dpm/getDpmMonthProInfoTotRowCnt.do")
-    @ResponseBody
-    public ResponseStatisticsVo getDpmMonthProInfoTotRowCnt(StatisticsVO paramVO) {
-    	ResponseStatisticsVo response = new ResponseStatisticsVo();
-        
-        try {
-        	StatisticsVO one = dpmService.getDpmMonthProInfoTotRowCnt(paramVO);
-        	if(one != null) {
-        		response.setTotRowCnt(one.getTotRowCnt());
-        	}
-        	
-            
-        } catch(Exception e) {
-            e.printStackTrace();
-            response.setRsYn("N");
-        }
-        
-        return response;
-    }    
-    
-    /**
-     *  [IMR] 월별 통계:: 일별 통계 현황 조회
-     *  2022.12.08 신규 개발 
-     * @param paramVO
-     * @return
-     */
-    @RequestMapping(value = "/dpm/getDpmMonthProInfo.do")
-    @ResponseBody
-    public ResponseStatisticsVo getDpmMonthProInfo(StatisticsVO paramVO) {
-    	ResponseStatisticsVo response = new ResponseStatisticsVo();
-        
-        try {
-            List<StatisticsVO> list = dpmService.getDpmMonthProInfo(paramVO);
-            response.setSelList(list);
-            response.setPageNumber(paramVO.getPageNumber());
-            response.setTotPageCnt(paramVO.getTotPageCnt());
-            response.setTotRowCnt(paramVO.getTotRowCnt());
-            
-        } catch(Exception e) {
-            e.printStackTrace();
-            response.setRsYn("N");
-            response.setSelList(new ArrayList<StatisticsVO>());
-        }
-        
-        return response;
-    }
     
     
     
@@ -803,49 +701,6 @@ public class DpmController {
     }
     
     
-    /**
-     * 일별 통계 > 엑셀 출력
-     * @param paramVO
-     * @param modelMap
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/dpm/selListDpmDayProExcel.do")
-    public void selListDpmDayProExcel(StatisticsVO paramVO, ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) throws Exception {    	
-    	
-    	List<StatisticsVO> list  = new ArrayList<>();    	
-    	CommonVO commonVO 		 = getServerDateTime();
-    	String filename 		 = commonVO.getServerTime().concat("_일별 통계.xlsx");    	
-    	setExcelDownloadHeader(request, response, filename);
-    	 String title = "년/월/일,대상,처리현황,'','',처리율,검증현황,'','',금융안내,'',금융이외,'',보험제공,'',딜러제공,'',KB제공,'',수집-전화,'',수집-문자,'',수집-DM,'',수집-메일,'',제공-전화,'',제공-DM,'',제공-메일,'',제공-문자,''";
-    	StatisticsVO one = dpmService.getDpmDayProInfoTotRowCnt(paramVO);
-    	
-    	int pageSize   = 10000;
-    	int totRowCnt  = one.getTotRowCnt() ;
-    	int totPageCnt = (int) Math.floor(totRowCnt/pageSize)+1;
-    	paramVO.setPageSize(pageSize);
-    	
-    	for(int pageNumber = 1; pageNumber <= totPageCnt; pageNumber++) {
-    		paramVO.setPageNumber(pageNumber);
-    		List<StatisticsVO> listPage = dpmService.getDpmDayProInfo(paramVO);
-    		list.addAll(listPage);
-    	}
-
-    	modelMap.put("gridLabels", paramVO.getGridLabels());
-    	modelMap.put("gridNames",  paramVO.getGridNames());
-    	modelMap.put("gridWidths", paramVO.getGridWidths());
-    	modelMap.put("headerMergeYn","Y");
-    	modelMap.put("mergeTitle", title);
-    	modelMap.put("VO", "StatisticsVO");
-    	modelMap.put("excelList", list);
-    	
-    	excelDownload(modelMap,request,response);
-        
-    }
-    
-    
     
     /**
      * 사용자 관리 > 엑셀 출력
@@ -878,7 +733,6 @@ public class DpmController {
     	modelMap.put("gridLabels", paramVO.getGridLabels());
     	modelMap.put("gridNames", paramVO.getGridNames());
     	modelMap.put("gridWidths", paramVO.getGridWidths());
-    	modelMap.put("headerMergeYn","N");
     	modelMap.put("VO", "UserManageVo");
     	modelMap.put("excelList", list);
     	
@@ -887,47 +741,7 @@ public class DpmController {
     }
     
     
-    /**
-     * 월별 통계 > 엑셀 출력
-     * @param paramVO
-     * @param modelMap
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/dpm/selListDpmMonthProExcel.do")
-    public void selListDpmMonthProExcel(StatisticsVO paramVO, ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) throws Exception {    	
-    	
-    	List<StatisticsVO> list  = new ArrayList<>();    	
-    	CommonVO commonVO 		 = getServerDateTime();
-    	String filename 		 = commonVO.getServerTime().concat("_월별 통계.xlsx");    	
-    	setExcelDownloadHeader(request, response, filename);
-    	StatisticsVO one = dpmService.getDpmMonthProInfoTotRowCnt(paramVO);
-    	String title = "년/월,대상,처리현황,'','',처리율,검증현황,'','',금융안내,'',금융이외,'',보험제공,'',딜러제공,'',KB제공,'',수집-전화,'',수집-문자,'',수집-DM,'',수집-메일,'',제공-전화,'',제공-DM,'',제공-메일,'',제공-문자,''";
-    	int pageSize   = 10000;
-    	int totRowCnt  = one.getTotRowCnt() ;
-    	int totPageCnt = (int) Math.floor(totRowCnt/pageSize)+1;
-    	paramVO.setPageSize(pageSize);
-    	
-    	for(int pageNumber = 1; pageNumber <= totPageCnt; pageNumber++) {
-    		paramVO.setPageNumber(pageNumber);
-    		List<StatisticsVO> listPage = dpmService.getDpmMonthProInfo(paramVO);
-    		list.addAll(listPage);
-    	}
-    	
-    	modelMap.put("gridLabels", paramVO.getGridLabels());
-    	modelMap.put("gridNames",  paramVO.getGridNames());
-    	modelMap.put("gridWidths", paramVO.getGridWidths());
-    	modelMap.put("headerMergeYn","Y");
-    	modelMap.put("mergeTitle", title);
-    	modelMap.put("VO", "StatisticsVO");
-    	modelMap.put("excelList", list);
-    	
-    	excelDownload(modelMap,request,response);
-    	
-        
-    }
+   
     
     
     /**
@@ -985,7 +799,6 @@ public class DpmController {
     	modelMap.put("gridLabels", paramVO.getGridLabels());
     	modelMap.put("gridNames",  paramVO.getGridNames());
     	modelMap.put("gridWidths", paramVO.getGridWidths());
-    	modelMap.put("headerMergeYn","N");
     	modelMap.put("VO", "StatisticsVO");
     	modelMap.put("excelList", list);
     	
@@ -1002,7 +815,6 @@ public class DpmController {
     	String gridLabels    = (String) model.get("gridLabels");
         String gridNames     = (String) model.get("gridNames");
         String gridWidths    = (String) model.get("gridWidths");
-        String headerMergeYn = (String) model.get("headerMergeYn");
         rowList = (ArrayList<Object>) model.get("excelList");
         String vo =  (String) model.get("VO");
         Class<?> voClass = Class.forName("com.minervasoft.backend.vo." + vo);                        
@@ -1024,41 +836,6 @@ public class DpmController {
             
             int rowNo = 0;
             Row headerRow;
-            
-            if(headerMergeYn =="Y") {
-            	 headerRow= sheet.createRow(rowNo++);
-            	 String title = (String) model.get("mergeTitle");
-            	 String[] titleList = title.split(",");
-            	 //셀 병합
-                sheet.addMergedRegion(new CellRangeAddress(0,1,0,0));  //일자
-                sheet.addMergedRegion(new CellRangeAddress(0,1,1,1));  //대상
-                sheet.addMergedRegion(new CellRangeAddress(0,0,2,4));  //처리현황
-                sheet.addMergedRegion(new CellRangeAddress(0,1,5,5));  //처리율
-                sheet.addMergedRegion(new CellRangeAddress(0,0,6,8));  //검증건수
-                sheet.addMergedRegion(new CellRangeAddress(0,0,9,10));  //금융안내
-                sheet.addMergedRegion(new CellRangeAddress(0,0,11,12));//금융이외
-                sheet.addMergedRegion(new CellRangeAddress(0,0,13,14));//보험제공
-                sheet.addMergedRegion(new CellRangeAddress(0,0,15,16));//딜러제공
-                sheet.addMergedRegion(new CellRangeAddress(0,0,17,18));//KB제공
-                sheet.addMergedRegion(new CellRangeAddress(0,0,19,20));//수집-전화
-                sheet.addMergedRegion(new CellRangeAddress(0,0,21,22));//수집-문자
-                sheet.addMergedRegion(new CellRangeAddress(0,0,23,24));//수집-DM
-                sheet.addMergedRegion(new CellRangeAddress(0,0,25,26));//수집-메일
-                sheet.addMergedRegion(new CellRangeAddress(0,0,27,28));//제공-전화
-                sheet.addMergedRegion(new CellRangeAddress(0,0,29,30));//제공-DM
-                sheet.addMergedRegion(new CellRangeAddress(0,0,31,32));//제공-메일
-                sheet.addMergedRegion(new CellRangeAddress(0,0,33,34));//제공-문자
-                int headNo= 0;
-                //merge header 생성
-                for(String name : titleList) {
-                	if(name != "") {
-                		headerRow.createCell(headNo).setCellValue(name);
-                	}else {
-                		headerRow.createCell(headNo);
-                	}
-                	headNo++;
-                }
-            }
             
             String[] labelList = gridLabels.split(",");
             headerRow = sheet.createRow(rowNo++);
@@ -1111,52 +888,8 @@ public class DpmController {
     
     
     
-    /**
-     * 일일 처리 통계 배치
-     * @param paramVO
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/dpm/dpmBatchStart.do")
-    public ResponseStatisticsVo dpmBatchStart(StatisticsVO paramVO, ModelMap modelMap) throws Exception {    	
-    	logger.debug("일일 처리 통계 배치 시작");
-    	ResponseStatisticsVo response = new ResponseStatisticsVo();
-    	try {
-			StatisticsVO info = dpmService.getDpmBatchInfo();
-			if(info == null) {
-				response.setRsYn("N");
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	return response;
-    }
     
-    /**
-     * 일일 처리 통계 배치 건수 조회
-     * @param paramVO
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/dpm/getBatchTotCnt.do")
-    public ResponseStatisticsVo getBatchTotCnt(StatisticsVO paramVO, ModelMap modelMap) throws Exception {    	
-    	ResponseStatisticsVo response = new ResponseStatisticsVo();
-    	try {
-    		StatisticsVO one = dpmService.getBatchTotCnt();
-			if(one.getTotRowCnt() <= 0) {
-				response.setRsYn("N");
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	return response;
-    }
+    
     
     /***************************************************
      * 2023.01.09
@@ -1228,7 +961,6 @@ public class DpmController {
      */
     @RequestMapping(value = "/dpm/selListDpmInspectStatInfoExcel.do")
     public void selListDpmInspectStatInfoExcel(InspectVO paramVO, ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) throws Exception {    	
-    	
     	List<InspectVO> list  = new ArrayList<>();    	
     	CommonVO commonVO 		 = getServerDateTime();
     	String filename 		 = commonVO.getServerTime().concat("_업무별 처리 현황.xlsx");    	
@@ -1242,9 +974,6 @@ public class DpmController {
     	for(int pageNumber = 1; pageNumber <= totPageCnt; pageNumber++) {
     		paramVO.setPageNumber(pageNumber);
     		List<InspectVO> listPage = dpmService.getDpmInspectStatInfo(paramVO);
-    		 for(InspectVO vo : listPage) {
-                 
-             }
     		list.addAll(listPage);
     	}
     	
@@ -1252,6 +981,239 @@ public class DpmController {
     	modelMap.put("gridNames",  paramVO.getGridNames());
     	modelMap.put("gridWidths", paramVO.getGridWidths());
     	modelMap.put("headerMergeYn","N");
+    	modelMap.put("VO", "InspectVO");
+    	modelMap.put("excelList", list);
+    	
+    	excelDownload(modelMap,request,response);
+    	
+        
+    }
+    
+    
+    /**
+     * 일일 처리 통계 배치 건수 조회
+     * @param paramVO
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/dpm/getBatchTotCnt.do")
+    public ResponseInspectVo getBatchTotCnt(InspectVO paramVO, ModelMap modelMap) throws Exception {    	
+    	ResponseInspectVo response = new ResponseInspectVo();
+    	try {
+    		response.setRsYn("Y");
+    		InspectVO one = dpmService.getBatchTotCnt();
+			if(one.getTotRowCnt() <= 0) {
+				response.setRsYn("N");
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return response;
+    }
+    
+    
+    /**
+     * 배치 시작
+     * @param paramVO
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/dpm/dpmBatchStart.do")
+    public ResponseInspectVo dpmBatchStart(InspectVO paramVO, ModelMap modelMap) throws Exception {    	
+    	ResponseInspectVo response = new ResponseInspectVo();
+    	try {
+    		List<InspectVO>  list = dpmService.getDpmBatchInfo(paramVO);
+    		dpmService.insertBatchInfo(list);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return response;
+    }
+    
+    
+    /**
+     *  일별 점검 현황 전체 조회
+     *  2023.01.11
+     * @param paramVO
+     * @return
+     */
+    @RequestMapping(value = "/dpm/getDpmDayProInfoTotRowCnt.do")
+    @ResponseBody
+    public ResponseInspectVo getDpmDayProInfoTotRowCnt(InspectVO paramVO) {
+    	ResponseInspectVo response = new ResponseInspectVo();
+        
+        try {
+        	InspectVO one = dpmService.getDpmDayProInfoTotRowCnt(paramVO);
+        	if(one != null) {
+        		response.setTotRowCnt(one.getTotRowCnt());
+        	}
+            
+        } catch(Exception e) {
+            e.printStackTrace();
+            response.setRsYn("N");
+        }
+        
+        return response;
+    }    
+    
+    /**
+     *  일별 점검 현황 조회
+     *  2023.01.11
+     * @param paramVO
+     * @return
+     */
+    @RequestMapping(value = "/dpm/getDpmDayProInfo.do")
+    @ResponseBody
+    public ResponseInspectVo getDpmDayProInfo(InspectVO paramVO) {
+    	ResponseInspectVo response = new ResponseInspectVo();
+        
+        try {
+            List<InspectVO> list = dpmService.getDpmDayProInfo(paramVO);
+            response.setSelList(list);
+            response.setPageNumber(paramVO.getPageNumber());
+            response.setTotPageCnt(paramVO.getTotPageCnt());
+            response.setTotRowCnt(paramVO.getTotRowCnt());
+            
+        } catch(Exception e) {
+            e.printStackTrace();
+            response.setRsYn("N");
+            response.setSelList(new ArrayList<InspectVO>());
+        }
+        
+        return response;
+    }
+    
+    
+    /**
+     * 일별 점검 현황 > 엑셀 출력
+     * @param paramVO
+     * @param modelMap
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/dpm/selListDpmDayProExcel.do")
+    public void selListDpmDayProExcel(InspectVO paramVO, ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) throws Exception {    	
+    	
+    	List<InspectVO> list  = new ArrayList<>();    	
+    	CommonVO commonVO 		 = getServerDateTime();
+    	String filename 		 = commonVO.getServerTime().concat("_일별 점검 현황.xlsx");    	
+    	setExcelDownloadHeader(request, response, filename);
+    	InspectVO one = dpmService.getDpmDayProInfoTotRowCnt(paramVO);
+    	
+    	int pageSize   = 10000;
+    	int totRowCnt  = one.getTotRowCnt() ;
+    	int totPageCnt = (int) Math.floor(totRowCnt/pageSize)+1;
+    	paramVO.setPageSize(pageSize);
+    	
+    	for(int pageNumber = 1; pageNumber <= totPageCnt; pageNumber++) {
+    		paramVO.setPageNumber(pageNumber);
+    		List<InspectVO> listPage = dpmService.getDpmDayProInfo(paramVO);
+    		list.addAll(listPage);
+    	}
+
+    	modelMap.put("gridLabels", paramVO.getGridLabels());
+    	modelMap.put("gridNames",  paramVO.getGridNames());
+    	modelMap.put("gridWidths", paramVO.getGridWidths());
+    	modelMap.put("VO", "InspectVO");
+    	modelMap.put("excelList", list);
+    	
+    	excelDownload(modelMap,request,response);
+        
+    }
+    
+    /**
+     *  월별 점검 현황 전체 조회
+     *  2023.01.11 
+     * @param paramVO
+     * @return
+     */
+    @RequestMapping(value = "/dpm/getDpmMonthProInfoTotRowCnt.do")
+    @ResponseBody
+    public ResponseInspectVo getDpmMonthProInfoTotRowCnt(InspectVO paramVO) {
+    	ResponseInspectVo response = new ResponseInspectVo();
+        
+        try {
+        	InspectVO one = dpmService.getDpmMonthProInfoTotRowCnt(paramVO);
+        	if(one != null) {
+        		response.setTotRowCnt(one.getTotRowCnt());
+        	}
+        	
+            
+        } catch(Exception e) {
+            e.printStackTrace();
+            response.setRsYn("N");
+        }
+        
+        return response;
+    }    
+    
+    /**
+     *  [IMR] 월별 통계:: 일별 통계 현황 조회
+     *  2022.12.08 신규 개발 
+     * @param paramVO
+     * @return
+     */
+    @RequestMapping(value = "/dpm/getDpmMonthProInfo.do")
+    @ResponseBody
+    public ResponseInspectVo getDpmMonthProInfo(InspectVO paramVO) {
+    	ResponseInspectVo response = new ResponseInspectVo();
+        
+        try {
+            List<InspectVO> list = dpmService.getDpmMonthProInfo(paramVO);
+            response.setSelList(list);
+            response.setPageNumber(paramVO.getPageNumber());
+            response.setTotPageCnt(paramVO.getTotPageCnt());
+            response.setTotRowCnt(paramVO.getTotRowCnt());
+            
+        } catch(Exception e) {
+            e.printStackTrace();
+            response.setRsYn("N");
+            response.setSelList(new ArrayList<InspectVO>());
+        }
+        
+        return response;
+    }
+    
+    
+    /**
+     * 월별 점검 > 엑셀 출력
+     * @param paramVO
+     * @param modelMap
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/dpm/selListDpmMonthProExcel.do")
+    public void selListDpmMonthProExcel(InspectVO paramVO, ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) throws Exception {    	
+    	
+    	List<InspectVO> list  = new ArrayList<>();    	
+    	CommonVO commonVO 		 = getServerDateTime();
+    	String filename 		 = commonVO.getServerTime().concat("_월별 점검 현황.xlsx");    	
+    	setExcelDownloadHeader(request, response, filename);
+    	InspectVO one = dpmService.getDpmMonthProInfoTotRowCnt(paramVO);
+    	int pageSize   = 10000;
+    	int totRowCnt  = one.getTotRowCnt() ;
+    	int totPageCnt = (int) Math.floor(totRowCnt/pageSize)+1;
+    	paramVO.setPageSize(pageSize);
+    	
+    	for(int pageNumber = 1; pageNumber <= totPageCnt; pageNumber++) {
+    		paramVO.setPageNumber(pageNumber);
+    		List<InspectVO> listPage = dpmService.getDpmMonthProInfo(paramVO);
+    		list.addAll(listPage);
+    	}
+    	
+    	modelMap.put("gridLabels", paramVO.getGridLabels());
+    	modelMap.put("gridNames",  paramVO.getGridNames());
+    	modelMap.put("gridWidths", paramVO.getGridWidths());
     	modelMap.put("VO", "InspectVO");
     	modelMap.put("excelList", list);
     	
