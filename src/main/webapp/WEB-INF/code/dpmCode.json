@@ -1,0 +1,25 @@
+{
+	"codeList":[
+	{"CODE":"JM","CODE_NM":"제휴계약"},
+	{"CODE":"JB","CODE_NM":"가맹점계약서"},
+	{"CODE":"JA","CODE_NM":"가맹점서비스"},
+	{"CODE":"IN","CODE_NM":"할부"},
+	{"CODE":"FT","CODE_NM":"팩토링"},
+	{"CODE":"DB","CODE_NM":"아파트/도시가스/4대보험"},
+	{"CODE":"CU","CODE_NM":"고객상담"},
+	{"CODE":"CS","CODE_NM":"법인인감"},
+	{"CODE":"CR","CODE_NM":"디지털완결형"},
+	{"CODE":"CM","CODE_NM":"법인꼐약"},
+	{"CODE":"CC","CODE_NM":"법인카드"},
+	{"CODE":"AT","CODE_NM":"자동이체동의서"},
+	{"CODE":"OS","CODE_NM":"후동의서/아웅소싱"},
+	{"CODE":"PC","CODE_NM":"개인카드"},
+	{"CODE":"LS","CODE_NM":"리스"},
+	{"CODE":"LO","CODE_NM":"채권"},
+	{"CODE":"LN","CODE_NM":"론"},
+	{"CODE":"RE","CODE_NM":"수령증"},
+	{"CODE":"JX","CODE_NM":"파트너구성원"},
+	{"CODE":"LA","CODE_NM":"사고조사"},
+	{"CODE":"JY","CODE_NM":"유치자위해촉진"}
+	]
+}

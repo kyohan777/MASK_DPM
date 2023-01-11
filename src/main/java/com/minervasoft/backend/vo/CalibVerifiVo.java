@@ -13,6 +13,8 @@ public class CalibVerifiVo extends AbstractVO{
 	private String endPrcDt;		//조회조건 > 종료
 	private String prcTm;			//조회 시간
 	private String deptnm;			//부서명
+	private String purpose;
+	private String queryType;
 	private Integer pageNumber = 0;
 	private Integer totPageCnt = 0;
 	private Integer totRowCnt  = 0;
@@ -136,6 +138,18 @@ public class CalibVerifiVo extends AbstractVO{
 	}
 	public void setSortOrder(String sortOrder) {
 		this.sortOrder = sortOrder;
+	}
+	public String getPurpose() {
+		return purpose;
+	}
+	public void setPurpose(String purpose) {
+		this.purpose = purpose;
+	}
+	public String getQueryType() {
+		return queryType;
+	}
+	public void setQueryType(String queryType) {
+		this.queryType = queryType;
 	}
 	
 	

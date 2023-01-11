@@ -329,15 +329,15 @@ public class DpmServiceImpl implements DpmService {
      ************************************************/
 
 	@Override
-	public List<CalibVerifiVo> getdpmImrResViewerInfo(CalibVerifiVo paramVO) throws Exception {
+	public List<CalibVerifiVo> getdpmExportHistoryInfo(CalibVerifiVo paramVO) throws Exception {
 		// TODO Auto-generated method stub
-				return dpmDao.getdpmImrResViewerInfo(paramVO);
+				return dpmDao.getdpmExportHistoryInfo(paramVO);
 	}
 
 	@Override
-	public CalibVerifiVo getdpmImrResViewerInfoTotRowCnt(CalibVerifiVo paramVO) throws Exception {
+	public CalibVerifiVo getdpmExportHistoryInfoTotRowCnt(CalibVerifiVo paramVO) throws Exception {
 		// TODO Auto-generated method stub
-				return dpmDao.getdpmImrResViewerInfoTotRowCnt(paramVO);
+				return dpmDao.getdpmExportHistoryInfoTotRowCnt(paramVO);
 	}
 	
 	@Override
@@ -370,25 +370,6 @@ public class DpmServiceImpl implements DpmService {
 		return dpmDao.deleteUserInfo(paramVO);
 	}
 
-	@Override
-	public List<StatisticsVO> getDpmDailyProInfo(StatisticsVO paramVO) throws Exception {
-		// TODO Auto-generated method stub
-		return dpmDao.getDpmDailyProInfo(paramVO);
-	}
-
-	@Override
-	public StatisticsVO getDpmDailyProInfoTotRowCnt(StatisticsVO paramVO) throws Exception {
-		// TODO Auto-generated method stub
-		return dpmDao.getDpmDailyProInfoTotRowCnt(paramVO);
-	}
-	
-	
-	@Override
-	public List<StatisticsVO> getDpmCalibVerifiInfo(StatisticsVO paramVO) throws Exception {
-		// TODO Auto-generated method stub
-		return dpmDao.getDpmDailyProInfo(paramVO);
-	}
-	
 	@Override
 	public int insertDailyStatics(StatisticsVO paramVO) throws Exception {
 		return dpmDao.insertDailyStatics(paramVO);
@@ -494,6 +475,14 @@ public class DpmServiceImpl implements DpmService {
 		return dpmDao.getDpmMonthProInfoTotRowCnt(paramVO);
 	}
 
-	
+	@Override
+	public void insertCode(Map<String, Object> map) throws Exception {
+		dpmDao.insertCode(map);
+	}
+
+	@Override
+	public void codeTableDel() throws Exception {
+		dpmDao.codeTableDel();
+	}
 
 }

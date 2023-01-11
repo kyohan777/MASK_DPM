@@ -5,7 +5,7 @@
 <head>
   	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=10"> 
-    <title>전자문서관리 시스템</title>
+    <title>iDMask 이미지 카스킹점검 시스템</title>
 </head>
 <body>
      <div class="smbc-wrap">

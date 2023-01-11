@@ -26,7 +26,7 @@ var modDpmExportHistoryInfo = (function(){
 		//$("#txtStartDt").val(modComm.getGridDateFormat(serverDate));
 		$("#jqGrid").jqGrid({
 	    	//jqGrid url 전송선언
-	        url: '/dpm/getdpmImrResViewerInfo.do',
+	        url: '/dpm/getdpmExportHistoryInfo.do',
 	        mtype: "POST",
 	        datatype: "local",
 	        postData: {},
@@ -34,7 +34,7 @@ var modDpmExportHistoryInfo = (function(){
 	        colModel: [
 	            { label: '열람자 ID',    name: 'chrrId',    	index:'CHRR_ID',	 align: 'center', width :100},
 	            { label: '성명', 	       name: 'chrrNm', 	    index:'CHRR_NM',	 align: 'center', width :100},
-	            { label: '조회 구분', 	   name: '',    	    index:'',		     align: 'center', width :100},
+	            { label: '조회 구분', 	   name: 'queryType',   index:'QUERY_TYPE',	 align: 'center', width :100},
 	            { label: '소속', 		   name: 'deptnm',    	index:'DEPTNM',		 align: 'center', width :100},
 	            { label: '엘리먼트 ID',  name: 'elementId',   index:'ELEMENT_ID',   align: 'left',   width :110},
 	            { label: '고객번호', 	   name: 'custId',      index:'CUST_ID', 	 align: 'center', width :110},
@@ -42,7 +42,7 @@ var modDpmExportHistoryInfo = (function(){
 	            { label: '조회 일자', 	   name: 'prcDt',   	index:'PRC_DT',		 align: 'center', width :100},	  
 	            { label: '조회시간', 	   name: 'prcTm',       index:'PRC_TM',		 align: 'center', width :80},
 	            { label: '조회 사유', 	   name: 'queryReason', index:'QUERT_REASON',align: 'left', width :400},
-	            { label: '목적', 	   name: '', index:'',align: 'left', width :400}
+	            { label: '목적', 	       name: 'purpose',     index:'PURPOSE',     align: 'left', width :400}
 	        ],
 	       
 	        height: gridHeight,
@@ -167,7 +167,7 @@ var modDpmExportHistoryInfo = (function(){
 		
     	//전체건수가 있으면 목록조회
 		if(totRowCnt < 1) {
-			$("#jqGrid > tbody").append("<tr class='ui-widget-content jqgrow ui-ltr'><td colspan='9' class='text-center'>조회된 결과가 없습니다.</td></tr>");
+			$("#jqGrid > tbody").append("<tr class='ui-widget-content jqgrow ui-ltr'><td colspan='12' class='text-center'>조회된 결과가 없습니다.</td></tr>");
 			return;
 		} else {
 			$("#columnName").val("");
@@ -191,7 +191,7 @@ var modDpmExportHistoryInfo = (function(){
 	 */  	
 	function selTotalCount(objParam) {
 		totRowCnt = 0;
-		modAjax.request("/dpm/getdpmImrResViewerInfoTotRowCnt.do", objParam,  {
+		modAjax.request("/dpm/getdpmExportHistoryInfoTotRowCnt.do", objParam,  {
 			async: false,
 			success: function(data) {				
 				if(!modComm.isEmpty(data) && data.rsYn == "Y" && data.hasOwnProperty("totRowCnt")) {
@@ -243,7 +243,7 @@ var modDpmExportHistoryInfo = (function(){
 		
     	//전체건수가 있으면 엑셀출력
 		if(totRowCnt < 1) {
-			$("#jqGrid > tbody").append("<tr class='ui-widget-content jqgrow ui-ltr'><td colspan='9' class='text-center'>조회된 결과가 없습니다.</td></tr>");
+			$("#jqGrid > tbody").append("<tr class='ui-widget-content jqgrow ui-ltr'><td colspan='12' class='text-center'>조회된 결과가 없습니다.</td></tr>");
 			return;
 		} else {			
 			var frmLogin = $("#frmImrResViewerInfo")[0];
@@ -287,5 +287,5 @@ $("#resetBtn").on("click", function() {
  */
 $(document).ready(function() {
 	modDpmExportHistoryInfo.init();
-	//modDpmExportHistoryInfo.selList();
+	modDpmExportHistoryInfo.selList();
 });

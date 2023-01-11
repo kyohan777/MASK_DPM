@@ -31,26 +31,13 @@
 		WHERE ID_NO=#{idNo}
     </update>
     
-
-
-    
-    
-       
-    
-   <!-- 2022.12 신규 개발 쿼리 by KSM -->
-   
-  
-    
-    
-    
-    
-    <select id="getdpmImrResViewerInfoTotRowCnt"
+    <select id="getdpmExportHistoryInfoTotRowCnt"
     	parameterType="com.minervasoft.backend.vo.CalibVerifiVo"
         resultType="com.minervasoft.backend.vo.CalibVerifiVo"
         >
        SELECT 
 			COUNT(*) TOT_ROW_CNT
-	   FROM TB_EM_IMR_QUERY_HISTORY A
+	   FROM TB_EM_FPPN_QUERY_HISTORY A
 	   INNER JOIN TB_EM_PC_CHRR B
 	   ON A.CHRR_ID = B.CHRR_ID
 	   WHERE 1=1
@@ -67,7 +54,7 @@
     
     
     
-    <select id="getdpmImrResViewerInfo"
+    <select id="getdpmExportHistoryInfo"
      parameterType="com.minervasoft.backend.vo.CalibVerifiVo"
         resultType="com.minervasoft.backend.vo.CalibVerifiVo"
         >
@@ -82,6 +69,8 @@
 			A.ID_NO,
 			A.CHRR_ID,
 			B.CHRR_NM,
+			A.QUERY_TYPE,
+			A.PURPOSE,
 			B.DEPTNM,
 			A.ELEMENTID AS ELEMENT_ID ,
 			TO_CHAR(A.IPDT_TIME,'YYYY/MM/DD') AS PRC_DT,
@@ -89,7 +78,7 @@
 			A.CUST_ID ,
 			A.QUERY_REASON ,
 			TO_CHAR(A.IPDT_TIME,'HH24:MI') AS PRC_TM  
-		FROM TB_EM_IMR_QUERY_HISTORY A
+		FROM TB_EM_FPPN_QUERY_HISTORY A
 		INNER JOIN TB_EM_PC_CHRR B
 		ON A.CHRR_ID = B.CHRR_ID
 		WHERE 1=1
@@ -250,181 +239,7 @@ WHERE RNUM <![CDATA[>=]]> (((#{pageNumber} - 1) * #{pageSize}) + 1)
 			RG_DTM    = SYSDATE
 		WHERE ID_NO = #{idNo}
     </update>
-    
-    
-      <select id="getDpmDailyProInfo"
-        parameterType="com.minervasoft.backend.vo.StatisticsVO"
-        resultType="com.minervasoft.backend.vo.StatisticsVO"
-        >
-	SELECT *
-	FROM
-	(
-  		SELECT TA.*
-     		,ROWNUM RNUM
-  		FROM
-  	(   
-     	SELECT 
-			ELEMENTID AS ELEMENT_ID,
-			IMG_FILE_NAME ,
-			IMG_FORMAT_TYPE ,
-			MASK_PRG_STSC,
-			USER_CONFIRM,
-			USER_UPDATE_YN,	
-			INTVISION_IMR,
-			FST_IMR_PAGE, 
-			CUST_ID,
-			CONTRACT_ID,
-			PRC_DT,
-			RESULT_IMG_PATH,
-			IMG_PATH_ORG,
-			CASE 
-				WHEN MASK_PRG_STSC ='10' THEN '미처리'
-				WHEN MASK_PRG_STSC ='20' THEN '처리중'
-				WHEN MASK_PRG_STSC ='80' THEN '처리(완료)'
-				WHEN MASK_PRG_STSC ='90' THEN '탐지(완료)'
-				WHEN MASK_PRG_STSC ='99' THEN '반영(완료)'
-				WHEN MASK_PRG_STSC ='98' THEN '반영(실패)'
-				WHEN MASK_PRG_STSC ='95' THEN '검증(완료)'
-				ELSE '' 
-			END AS MASK_PRG_STSC_TXT,
-			CASE 
-				WHEN USER_CONFIRM  = '00' THEN '확인전'
-				WHEN USER_CONFIRM  = '99' THEN '확인완료'
-				ELSE '확인전' 
-			END AS USER_CONFIRM_TXT,
-			
-			CASE
-				WHEN USER_UPDATE_YN = '01' THEN '수정'
-				WHEN USER_UPDATE_YN = '02' THEN '유지'
-			ELSE '확인전' 
-			END AS USER_UPDATE_YN_TXT	
-			  
-		FROM TB_EM_IMR_MASK_OBJ
-		WHERE 1=1
-		AND MASK_PRG_STSC > 20
-		AND INTVISION_IMR IS NOT NULL
-		<if test='textPrcDt != null and textPrcDt !=""'>
-		AND PRC_DT = REPLACE(#{textPrcDt},'-','')
-		</if>
-		<if test='custId != null and custId !=""'>
-			AND CUST_ID = #{custId}
-		</if>
-		<if test='contractId != null and contractId !=""'>
-			AND CONTRACT_ID = #{contractId}
-		</if>
-	<if test='columnName !="" and sortOrder !=""'>
-	ORDER BY ${columnName} ${sortOrder} 
-	</if>
- 	) TA             
-    WHERE ROWNUM <![CDATA[<]]> ((#{pageNumber} * #{pageSize}) + 1)
- 	)
-	WHERE RNUM <![CDATA[>=]]> (((#{pageNumber} - 1) * #{pageSize}) + 1)
-    </select> 
-    
-    <!-- 일일 처리 현황 전체 cnt 값  -->
-    <select id="getDpmDailyProInfoTotRowCnt"
-    	 parameterType="com.minervasoft.backend.vo.StatisticsVO"
-        resultType="com.minervasoft.backend.vo.StatisticsVO"
-        >
-        SELECT 
-			COUNT(*) TOT_ROW_CNT
-		FROM TB_EM_IMR_MASK_OBJ
-		WHERE 1=1
-		AND MASK_PRG_STSC > 20
-		AND INTVISION_IMR IS NOT NULL
-		<if test='textPrcDt != null and textPrcDt !=""'>
-		AND PRC_DT = REPLACE(#{textPrcDt},'-','')
-		</if>
-		<if test='custId != null and custId !=""'>
-			AND CUST_ID = #{custId}
-		</if>
-		<if test='contractId != null and contractId !=""'>
-			AND CONTRACT_ID = #{contractId}
-		</if>
-		
-    </select>
-    
-    <insert id="insertDailyStatics"
-    parameterType="com.minervasoft.backend.vo.StatisticsVO">
-    INSERT INTO TB_EM_IMR_DAILY_STATICS
-	(
-		PRC_DT, 
-		MAJOR_CLASS, 
-		PRC_DT_CNT, 
-		PRC_CN, 
-		NO_CN, 
-		ERR_CN, 
-		VERIFY_CN, 
-		VERIFY_UPDATE_CN, 
-		A_Y,
-		A_N, 
-		B_Y,
-		B_N,
-		C_Y,
-		C_N, 
-		D_Y,
-		D_N, 
-		E_Y,
-		E_N, 
-		TM_RECV_Y,
-		TM_RECV_N, 
-		SMS_RECV_Y,
-		SMS_RECV_N, 
-		DM_RECV_Y,
-		DM_RECV_N, 
-		EMAIL_RECV_Y,
-		EMAIL_RECV_N, 
-		TM_OFFER_Y,
-		TM_OFFER_N, 
-		EMAIL_OFFER_Y,
-		EMAIL_OFFER_N, 
-		DM_OFFER_Y,
-		DM_OFFER_N,
-		SMS_OFFER_Y,
-		SMS_OFFER_N, 
-		RG_DTM, 
-		RG_ENO 
-	)
-	VALUES
-	(
-		#{prcDt},
-	 	'TOTAL', 
-	 	#{prcDtCnt}, 
-	 	#{prcCn}, 
-	 	#{prcDtCnt}-#{prcCn}, 
-	 	#{errCn}, 
-	 	#{verifyCn}, 
-	 	#{verifyUpdateCn}, 
-	 	#{ay},
-	 	#{an}, 
-	 	#{by},
-	 	#{bn}, 
-	 	#{cy},
-	 	#{cn}, 
-	 	#{dy},
-	 	#{dn}, 
-	 	#{ey},
-	 	#{en}, 
-	 	#{tmRecvY},
-	 	#{tmRecvN}, 
-	 	#{smsRecvY},
-	 	#{smsRecvN}, 
-	 	#{dmRecvY},
-	 	#{dmRecvN}, 
-	 	#{emailRecvY},
-	 	#{emailRecvN}, 
-	 	#{tmOfferY},
-	 	#{tmOfferN}, 
-	 	#{dmOfferY},
-	 	#{dmOfferN}, 
-	 	#{emailOfferY},
-	 	#{emailOfferN}, 
-	 	#{smsOfferY},
-	 	#{smsOfferN}, 
-	 	SYSDATE, 
-	 	'system'
-	 )
-    </insert>
+ 
     
     <update id="updImrConfirm" parameterType="com.minervasoft.backend.vo.StatisticsVO">
     	UPDATE TB_EM_IMR_MASK_OBJ
@@ -553,7 +368,7 @@ SELECT *FROM
  	,ROWNUM RNUM
  FROM
   	(  SELECT
-			TT.BPR_BSN_DSC,
+			(SELECT CNM FROM TB_EM_PC_CODE WHERE C_ID = TT.BPR_BSN_DSC) BPR_BSN_DSC,
 			TT.ALL_CN,
 			TT.PRC_CN,
 			TT.MASK_CN,
@@ -844,5 +659,13 @@ FROM
  )
 WHERE RNUM <![CDATA[>=]]> (((#{pageNumber} - 1) * #{pageSize}) + 1)
     </select> 
+    
+    <insert id="insertCode" parameterType="java.util.Map">
+    INSERT INTO TB_EM_PC_CODE 
+    (C_ID,CNM) VALUES(#{CODE},#{CODE_NM})
+    </insert>
+	<update id="codeTableDel">
+	TRUNCATE TABLE TB_EM_PC_CODE
+	</update>   
        
 </mapper>
