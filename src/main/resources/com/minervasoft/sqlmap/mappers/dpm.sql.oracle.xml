@@ -346,13 +346,28 @@ FROM(SELECT
        		,CASE WHEN MASK_PRG_STSC >100 THEN 1 ELSE 0 END ERR_CN
      	 FROM TB_EM_FPPN_MASK_OBJ
      	 WHERE 1=1
-     	 AND MASK_PRG_STSC > 20
      	 <if test='startPrcDt != null and startPrcDt !=""'>
     	AND PRC_DT <![CDATA[>=]]> REPLACE(#{startPrcDt},'-','')
     	</if> 
     	<if test='endPrcDt != null and endPrcDt !=""'>
     	AND PRC_DT <![CDATA[<=]]> REPLACE(#{endPrcDt},'-','')
-    	</if> 
+    	</if>
+    	<choose>
+			<when test='maskPrgStsc != null and maskPrgStsc !=""'>
+				<if test='maskPrgStsc == "Y"'>
+				AND (90 <![CDATA[<=]]> MASK_PRG_STSC AND MASK_PRG_STSC <![CDATA[<=]]> 99)
+				</if>
+				<if test='maskPrgStsc == "N"'>
+				AND (80 <![CDATA[<=]]> MASK_PRG_STSC AND MASK_PRG_STSC <![CDATA[<]]> 90)
+				</if>
+				<if test='maskPrgStsc == "E"'>
+				AND MASK_PRG_STSC >= 100
+				</if>
+			</when>
+			<otherwise>
+			AND MASK_PRG_STSC >= 10
+			</otherwise>
+		</choose> 
      ) T 
      WHERE 1=1
      GROUP BY T.BPR_BSN_DSC) 
@@ -396,13 +411,28 @@ SELECT *FROM
        	   	       ,CASE WHEN MASK_PRG_STSC >100 THEN 1 ELSE 0 END ERR_CN
      	 			FROM TB_EM_FPPN_MASK_OBJ
      	 		WHERE 1=1
-     			AND MASK_PRG_STSC > 20
      			<if test='startPrcDt != null and startPrcDt !=""'>
     			AND PRC_DT <![CDATA[>=]]> REPLACE(#{startPrcDt},'-','')
     			</if> 
     			<if test='endPrcDt != null and endPrcDt !=""'>
     			AND PRC_DT <![CDATA[<=]]> REPLACE(#{endPrcDt},'-','')
-    			</if> 
+    			</if>
+    			<choose>
+					<when test='maskPrgStsc != null and maskPrgStsc !=""'>
+						<if test='maskPrgStsc == "Y"'>
+						AND (90 <![CDATA[<=]]> MASK_PRG_STSC AND MASK_PRG_STSC <![CDATA[<=]]> 99)
+						</if>
+						<if test='maskPrgStsc == "N"'>
+						AND (80 <![CDATA[<=]]> MASK_PRG_STSC AND MASK_PRG_STSC <![CDATA[<]]> 90)
+						</if>
+						<if test='maskPrgStsc == "E"'>
+						AND MASK_PRG_STSC >= 100
+						</if>
+					</when>
+					<otherwise>
+						AND MASK_PRG_STSC >= 10
+					</otherwise>
+				</choose>  
      			) T 
 			WHERE 1=1
 			GROUP BY T.BPR_BSN_DSC 

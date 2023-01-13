@@ -30,6 +30,7 @@ public class InspectVO extends AbstractVO{
 	private String  gridAligns = "";
 	private String  startPrcDt = "";
 	private String  endPrcDt = "";
+	private String  maskPrgStsc = "";
 	public String getPrcDt() {
 		return prcDt;
 	}
@@ -206,6 +207,12 @@ public class InspectVO extends AbstractVO{
 	public void setEndPrcDt(String endPrcDt) {
 		this.endPrcDt = endPrcDt;
 	}
+	public String getMaskPrgStsc() {
+		return maskPrgStsc;
+	}
+	public void setMaskPrgStsc(String maskPrgStsc) {
+		this.maskPrgStsc = maskPrgStsc;
+	}
 	@Override
 	public String toString() {
 		return "InspectVO [prcDt=" + prcDt + ", bprBsnDsc=" + bprBsnDsc + ", prcRat=" + prcRat + ", maskRat=" + maskRat
@@ -216,8 +223,7 @@ public class InspectVO extends AbstractVO{
 				+ ", startPageNumber=" + startPageNumber + ", stPrcDt=" + stPrcDt + ", edPrcDt=" + edPrcDt
 				+ ", columnName=" + columnName + ", sortOrder=" + sortOrder + ", gridLabels=" + gridLabels
 				+ ", gridNames=" + gridNames + ", gridWidths=" + gridWidths + ", gridAligns=" + gridAligns
-				+ ", startPrcDt=" + startPrcDt + ", endPrcDt=" + endPrcDt + "]";
+				+ ", startPrcDt=" + startPrcDt + ", endPrcDt=" + endPrcDt + ", maskPrgStsc=" + maskPrgStsc + "]";
 	}
 	
-
 }

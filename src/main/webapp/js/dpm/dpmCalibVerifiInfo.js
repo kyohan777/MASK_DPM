@@ -31,7 +31,8 @@ var modDpmCalibVerifiInfo = (function(){
 	 * 초기화
 	 */	
 	function init() {
-		modComm.setDatepicker("textPrcDt","imgStartDt");
+		modComm.setDatepicker("startPrcDt","imgStartDt");
+		modComm.setDatepicker("endPrcDt","imgEndtDt");
 		//마스터 그리드 초기화 시작
 		$("#textPrcDt").val(modComm.getGridDateFormat(serverDate));
 		

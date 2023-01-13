@@ -66,6 +66,12 @@ public class DpmVrfController {
     @Value("${minerva.noFileImg}")
     private String noFileImg;
     
+    @Value("${input-root}")
+    private String orgPath;
+
+    @Value("${masked-root}")
+    private String maskedPath;
+
     
    
     /**
