@@ -37,18 +37,16 @@
         >
        SELECT 
 			COUNT(*) TOT_ROW_CNT
-	   FROM TB_EM_FPPN_QUERY_HISTORY A
-	   INNER JOIN TB_EM_PC_CHRR B
-	   ON A.CHRR_ID = B.CHRR_ID
+	   FROM TB_EM_FPPN_QUERY_HISTORY
 	   WHERE 1=1
 		<if test='custId != null and custId !=""'>
-    	AND A.CUST_ID = #{custId}
+    	AND A.CHRR_ID = #{custId}
     	</if>
 		<if test='startPrcDt != null and startPrcDt !=""'>
-    	AND TO_CHAR(A.IPDT_TIME,'YYYYMMDD') <![CDATA[>=]]> REPLACE(#{startPrcDt},'-','')
+    	AND PRC_DT <![CDATA[>=]]> REPLACE(#{startPrcDt},'-','')
     	</if> 
     	<if test='endPrcDt != null and endPrcDt !=""'>
-    	AND TO_CHAR(A.IPDT_TIME,'YYYYMMDD') <![CDATA[<=]]> REPLACE(#{endPrcDt},'-','')
+    	AND PRC_DT <![CDATA[<=]]> REPLACE(#{endPrcDt},'-','')
     	</if>  
     </select>
     
@@ -66,30 +64,21 @@
   		FROM
   	( 
 		SELECT 
-			A.ID_NO,
-			A.CHRR_ID,
-			B.CHRR_NM,
-			A.QUERY_TYPE,
-			A.PURPOSE,
-			B.DEPTNM,
-			A.ELEMENTID AS ELEMENT_ID ,
-			TO_CHAR(A.IPDT_TIME,'YYYY/MM/DD') AS PRC_DT,
-			(SELECT CONTRACT_ID  FROM TB_EM_IMR_MASK_OBJ WHERE ELEMENTID=A.ELEMENTID) AS CONTRACT_ID,
-			A.CUST_ID ,
-			A.QUERY_REASON ,
-			TO_CHAR(A.IPDT_TIME,'HH24:MI') AS PRC_TM  
-		FROM TB_EM_FPPN_QUERY_HISTORY A
-		INNER JOIN TB_EM_PC_CHRR B
-		ON A.CHRR_ID = B.CHRR_ID
+			PRC_DT,
+			CHRR_ID,
+			ELEMENTID AS ELEMENT_ID ,
+			PURPOSE,
+			QUERY_REASON
+		FROM TB_EM_FPPN_QUERY_HISTORY 
 		WHERE 1=1
 		<if test='custId != null and custId !=""'>
-    	AND A.CUST_ID = #{custId}
+    	AND CHRR_ID = #{custId}
     	</if>
 		<if test='startPrcDt != null and startPrcDt !=""'>
-    	AND TO_CHAR(A.IPDT_TIME,'YYYYMMDD') <![CDATA[>=]]> REPLACE(#{startPrcDt},'-','')
+    	AND PRC_DT <![CDATA[>=]]> REPLACE(#{startPrcDt},'-','')
     	</if> 
     	<if test='endPrcDt != null and endPrcDt !=""'>
-    	AND TO_CHAR(A.IPDT_TIME,'YYYYMMDD') <![CDATA[<=]]> REPLACE(#{endPrcDt},'-','')
+    	AND PRC_DT <![CDATA[<=]]> REPLACE(#{endPrcDt},'-','')
     	</if> 
    ) TA             
     WHERE ROWNUM <![CDATA[<]]> ((#{pageNumber} * #{pageSize}) + 1)
@@ -331,14 +320,14 @@ WHERE RNUM <![CDATA[>=]]> (((#{pageNumber} - 1) * #{pageSize}) + 1)
      	resultType="com.minervasoft.backend.vo.InspectVO">
 SELECT	COUNT(*) TOT_ROW_CNT   
 FROM(SELECT 
-		T.BPR_BSN_DSC
+		T.ETC1 
 		,SUM(T.ALL_CN) AS ALL_CN
 		,SUM(T.MASK_CN)+SUM(T.NOMASK_CN)+SUM(T.ERR_CN) AS PRC_CN
 		,SUM(T.MASK_CN) AS MASK_CN
 		,SUM(T.NOMASK_CN) AS NOMASK_CN
 		,SUM(T.ERR_CN) AS ERR_CN 
 	FROM(SELECT
-	 		BPR_BSN_DSC
+	 		ETC1
 	   		,1 AS ALL_CN
        		,CASE WHEN (MASK_PRG_STSC >=90 AND MASK_PRG_STSC<![CDATA[<]]>100) THEN 1
         	 ELSE 0 END MASK_CN
@@ -346,6 +335,7 @@ FROM(SELECT
        		,CASE WHEN MASK_PRG_STSC >100 THEN 1 ELSE 0 END ERR_CN
      	 FROM TB_EM_FPPN_MASK_OBJ
      	 WHERE 1=1
+     	 AND MASK_PRG_STSC IS NOT NULL
      	 <if test='startPrcDt != null and startPrcDt !=""'>
     	AND PRC_DT <![CDATA[>=]]> REPLACE(#{startPrcDt},'-','')
     	</if> 
@@ -370,7 +360,7 @@ FROM(SELECT
 		</choose> 
      ) T 
      WHERE 1=1
-     GROUP BY T.BPR_BSN_DSC) 
+     GROUP BY T.ETC1) 
      
      </select>
      <!-- 업무별 처리 현황 조회 -->
@@ -383,7 +373,7 @@ SELECT *FROM
  	,ROWNUM RNUM
  FROM
   	(  SELECT
-			(SELECT CNM FROM TB_EM_PC_CODE WHERE C_ID = TT.BPR_BSN_DSC) BPR_BSN_DSC,
+			(SELECT CNM FROM TB_EM_PC_CODE WHERE C_ID = TT.ETC1 AND UP_C_ID = 'GROUP') BPR_BSN_DSC,
 			TT.ALL_CN,
 			TT.PRC_CN,
 			TT.MASK_CN,
@@ -396,14 +386,14 @@ SELECT *FROM
 	 			  WHEN (TT.MASK_CN/TT.PRC_CN)*100 = 100 THEN '100%'
         		  ELSE CONCAT(TO_CHAR(ROUND((TT.MASK_CN/TT.PRC_CN)*100,1),'FM90.0'),'%') END  AS MASK_RAT
 	   FROM(SELECT 
-				T.BPR_BSN_DSC
+				T.ETC1
 			   ,SUM(T.ALL_CN) AS ALL_CN
 			   ,SUM(T.MASK_CN)+SUM(T.NOMASK_CN)+SUM(T.ERR_CN) AS PRC_CN
 		       ,SUM(T.MASK_CN) AS MASK_CN
 		       ,SUM(T.NOMASK_CN) AS NOMASK_CN
 		       ,SUM(T.ERR_CN) AS ERR_CN 
 		   FROM(SELECT
-	 				BPR_BSN_DSC
+	 				ETC1
 	   	   		   ,1 AS ALL_CN
        	   		   ,CASE WHEN (MASK_PRG_STSC >=90 AND MASK_PRG_STSC<![CDATA[<]]>100) THEN 1
        				ELSE 0 END MASK_CN
@@ -435,7 +425,7 @@ SELECT *FROM
 				</choose>  
      			) T 
 			WHERE 1=1
-			GROUP BY T.BPR_BSN_DSC 
+			GROUP BY T.ETC1 
 		)TT
 	) TA
 	WHERE ROWNUM <![CDATA[<]]> ((#{pageNumber} * #{pageSize}) + 1)
@@ -451,7 +441,7 @@ ORDER BY TTT.${columnName} ${sortOrder}
     resultType="com.minervasoft.backend.vo.InspectVO">
    SELECT 
 		T.PRC_DT
-		,T.BPR_BSN_DSC
+		,T.ETC1 AS BPR_BSN_DSC
 		,SUM(T.ALL_CN) AS ALL_CN 
 		,SUM(T.MASK_CN)+SUM(T.NOMASK_CN)+SUM(T.ERR_CN) AS PRC_CN
 		,SUM(T.MASK_CN) AS MASK_CN
@@ -461,7 +451,7 @@ ORDER BY TTT.${columnName} ${sortOrder}
 		,SUM(T.VERIFY_UPDATE_CN) AS VERIFY_UPDATE_CN 
 	FROM(SELECT
 	 		PRC_DT
-	 	   ,BPR_BSN_DSC
+	 	   ,ETC1
 	 	   ,1 AS ALL_CN
        	   ,CASE WHEN (MASK_PRG_STSC >=90 AND MASK_PRG_STSC <![CDATA[<]]> 100) THEN 1
        		ELSE 0 END MASK_CN
@@ -474,7 +464,7 @@ ORDER BY TTT.${columnName} ${sortOrder}
      	AND MASK_PRG_STSC > 20
      ) T 
 	WHERE 1=1
-	GROUP BY T.PRC_DT,T.BPR_BSN_DSC
+	GROUP BY T.PRC_DT,T.ETC1
     </select>
     
     <select id="getBatchTotCnt"

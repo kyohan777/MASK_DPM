@@ -32,17 +32,11 @@ var modDpmExportHistoryInfo = (function(){
 	        postData: {},
 	        //jqGrid 양식선언부        
 	        colModel: [
-	            { label: '열람자 ID',    name: 'chrrId',    	index:'CHRR_ID',	 align: 'center', width :100},
-	            { label: '성명', 	       name: 'chrrNm', 	    index:'CHRR_NM',	 align: 'center', width :100},
-	            { label: '조회 구분', 	   name: 'queryType',   index:'QUERY_TYPE',	 align: 'center', width :100},
-	            { label: '소속', 		   name: 'deptnm',    	index:'DEPTNM',		 align: 'center', width :100},
-	            { label: '엘리먼트 ID',  name: 'elementId',   index:'ELEMENT_ID',   align: 'left',   width :110},
-	            { label: '고객번호', 	   name: 'custId',      index:'CUST_ID', 	 align: 'center', width :110},
-	            { label: '계약번호', 	   name: 'contractId',  index:'CONTRACT_ID', align: 'center', width :110},
-	            { label: '조회 일자', 	   name: 'prcDt',   	index:'PRC_DT',		 align: 'center', width :100},	  
-	            { label: '조회시간', 	   name: 'prcTm',       index:'PRC_TM',		 align: 'center', width :80},
-	            { label: '조회 사유', 	   name: 'queryReason', index:'QUERT_REASON',align: 'left', width :400},
-	            { label: '목적', 	       name: 'purpose',     index:'PURPOSE',     align: 'left', width :400}
+	            { label: '처리일자',    name: 'prcDt',       index:'PRC_DT',	    align: 'center', width :100},
+	            { label: 'ELEMENTID', name: 'elementId',   index:'ELEMENTID',	align: 'center', width :100},
+	            { label: 'USER-ID',   name: 'chrrId',      index:'CHRR_ID',	    align: 'center', width :100},
+	            { label: '사유', 	      name: 'purpose',     index:'PURPOSE',     align: 'left', width :400},
+	            { label: '목적', 	      name: 'queryReason', index:'QUERT_REASON',align: 'left', width :400}
 	        ],
 	       
 	        height: gridHeight,

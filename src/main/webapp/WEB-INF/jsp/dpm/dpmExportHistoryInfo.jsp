@@ -24,6 +24,9 @@
                         	<input id="columnName" type="hidden" name="columnName">
 							<input id="sortOrder" type="hidden" name="sortOrder">
                             <ul class="smbc-top-search">
+                            	<li>
+                                    <input type="text" id="custId" name="custId" class="input-st01" style ="background: #E3FFF0; color : black" placeholder="반출자 ID">
+                                </li>
                                 <li>
                                    <label>처리일자</label>
                                     <div class="datepicker-wrap">

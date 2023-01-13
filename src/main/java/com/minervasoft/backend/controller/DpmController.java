@@ -775,9 +775,11 @@ public class DpmController {
     	ResponseInspectVo response = new ResponseInspectVo();
         
         try {
-        	jsonCodeParseInsert();
+        	//코드 테이블을 따로 관리를 하지 않을 경우 json파일로 code값을 읽어와 빈 code 테이블에 등록 후 삭제처리
+        	//삼성카드는 코드테이블을 이미 사용하고 있어 미사용
+        	//jsonCodeParseInsert();
             List<InspectVO> list = dpmService.getDpmInspectStatInfo(paramVO);
-            dpmService.codeTableDel();
+            //dpmService.codeTableDel();
             response.setSelList(list);
             response.setPageNumber(paramVO.getPageNumber());
             response.setTotPageCnt(paramVO.getTotPageCnt());

@@ -34,13 +34,13 @@ var modDpmMonthPro = (function(){
 	        //jqGrid 양식선언부        
 	         colModel: [
 	            { label: '처리일자', 	  name:'prcDt',    index:'PRC_DT',   width:'150', align: 'left'},
-	            { label: '대상건수',    name:'allCn',    index:'ALL_CN',   width:'150', align: 'center'},
-	            { label: '처리(완료)',  name:'prcCn',    index:'PRC_CN',   width:'150', align: 'center'},
-	            { label: '마스킹(탐지)', name:'maskCn',   index:'MASK_CN',  width:'150', align: 'center'},
-	            { label: '마스킹(미탐)', name:'nomaskCn', index:'NOMASK_CN',width:'150', align: 'center'},	  
-	            { label: '오류', 	  	  name:'errCn',    index:'ERR_CN',   width:'150', align: 'center'},
-	            { label: '처리율(B/A)', name:'prcRat',   index:'PRC_RAT',  width:'150', align: 'center'},
-	            { label: '탐지율(C/B)', name:'maskRat',  index:'MASK_RAT', width:'150', align: 'center'}
+	            { label: '점검대상',    name:'allCn',    index:'ALL_CN',   width:'150', align: 'center'},
+	            { label: '점검완료',    name:'prcCn',    index:'PRC_CN',   width:'150', align: 'center'},
+	            { label: '마스킹',      name:'maskCn',   index:'MASK_CN',  width:'150', align: 'center'},
+	            { label: '마스킹미대상', name:'nomaskCn', index:'NOMASK_CN',width:'150', align: 'center'},	  
+	            { label: '기타', 	  	  name:'errCn',    index:'ERR_CN',   width:'150', align: 'center'},
+	            { label: '점검율',     name:'prcRat',   index:'PRC_RAT',  width:'150', align: 'center'},
+	            { label: '마스킹율',   name:'maskRat',  index:'MASK_RAT', width:'150', align: 'center'}
 	        ],
 	        height: gridHeight,
 	        autowidth:true,

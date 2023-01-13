@@ -54,36 +54,14 @@
                       <form id="frmCalibVerifiInfo" role="form"  method="post"> 
                             <ul class="smbc-top-search">
                                 <li>
-                             	  	<label>점검일자</label>
+                                    <label>처리일자</label>
                                     <div class="datepicker-wrap">
-										<input id="startPrcDt" name=startPrcDt  type="text" class="form-control "
+										<input id="textPrcDt" name="textPrcDt" type="text" class="form-control "
 									     style="width: 130px; margin-right: 0px; padding-right: 30px;"
-										maxlength="10" placeholder="시작일" autocomplete="off"> 
+										maxlength="10" autocomplete="off"> 
 										<span class="icon-calendar">
 										<img id="imgStartDt" img src="../images/icon-calendar.png" alt="달력">
 										</span>
-                                    </div>
-                                     <div class="datepicker-wrap">
-										<input id="endPrcDt" name="endPrcDt" type="text" class="form-control "
-									     style="width: 130px; margin-right: 0px; padding-right: 30px;"
-										maxlength="10" placeholder="종료일" autocomplete="off"> 
-										<span class="icon-calendar">
-										<img id="imgEndtDt" img src="../images/icon-calendar.png" alt="달력">
-										</span>
-                                    </div>
-                                </li>
-                                
-                                 <li>
-                                    <label>상태코드</label>
-                                    <div class="datepicker-wrap">
-										<select id="maskPrgStsc" name="maskPrgStsc"class="form-control"
-									     style="width: 130px; background: #E3FFF0;margin-right: 0px; padding-right: 30px;"
-									     >
-									     	<option value="">전체</option>
-									     	<option value="Y">인식됨</option>
-									     	<option value="N">인식안됨</option>
-									     	<option value="E">오류</option>
-									     </select> 
                                     </div>
                                 </li>
                             </ul>

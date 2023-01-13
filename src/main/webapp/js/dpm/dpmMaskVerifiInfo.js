@@ -31,22 +31,19 @@ var modDpmMaskVerifiInfo = (function(){
 	 * 초기화
 	 */	
 	function init() {
-		modComm.setDatepicker("textPrcDt","imgStartDt");
-		//마스터 그리드 초기화 시작
-		$("#textPrcDt").val(modComm.getGridDateFormat(serverDate));
-		
-		//alert(modComm.getGridDateFormat(serverDate));
+		modComm.setDatepicker("startPrcDt","imgStartDt");
+		modComm.setDatepicker("endPrcDt","imgEndtDt");
 		
 		$("#jqGrid").jqGrid({
 	    	//jqGrid url 전송선언
 	        url: '/dpm/getDpmMaskVerifiInfo.do',
 	        mtype: "POST",
 	        datatype: "local",
-	        postData: {"textPrcDt" : $("#textPrcDt").val()},
+	        postData: {},
 	        //jqGrid 양식선언부        
 	        colModel: [
-				{ label: '엘리ID',    name: 'elementId', 	   align: 'center', width:'0px'},
-				{ label: 'm',  name: 'maskPrgStscTxt', align: 'left', width: '0px'},
+				{ label: 'ELEMENTID',    name: 'elementId', 	   align: 'center', width:'0px'},
+				{ label: '고객',  name: 'maskPrgStscTxt', align: 'left', width: '0px'},
 	            { label: 'u',  name: 'userConfirmTxt', align: 'left', width: '0px'},
 	            { label: 'u2',  name: 'userUpdateYnTxt', align: 'left', width: '0px'},
 	            { label: 'u3',  name: 'resultImgPath', align: 'left', width: '0px'},
