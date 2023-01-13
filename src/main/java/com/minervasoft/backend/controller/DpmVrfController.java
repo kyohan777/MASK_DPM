@@ -39,7 +39,9 @@ import com.minervasoft.backend.service.CustomTextType;
 import com.minervasoft.backend.service.DpmService;
 import com.minervasoft.backend.vo.CalibVerifiVo;
 import com.minervasoft.backend.vo.ImageVerifyVO;
+import com.minervasoft.backend.vo.InspectVO;
 import com.minervasoft.backend.vo.LoginChrrVO;
+import com.minervasoft.backend.vo.ResponseInspectVo;
 import com.minervasoft.backend.vo.ResponseStatisticsVo;
 import com.minervasoft.backend.vo.StatisticsVO;
 
@@ -65,76 +67,20 @@ public class DpmVrfController {
     private String noFileImg;
     
     
-    
+   
     /**
-     *  [IMR] 교정/검증 화면
-     *  2022.12.15 신규 개발 
-     * @param paramVO
-     * @return
-     */
-    @RequestMapping(value = "/dpm/getDpmCalibVerifiInfo.do")
-    @ResponseBody
-    public ResponseStatisticsVo getDpmCalibVerifiInfo(StatisticsVO paramVO) {
-    	ResponseStatisticsVo response = new ResponseStatisticsVo();
-        
-        try {
-            List<StatisticsVO> list = dpmService.getDpmDailyProInfo(paramVO);
-            response.setSelList(list);
-            response.setPageNumber(paramVO.getPageNumber());
-            response.setTotPageCnt(paramVO.getTotPageCnt());
-            //response.setTotPageCnt(2);
-            response.setTotRowCnt(paramVO.getTotRowCnt());
-            
-        } catch(Exception e) {
-            e.printStackTrace();
-            response.setRsYn("N");
-            response.setSelList(new ArrayList<StatisticsVO>());
-        }
-        
-        return response;
-    }
-    
-    /**
-     *  [IMR] 교정/검증 결과 화면
-     *  2022.12.15 신규 개발 
-     * @param paramVO
-     * @return
-     */
-    @RequestMapping(value = "/dpm/getDpmImrResultInfo.do")
-    @ResponseBody
-    public ResponseStatisticsVo getDpmImrResultInfo(StatisticsVO paramVO) {
-    	ResponseStatisticsVo response = new ResponseStatisticsVo();
-        
-        try {
-            List<StatisticsVO> list = dpmService.getDpmDailyProInfo(paramVO);
-            response.setSelList(list);
-            response.setPageNumber(paramVO.getPageNumber());
-            response.setTotPageCnt(paramVO.getTotPageCnt());
-            response.setTotRowCnt(paramVO.getTotRowCnt());
-            
-        } catch(Exception e) {
-            e.printStackTrace();
-            response.setRsYn("N");
-            response.setSelList(new ArrayList<StatisticsVO>());
-        }
-        
-        return response;
-    }
-    
-    
-    /**
-     *  [MASK] 교정/검증 화면
-     *  2022.12.15 신규 개발 
+     *  이미지 조회
+     *  2023.01.12  
      * @param paramVO
      * @return
      */
     @RequestMapping(value = "/dpm/getDpmMaskVerifiInfo.do")
     @ResponseBody
-    public ResponseStatisticsVo getDpmMaskVerifiInfo(StatisticsVO paramVO) {
-    	ResponseStatisticsVo response = new ResponseStatisticsVo();
+    public ResponseInspectVo getDpmMaskVerifiInfo(InspectVO paramVO) {
+    	ResponseInspectVo response = new ResponseInspectVo();
         
         try {
-            List<StatisticsVO> list = dpmService.getDpmDailyProInfo(paramVO);
+            List<InspectVO> list = dpmService.getDpmMaskVerifiInfo(paramVO);
             response.setSelList(list);
             response.setPageNumber(paramVO.getPageNumber());
             response.setTotPageCnt(paramVO.getTotPageCnt());
@@ -143,7 +89,7 @@ public class DpmVrfController {
         } catch(Exception e) {
             e.printStackTrace();
             response.setRsYn("N");
-            response.setSelList(new ArrayList<StatisticsVO>());
+            response.setSelList(new ArrayList<InspectVO>());
         }
         
         return response;

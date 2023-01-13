@@ -66,7 +66,7 @@
 		</li>
 		<li><a href="#">이미지 조회</a>
 			<ul>
-				<li><a href="#" onclick="goPage('CalibVerfi');">이미지 조회</a></li>
+				<li><a href="#" onclick="goPage('MaskVerfi');">이미지 조회</a></li>
 				<li><a href="#" onclick="goPage('Export');">반출이력 조회</a></li>
 			</ul>
 		</li>

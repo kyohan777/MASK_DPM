@@ -485,4 +485,9 @@ public class DpmServiceImpl implements DpmService {
 		dpmDao.codeTableDel();
 	}
 
+	@Override
+	public List<InspectVO> getDpmMaskVerifiInfo(InspectVO paramVO) throws Exception {
+		return dpmDao.getDpmMaskVerifiInfo(paramVO);
+	}
+
 }

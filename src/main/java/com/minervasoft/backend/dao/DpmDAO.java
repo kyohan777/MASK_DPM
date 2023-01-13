@@ -141,6 +141,10 @@ public class DpmDAO extends AbstractDpmDAO {
     //code table data 삭제
     public void codeTableDel() throws Exception {
     	update("codeTableDel");
-    }    
+    } 
+    //이미지 조회
+    public List<InspectVO> getDpmMaskVerifiInfo(InspectVO paramVO) throws Exception {
+        return (List<InspectVO>) selectList("getDpmMaskVerifiInfo",paramVO);
+    }
     
 }

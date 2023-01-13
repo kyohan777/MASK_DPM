@@ -71,6 +71,8 @@ public interface DpmService {
     public List<InspectVO> getDpmMonthProInfo(InspectVO paramVO) throws Exception;
     //월별 통계 전체 cnt 조회
     public InspectVO getDpmMonthProInfoTotRowCnt(InspectVO paramVO) throws Exception;
+    //이미지 조회 
+    public List<InspectVO> getDpmMaskVerifiInfo(InspectVO paramVO) throws Exception;
     
     public void insertCode(Map<String, Object> map) throws Exception;
     public void codeTableDel() throws Exception;

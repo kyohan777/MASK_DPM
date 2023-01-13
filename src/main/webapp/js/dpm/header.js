@@ -24,14 +24,6 @@ function goPage(data){
 		frmHeader.action = "/dpm/dpmUserManageInfo.do";
 		break;
 		
-		case 'CalibVerfi':
-		frmHeader.action = "/dpm/dpmCalibVerifiInfo.do";
-		break;
-		
-		case 'ImrResult':
-		frmHeader.action = "/dpm/dpmImrResultInfo.do";
-		break;
-		
 		case 'MaskVerfi':
 		frmHeader.action = "/dpm/dpmMaskVerifiInfo.do";
 		break;

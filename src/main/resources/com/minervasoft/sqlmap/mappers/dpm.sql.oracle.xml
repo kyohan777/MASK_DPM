@@ -420,7 +420,8 @@ ORDER BY TTT.${columnName} ${sortOrder}
       <select id="getDpmBatchInfo"
     resultType="com.minervasoft.backend.vo.InspectVO">
    SELECT 
-		T.PRC_DT
+		 T.PRC_DT
+		,T.BPR_BSN_DSC
 		,SUM(T.ALL_CN) AS ALL_CN 
 		,SUM(T.MASK_CN)+SUM(T.NOMASK_CN)+SUM(T.ERR_CN) AS PRC_CN
 		,SUM(T.MASK_CN) AS MASK_CN
@@ -430,6 +431,7 @@ ORDER BY TTT.${columnName} ${sortOrder}
 		,SUM(T.VERIFY_UPDATE_CN) AS VERIFY_UPDATE_CN 
 	FROM(SELECT
 	 		PRC_DT
+	 	   ,BPR_BSN_DSC
 	 	   ,1 AS ALL_CN
        	   ,CASE WHEN (MASK_PRG_STSC >=90 AND MASK_PRG_STSC <![CDATA[<]]> 100) THEN 1
        		ELSE 0 END MASK_CN
@@ -442,7 +444,7 @@ ORDER BY TTT.${columnName} ${sortOrder}
      	AND MASK_PRG_STSC > 20
      ) T 
 	WHERE 1=1
-	GROUP BY T.PRC_DT 
+	GROUP BY T.PRC_DT,T.BPR_BSN_DSC
     </select>
     
     <select id="getBatchTotCnt"
@@ -500,7 +502,7 @@ ORDER BY TTT.${columnName} ${sortOrder}
 	VALUES
 		(
 		#{prcDt}, 
-		'TOTAL', 
+		#{bprBsnDsc}, 
 		#{allCn}, 
 		#{prcCn}, 
 		#{maskCn}, 
@@ -543,7 +545,6 @@ ORDER BY TTT.${columnName} ${sortOrder}
 	     	     END MASK_RAT
 		FROM TB_EM_FPPN_DAILY_STATICS
 		WHERE 1=1
-		AND MAJOR_CLASS ='TOTAL'
 		<if test='startPrcDt != null and startPrcDt !=""'>
     	AND PRC_DT <![CDATA[>=]]> REPLACE(#{startPrcDt},'-','')
     	</if> 
@@ -570,7 +571,6 @@ ORDER BY TTT.${columnName} ${sortOrder}
         SELECT 
 			COUNT(*) TOT_ROW_CNT
 		FROM TB_EM_FPPN_DAILY_STATICS
-		WHERE MAJOR_CLASS ='TOTAL'
 		<if test='startPrcDt != null and startPrcDt !=""'>
     	AND PRC_DT <![CDATA[>=]]> REPLACE(#{startPrcDt},'-','')
     	</if> 
@@ -590,7 +590,6 @@ ORDER BY TTT.${columnName} ${sortOrder}
  		from(SELECT 
 				TO_CHAR(TO_DATE(PRC_DT,'YYYYMMDD'),'YYYYMM') AS PRC_DT
 			FROM TB_EM_FPPN_DAILY_STATICS
-			WHERE MAJOR_CLASS ='TOTAL'
 			<if test='startPrcDt != null and startPrcDt !=""'>
     		AND TO_CHAR(TO_DATE(PRC_DT,'YYYYMMDD'),'YYYYMM') <![CDATA[>=]]> REPLACE(#{startPrcDt},'-','')
     		</if> 
@@ -639,7 +638,6 @@ FROM
 				ERR_CN
 			FROM TB_EM_FPPN_DAILY_STATICS
 			WHERE 1=1
-			AND MAJOR_CLASS ='TOTAL'
 			<if test='startPrcDt != null and startPrcDt !=""'>
     		AND TO_CHAR(TO_DATE(PRC_DT,'YYYYMMDD'),'YYYYMM') <![CDATA[>=]]> REPLACE(#{startPrcDt},'-','')
     		</if> 
@@ -667,5 +665,28 @@ WHERE RNUM <![CDATA[>=]]> (((#{pageNumber} - 1) * #{pageSize}) + 1)
 	<update id="codeTableDel">
 	TRUNCATE TABLE TB_EM_PC_CODE
 	</update>   
+	
+	
+	
+	   <!-- 업무별 처리 현황 조회 -->
+     <select id="getDpmMaskVerifiInfo" 
+     parameterType="com.minervasoft.backend.vo.InspectVO"
+     	resultType="com.minervasoft.backend.vo.InspectVO">
+SELECT *FROM
+(SELECT 
+	 TA.*
+ 	,ROWNUM RNUM
+ FROM
+  	( 
+  	
+	) TA
+	WHERE ROWNUM <![CDATA[<]]> ((#{pageNumber} * #{pageSize}) + 1)
+)
+WHERE RNUM <![CDATA[>=]]> (((#{pageNumber} - 1) * #{pageSize}) + 1)
+<if test='columnName !="" and sortOrder !=""'>
+ORDER BY TTT.${columnName} ${sortOrder} 
+</if> 
+     </select>
+     
        
 </mapper>
