@@ -528,21 +528,30 @@ ORDER BY TTT.${columnName} ${sortOrder}
      		,ROWNUM RNUM
   		FROM
   	(
-  		SELECT 
+  		
+  		 SELECT 
+  			T.PRC_DT,
+  			SUM(T.ALL_CN) AS ALL_CN ,
+  			SUM(T.PRC_CN) AS PRC_CN,
+  			SUM(T.MASK_CN) AS MASK_CN,
+  			SUM(T.NOMASK_CN) AS NOMASK_CN,
+  			SUM(T.ERR_CN) AS ERR_CN,
+  			CASE WHEN SUM(T.PRC_CN) = 0 THEN '0.0%'
+		 		 WHEN (SUM(T.PRC_CN)/SUM(T.ALL_CN))*100 = 100 THEN '100%'
+		 		 ELSE CONCAT(TO_CHAR(ROUND((SUM(T.PRC_CN)/SUM(T.ALL_CN))*100,1) ,'FM90.0') ,'%')
+		 		 END PRC_RAT,
+    	 	CASE WHEN SUM(T.MASK_CN) = 0 THEN '0.0%'
+		 		 WHEN (SUM(T.MASK_CN)/SUM(T.PRC_CN))*100 = 100 THEN '100%'
+		 		 ELSE CONCAT(TO_CHAR(ROUND((SUM(T.MASK_CN)/SUM(T.PRC_CN))*100,1) ,'FM90.0') ,'%')
+		 		 END MASK_RAT 
+  		FROM 
+  		(SELECT 
 			TO_CHAR(TO_DATE(PRC_DT,'YYYY-MM-DD'),'YYYY-MM-DD')  AS PRC_DT,
 			PRC_DT_CNT AS ALL_CN,
 			PRC_CN,
 			MASK_CN,
 			NOMASK_CN,
-			ERR_CN,
-			CASE WHEN PRC_CN = 0 THEN '0.0%'
-	     		 WHEN (PRC_CN/PRC_DT_CNT)*100 = 100 THEN '100%'
-	     		 ELSE CONCAT(TO_CHAR(ROUND((PRC_CN/PRC_DT_CNT)*100,1),'FM90.0'),'%')
-	     		 END PRC_RAT,
-    		CASE WHEN MASK_CN = 0 THEN '0.0%'
-	     		 WHEN (MASK_CN/PRC_CN)*100 = 100 THEN '100%'
-	     		 ELSE CONCAT(TO_CHAR(ROUND((MASK_CN /PRC_CN)*100,1),'FM90.0'),'%')
-	     	     END MASK_RAT
+			ERR_CN
 		FROM TB_EM_FPPN_DAILY_STATICS
 		WHERE 1=1
 		<if test='startPrcDt != null and startPrcDt !=""'>
@@ -550,7 +559,9 @@ ORDER BY TTT.${columnName} ${sortOrder}
     	</if> 
     	<if test='endPrcDt != null and endPrcDt !=""'>
     	AND PRC_DT <![CDATA[<=]]> REPLACE(#{endPrcDt},'-','')
-    	</if>    
+    	</if>   
+    	)T
+    	GROUP BY T.PRC_DT	 
  	) TA
     WHERE ROWNUM <![CDATA[<]]> ((#{pageNumber} * #{pageSize}) + 1)
     <if test='columnName !="" and sortOrder !=""'>
@@ -632,7 +643,7 @@ FROM
 		 		 END MASK_RAT
 		FROM(
 			SELECT 
-				TO_CHAR(TO_DATE(PRC_DT,'YYYYMMDD'),'YYYYMM')  AS PRC_DT,
+				TO_CHAR(TO_DATE(PRC_DT,'YYYYMMDD'),'YYYY-MM')  AS PRC_DT,
 				PRC_DT_CNT AS ALL_CN,
 				PRC_CN,
 				MASK_CN,
