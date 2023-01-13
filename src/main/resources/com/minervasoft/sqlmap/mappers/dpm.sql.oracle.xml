@@ -420,7 +420,7 @@ ORDER BY TTT.${columnName} ${sortOrder}
       <select id="getDpmBatchInfo"
     resultType="com.minervasoft.backend.vo.InspectVO">
    SELECT 
-		 T.PRC_DT
+		T.PRC_DT
 		,T.BPR_BSN_DSC
 		,SUM(T.ALL_CN) AS ALL_CN 
 		,SUM(T.MASK_CN)+SUM(T.NOMASK_CN)+SUM(T.ERR_CN) AS PRC_CN
@@ -571,6 +571,7 @@ ORDER BY TTT.${columnName} ${sortOrder}
         SELECT 
 			COUNT(*) TOT_ROW_CNT
 		FROM TB_EM_FPPN_DAILY_STATICS
+		WHERE 1=1
 		<if test='startPrcDt != null and startPrcDt !=""'>
     	AND PRC_DT <![CDATA[>=]]> REPLACE(#{startPrcDt},'-','')
     	</if> 
@@ -590,6 +591,7 @@ ORDER BY TTT.${columnName} ${sortOrder}
  		from(SELECT 
 				TO_CHAR(TO_DATE(PRC_DT,'YYYYMMDD'),'YYYYMM') AS PRC_DT
 			FROM TB_EM_FPPN_DAILY_STATICS
+			WHERE 1=1
 			<if test='startPrcDt != null and startPrcDt !=""'>
     		AND TO_CHAR(TO_DATE(PRC_DT,'YYYYMMDD'),'YYYYMM') <![CDATA[>=]]> REPLACE(#{startPrcDt},'-','')
     		</if> 
