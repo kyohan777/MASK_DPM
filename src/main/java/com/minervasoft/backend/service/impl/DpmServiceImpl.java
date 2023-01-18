@@ -490,4 +490,26 @@ public class DpmServiceImpl implements DpmService {
 		return dpmDao.getDpmMaskVerifiInfo(paramVO);
 	}
 
+	@Override
+	public List<CalibVerifiVo> getJobCodeList() throws Exception {
+		// TODO Auto-generated method stub
+		return dpmDao.getJobCodeList();
+	}
+
+	@Override
+	public InspectVO getDpmMaskVerifiInfoTotRowCnt(InspectVO paramVO) throws Exception {
+		// TODO Auto-generated method stub
+		return dpmDao.getDpmMaskVerifiInfoTotRowCnt(paramVO);
+	}
+
+	@Override
+	public void insertSearchLog(InspectVO parmaVO) throws Exception {
+		dpmDao.insertSearchLog(parmaVO);
+	}
+
+	@Override
+	public InspectVO getElementIdImg(InspectVO parmaVO) throws Exception {
+		return dpmDao.getElementIdImg(parmaVO);
+	}
+
 }

@@ -1,7 +1,6 @@
 package com.minervasoft.backend.controller;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -9,12 +8,10 @@ import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,18 +20,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.ibatis.type.TypeException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -53,9 +47,7 @@ import com.minervasoft.backend.vo.LoginChrrVO;
 import com.minervasoft.backend.vo.ResponseCalibVerifiVo;
 import com.minervasoft.backend.vo.ResponseInspectVo;
 import com.minervasoft.backend.vo.ResponseSelOneLoginChrrVO;
-import com.minervasoft.backend.vo.ResponseStatisticsVo;
 import com.minervasoft.backend.vo.ResponseUserManageVo;
-import com.minervasoft.backend.vo.StatisticsVO;
 import com.minervasoft.backend.vo.UserManageVo;
 
 @Controller
@@ -1130,5 +1122,28 @@ public class DpmController {
 		
 		return map;
 	}
+	
+	
+	/**
+     *  이미지 조회 조회 로그 등록
+     *  2023.01.16
+     * @param paramVO
+     * @return
+     */
+    @RequestMapping(value = "/dpm/insertSearchLog.do")
+    @ResponseBody
+    public ResponseInspectVo insertSearchLog(InspectVO paramVO) {
+    	ResponseInspectVo response = new ResponseInspectVo();
+        try {
+        	dpmService.insertSearchLog(paramVO);
+        } catch(Exception e) {
+            e.printStackTrace();
+            response.setRsYn("N");
+        }
+        
+        return response;
+    }    
+    
+  
      
 }

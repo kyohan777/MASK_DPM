@@ -146,5 +146,21 @@ public class DpmDAO extends AbstractDpmDAO {
     public List<InspectVO> getDpmMaskVerifiInfo(InspectVO paramVO) throws Exception {
         return (List<InspectVO>) selectList("getDpmMaskVerifiInfo",paramVO);
     }
+    //월별 통계 전체 cnt 조회
+    public InspectVO getDpmMaskVerifiInfoTotRowCnt(InspectVO paramVO) throws Exception {
+        return (InspectVO) selectOne("getDpmMaskVerifiInfoTotRowCnt",paramVO);
+    }
+    //업무구분 코드 조회
+    public List<CalibVerifiVo> getJobCodeList() throws Exception {
+        return (List<CalibVerifiVo>) selectList("getJobCodeList");
+    }
+    //이미지 조회 로그 등록
+    public void insertSearchLog(InspectVO paramVO) throws Exception {
+       insert("insertSearchLog",paramVO);
+    }
+    //
+    public InspectVO getElementIdImg(InspectVO paramVO) throws Exception {
+    	return (InspectVO) selectOne("getElementIdImg",paramVO);
+    }
     
 }

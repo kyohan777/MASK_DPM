@@ -70,6 +70,10 @@
 		</div>
 		 -->
 		<div id="id_view-box" class="view-box"></div>
+		<input type="hidden" id="popupYn" value="N">
+		<input type="hidden" id="EMEMENT_ID">
+		<input type="hidden" id="CHRR_ID" value="${chrrId}">
+		<input type="hidden" id="CHRR_NM" value="${chrrNm}">
 	</div>
 </body>
 <script>
@@ -230,6 +234,33 @@
 	function scrollToSeq(pageno) {
 		$thumbnails.scrollToSeq(pageno);
     }
-    
-</script>   
+	
+	function imgWindowPopupOpen(){
+		var nWidth = "700";
+		var nHeight = "480";
+		
+		// 듀얼 모니터 고려한 윈도우 띄우기
+		var curX = window.screenLeft;
+		var curY = window.screenTop;
+		var curWidth = document.body.clientWidth;
+		var curHeight = document.body.clientHeight;
+		  
+		var nLeft = curX + (curWidth / 2) - (nWidth / 2);
+		var nTop = curY + (curHeight / 2) - (nHeight / 2);
+
+		var strOption = "";
+		strOption += "left=" + nLeft + "px,";
+		strOption += "top=" + nTop + "px,";
+		strOption += "width=" + nWidth + "px,";
+		strOption += "height=" + nHeight + "px,";
+		strOption += "toolbar=no,menubar=no,location=no,";
+		strOption += "resizable=yes,status=yes";	
+		
+		var winImgView = window.open("/dpm/dpmExportReason.do", "", strOption);
+	};
+	
+	function exportReasonPop(){
+		imgWindowPopupOpen();
+	};
+</script>
 </html>

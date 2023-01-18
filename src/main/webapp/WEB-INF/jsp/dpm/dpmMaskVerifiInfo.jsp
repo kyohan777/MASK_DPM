@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>전자문서관리 시스템</title>
+    <title>iDMask 이미지 카스킹점검 시스템</title>
     
     <link rel="stylesheet alternative" href="/sfview/theme/dark/css/viewer.css" class="alternative" disabled id="dark">
     <link rel="stylesheet alternative" href="/sfview/theme/light/css/viewer.css" class="alternative" disabled id="light">
@@ -19,18 +19,18 @@
     <script src="/sfview/js/event_map.js"></script>
     <script src="/sfview/js/thumbnails.js"></script>
     <script src="/sfview/js/view.js"></script>
-    
+ 
     
     <style>
     #box-left {
- 		 flex: 2;
+ 		 flex: 1;
 	}
-	#box-center {
+	/* #box-center {
   		flex: 3;
   		
-	}
+	} */
 	#box-right {
-		flex: 3;
+		flex: 1;
 	}
 	#mkTable > tr{
 	height : 40px
@@ -74,6 +74,21 @@
                                 </li>
                                 
                                  <li>
+                                    <label>업무구분</label>
+                                    <div class="datepicker-wrap">
+										<select id="bprBsnDsc" name="bprBsnDsc"class="form-control"
+									     style="width: 130px; background: #E3FFF0;margin-right: 0px; padding-right: 30px;"
+									     >
+									     	<option value="">전체</option>
+									     	<c:forEach var="list" items="${jobCodeList}">
+									     		<option value="${list.code}">${list.cnm}</option>
+									     	</c:forEach>
+									     </select> 
+                                    </div>
+                                </li>
+                                
+                                
+                                 <li>
                                     <label>상태코드</label>
                                     <div class="datepicker-wrap">
 										<select id="maskPrgStsc" name="maskPrgStsc"class="form-control"
@@ -86,12 +101,19 @@
 									     </select> 
                                     </div>
                                 </li>
+                                
+                                 <li>
+                                    <label>엘리먼트 ID</label>
+                                    <input type="text" id="elementId" name="elementId" class="input-st01" style ="background: #E3FFF0; color : black" placeholder="엘리먼트 ID">
+                                </li>
                             </ul>
                        <!-- 엑셀출력을 위한 컬럼정보 -->
 						<input id="gridLabelList" type="hidden" name="gridLabels"> 
 						<input id="gridNameList"  type="hidden" name="gridNames"> 
 						<input id="gridWidthList" type="hidden" name="gridWidths"> 
 						<input id="gridAlignList" type="hidden" name="gridAligns">
+						<input id="chrrId" type="hidden" name="chrrId" value="${chrrId}">
+						<input id="chrrNm" type="hidden" name="chrrNm" value="${chrrNm}">
    					</form>
                             <ul class="smbc-top-btn-wrap">
                                 <li class="search-btn"><button id="searchBtn">조회</button></li>
@@ -99,12 +121,13 @@
                         </div>
                         <div class="smbc-data-wrap">
                             <div class="smbc-data-title">
-                                <h3>교정/검증 처리</h3>
-                                <ul class="smbc-data-top-menu">
+                                <h3>이미지 조회</h3>
+                              <!--   <ul class="smbc-data-top-menu">
                                     <li><button id="btnConfirm">확인</button></li>
-                                </ul>
+                                </ul> -->
                                 <ul class="smbc-data-top-menu">
                                     <li><button id="btnRecover">원복</button></li>
+                                    <li><button id="btnPDF">PDF다운로드</button></li>
                                 </ul>
                             </div>
                             <div class="smbc-data-wrap">
@@ -116,7 +139,7 @@
 									</div>
                             	</div>
                             	
-                            	<div id='box-center'>
+                            	<!-- <div id='box-center'>
 		                            	<iframe src="/sfview/viewer.jsp" id="viwerIframe"
 		                            			width="100%" 
 			  									height="100%" 
@@ -124,24 +147,17 @@
 									            allowfullscreen 
 									            >
 									    </iframe>
-                            	</div>
+                            	</div> -->
                             	
 	                            	<div id='box-right'>
-	                            		<iframe src="/sfview/viewer.jsp" id="viwerIframe2"
-			                            			width="100%" 
-				  									height="100%" 
-										            frameborder="0" 
-										            allowfullscreen 
-										            >
-										</iframe>
+	                            		<iframe src="/sfview/viewer.jsp" id="viwerIframe"
+		                            			width="100%" 
+			  									height="100%" 
+									            frameborder="0" 
+									            allowfullscreen 
+									            >
+									    </iframe>
 									</div>	    
-                            	
-                            	
-                            	<form id="frmImrInfo" role="form"  method="post">
-                                	<input id="elementId" name="elementId" type="hidden">
-                                	<input id="contractId" name="contractId" type="hidden">
-                                	<input id="custId" name="custId" type="hidden">
-                                </form>	 
                             	
                             </div>
                              
@@ -152,8 +168,8 @@
                 </div>
             </div>
         </div>
-    </div>
     <jsp:include page="/WEB-INF/jsp/include/script.jsp" />  
+    <script type="text/javascript" src="/js/libs/jquery/jspdf.min.js"></script>
     <script type="text/javascript" src="/js/dpm/dpmMaskVerifiInfo.js"></script>
 </body>
 </html>

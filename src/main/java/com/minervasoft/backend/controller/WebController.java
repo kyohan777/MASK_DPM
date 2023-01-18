@@ -1,7 +1,9 @@
 package com.minervasoft.backend.controller;
 
+import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -13,7 +15,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
+import com.minervasoft.backend.service.DpmService;
 import com.minervasoft.backend.vo.CalibVerifiVo;
+import com.minervasoft.backend.vo.InspectVO;
 import com.minervasoft.backend.vo.LoginChrrVO;
 import com.minervasoft.backend.vo.StatisticsVO;
 
@@ -21,6 +25,9 @@ import com.minervasoft.backend.vo.StatisticsVO;
 public class WebController {
     
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+    
+    @Resource(name = "DpmService")
+    private DpmService dpmService;
 
     /********************************************* 
      * 로그인 및 공통  
@@ -249,18 +256,60 @@ public class WebController {
      * Kimsangmin
      * @param modelMap
      * @return
+     * @throws Exception 
      */
     @RequestMapping(value = "/dpm/dpmMaskVerifiInfo.do")
-    public String dpmMaskVerifiInfo(CalibVerifiVo loginInfoVO,ModelMap modelMap,HttpServletRequest request) {
+    public String dpmMaskVerifiInfo(CalibVerifiVo loginInfoVO,ModelMap modelMap,HttpServletRequest request) throws Exception {
     	HttpSession session = request.getSession();
         LoginChrrVO loginVO = (LoginChrrVO) session.getAttribute("loginInfo");
+        List<CalibVerifiVo> codeList = dpmService.getJobCodeList();
         try {        
+        	
         	modelMap.addAttribute("chrrId", loginVO.getChrrId());
+        	modelMap.addAttribute("chrrNm", loginVO.getChrrNm());
+        	modelMap.addAttribute("jobCodeList",codeList);
         } catch(Exception e) {
             e.printStackTrace();
         }
         
         return "dpm/dpmMaskVerifiInfo";
+    }
+    
+    
+    /**
+     * 이미지 조회 > 반출 목적/사유 등록 팝업
+     * Kimsangmin
+     * @param modelMap
+     * @return
+     * @throws Exception 
+     */
+    @RequestMapping(value = "/dpm/dpmExportReason.do")
+    public String dpmImgViewerPop(ModelMap modelMap) throws Exception {
+        try {        
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return "dpm/exportReasonPopup";
+    }
+    
+    /**
+     * 이미지 조회 > 반출 원본/마스킹 임지 비교 팝업
+     * Kimsangmin
+     * @param modelMap
+     * @return
+     * @throws Exception 
+     */
+    @RequestMapping(value = "/dpm/dpmImgViewerPopup.do")
+    public String dpmImgViewerPopup(ModelMap modelMap,InspectVO paramVO) throws Exception {
+        try {       
+        	InspectVO info = dpmService.getElementIdImg(paramVO);
+        	modelMap.addAttribute("imgPathOrg",info.getImgPathOrg());
+        	modelMap.addAttribute("elementId",info.getElementId());
+        	modelMap.addAttribute("totalPageCnt",info.getImgTotalPageCnt());
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return "dpm/dpmImgViewerPopup";
     }
 
     

@@ -42,17 +42,12 @@ var modDpmMaskVerifiInfo = (function(){
 	        postData: {},
 	        //jqGrid 양식선언부        
 	        colModel: [
-				{ label: 'ELEMENTID',    name: 'elementId', 	   align: 'center', width:'0px'},
-				{ label: '고객',  name: 'maskPrgStscTxt', align: 'left', width: '0px'},
-	            { label: 'u',  name: 'userConfirmTxt', align: 'left', width: '0px'},
-	            { label: 'u2',  name: 'userUpdateYnTxt', align: 'left', width: '0px'},
-	            { label: 'u3',  name: 'resultImgPath', align: 'left', width: '0px'},
-	            { label: 'u4',  name: 'imgPathOrg', align: 'left', width: '0px'},
-	            { label: '파일명',       name: 'imgFileName',	   align: 'left', width: '150px'},
-	            { label: '진행',     name: 'maskPrgStsc', 	   align: 'center', width: '50px'},
-	            { label: '탐지',        name: 'fstImrPage',    	   align: 'center', width: '50px'},
-	            { label: '검증', 	       name: 'userConfirm',    	   align: 'center', width: '50px'},
-	            { label: '수정', 	   name: 'userUpdateYn',   	   align: 'center', width: '50px'}
+				{ label: '처리일자',   name: 'prcDt', 	         align: 'left',   width:'100px'},
+				{ label: '업무',      name: 'bprBsnDscTxt',   align: 'center', width: '100px'},
+	            { label: '엘리먼트ID', name: 'elementId',      align: 'center', width: '100px'},
+	            { label: '진행상태',   name: 'maskPrgStscTxt', align: 'center', width: '100px'},
+	            { label: '이미지 경로', name: 'imgPathOrg'    , align: 'center', hidden:true }
+	            
 	        ],
 	       
 	        height: gridHeight,
@@ -129,45 +124,56 @@ var modDpmMaskVerifiInfo = (function(){
 	        },
 	      //Row클릭 이벤트
 	        onSelectRow: function(rowid) {
-				var selRowData = $("#jqGrid").getRowData(rowid);
-				var imrFPage = selRowData.fstImrPage;
-				if(imrFPage == null || imrFPage == "undefined" || imrFPage == "") {
-					imrFPage = 1;
-				}
-				
-				if(selRowData.imgPathOrg != null && selRowData.imgPathOrg != "" && selRowData.imgPathOrg != undefined) {
-					$("#viwerIframe").get(0).contentWindow.imrFirstPage = imrFPage;
-					$("#viwerIframe").get(0).contentWindow.viewerSetImg(encodeURI(selRowData.imgPathOrg));
-					setTimeout(() => $("#viwerIframe").get(0).contentWindow.scrollToSeq(imrFPage), 500);
-				}
-				
-				if(selRowData.resultImgPath != null && selRowData.resultImgPath != "" && selRowData.resultImgPath != undefined) { 
-					$("#viwerIframe2").get(0).contentWindow.imrFirstPage = imrFPage;
-					$("#viwerIframe2").get(0).contentWindow.viewerSetImg(encodeURI(selRowData.resultImgPath));
-					setTimeout(() => $("#viwerIframe2").get(0).contentWindow.scrollToSeq(imrFPage), 500);
-				}
-				
-				$("#elementId").val(selRowData.elementId);
 				
 	        },
 	        //셀더블클릭 이벤트 - deprecated
 	        ondblClickRow: function(rowid, iRow, iCol) {
+				var selRowData = $("#jqGrid").getRowData(rowid);
+				//조회로그 등록
+				objParam = {};
+				objParam.chrrId = $("#chrrId").val();
+				objParam.elementId = selRowData.elementId;
+				objParam.queryType = "DISP";//조회만
+				modAjax.request("/dpm/insertSearchLog.do", objParam,  {
+				async: false,
+				success: function(data) {				
+					if(!modComm.isEmpty(data) && data.rsYn == "Y") {
+						$('#viwerIframe').contents().find('#popupYn').val("Y");
+						$('#viwerIframe').contents().find('#EMEMENT_ID').val(selRowData.elementId);
+						$('#viwerIframe').contents().find('#CHRR_ID').val($("#chrrId").val());
+						$('#viwerIframe').contents().find('#CHRR_NM').val($("#chrrNm").val());
+						var imrFPage = selRowData.imgTotalPageCnt;
+						if(imrFPage == null || imrFPage == "undefined" || imrFPage == "") {
+						imrFPage = 1;
+						}
+						if(selRowData.imgPathOrg != null && selRowData.imgPathOrg != "" && selRowData.imgPathOrg != undefined) {
+							$("#viwerIframe").get(0).contentWindow.imrFirstPage = imrFPage;
+							$("#viwerIframe").get(0).contentWindow.viewerSetImg(encodeURI(selRowData.imgPathOrg));
+							setTimeout(() => $("#viwerIframe").get(0).contentWindow.scrollToSeq(imrFPage), 500);
+						}
+					}
+				},
+            	error: function(response) {
+                	console.log(response);
+            	}
+    			});	
 	        },
 	        
 	        loadComplete: function() {
-			    var ids = $("#jqGrid").jqGrid('getDataIDs');
-			    for (var i=0;i<ids.length;i++) {
-			        var id=ids[i];
-			        var rowData = $("#jqGrid").jqGrid('getRowData',id);
+			    
+			   // var ids = $("#jqGrid").jqGrid('getDataIDs');
+			   // for (var i=0;i<ids.length;i++) {
+			   //     var id=ids[i];
+			   //     var rowData = $("#jqGrid").jqGrid('getRowData',id);
 		        	
 		        	//$("#testJqGrid").jqGrid('setCell', rowid, colname, nData, styleObj, cellAttirbuteObj, forceUpdate);
-				    $("#jqGrid").jqGrid('setCell', id, 'maskPrgStsc', "", "", {title: rowData.maskPrgStscTxt});
-				    $("#jqGrid").jqGrid('setCell', id, 'userConfirm', "", "", {title: rowData.userConfirmTxt});
-				    $("#jqGrid").jqGrid('setCell', id, 'userUpdateYn', "", "", {title: rowData.userUpdateYnTxt});
+				//    $("#jqGrid").jqGrid('setCell', id, 'maskPrgStsc', "", "", {title: rowData.maskPrgStscTxt});
+				//    $("#jqGrid").jqGrid('setCell', id, 'userConfirm', "", "", {title: rowData.userConfirmTxt});
+				//    $("#jqGrid").jqGrid('setCell', id, 'userUpdateYn', "", "", {title: rowData.userUpdateYnTxt});
 				    
-			    }
-			}
-	        
+			//    }
+		}
+	       
 		});
 		//그리드 초기화 종료
 		//그리드 resize 
@@ -177,7 +183,7 @@ var modDpmMaskVerifiInfo = (function(){
 		modComm.addGridColEl("jqGrid", "gridLabelList", "gridNameList", "gridWidthList", "gridAlignList");
 		
 		//열 숨기기
-		$("#jqGrid").jqGrid("hideCol",["elementId", "userUpdateYnTxt", "maskPrgStscTxt", "userConfirmTxt", "resultImgPath", "imgPathOrg"]);
+		//$("#jqGrid").jqGrid("hideCol",["elementId", "userUpdateYnTxt", "maskPrgStscTxt", "userConfirmTxt", "resultImgPath", "imgPathOrg"]);
 	};
 		
 
@@ -186,9 +192,9 @@ var modDpmMaskVerifiInfo = (function(){
 	 * 마스터 조회
 	 */  
 	function selList() {
-		dataResetImr();
+		//dataResetImr();
 		viwerIframe.src = '/sfview/viewer.jsp';
-		viwerIframe2.src = '/sfview/viewer.jsp';
+		//viwerIframe2.src = '/sfview/viewer.jsp';
 		
 		$("#jqGrid").jqGrid('clearGridData');
 		
@@ -206,7 +212,7 @@ var modDpmMaskVerifiInfo = (function(){
 		
     	//전체건수가 있으면 목록조회
 		if(totRowCnt < 1) {
-			$("#jqGrid > tbody").append("<tr class='ui-widget-content jqgrow ui-ltr'><td colspan='7' class='text-left'>&nbsp; &nbsp; &nbsp;조회된 결과가 없습니다.</td></tr>");
+			$("#jqGrid > tbody").append("<tr class='ui-widget-content jqgrow ui-ltr'><td colspan='6' class='text-left'>&nbsp; &nbsp; &nbsp;조회된 결과가 없습니다.</td></tr>");
 			return;
 		} else {
         	objParam.totRowCnt	= totRowCnt;
@@ -221,7 +227,7 @@ var modDpmMaskVerifiInfo = (function(){
 	 */  	
 	function selTotalCount(objParam) {
 		totRowCnt = 0;
-		modAjax.request("/dpm/getDpmDailyProInfoTotRowCnt.do", objParam,  {
+		modAjax.request("/dpm/getDpmMaskVerifiInfoTotRowCnt.do", objParam,  {
 			async: false,
 			success: function(data) {				
 				if(!modComm.isEmpty(data) && data.rsYn == "Y" && data.hasOwnProperty("totRowCnt")) {
@@ -282,7 +288,7 @@ var modDpmMaskVerifiInfo = (function(){
 		init: init,
 		selList: selList,
 		selListPage: selListPage,
-		excelWrite: excelWrite		
+		excelWrite: excelWrite
 	};
 
 })();
@@ -305,66 +311,6 @@ $("#btnExcel").on("click", function() {
 function dataResetImr() {
 	$("#intvisionImr").val("");
 }
-
-
-/**
- * 확정버튼 클릭
- */
-$("#btnConfirm").on("click", function() {
-		
-	if($("#elementId").val() == '') {
-		alert("확정할 대상이 없습니다.");
-		return;
-	}
-	if(!confirm("확정하시겠습니까?")) {
-		return;
-	}
-	
-	var imrObj = {};
-	
-	var arrForm = $("#frmImrInfo").serializeArray();
-	if(arrForm) {
-		arrForm.forEach(function(item) {
-			imrObj[item.name] = item.value;
-			console.log("name:" + item.name + ", value" + item.value);
-		});
-	}
-	
-	var strImr = JSON.stringify(imrObj);
-	console.log("strImr: ~~~" + strImr);				
-	/*
-	var objParam = {
-		"elementId" : $("#elementId").val(),
-		"intvisionImr" : $("#intvisionImr").val(),
-		"ayn" : strImr
-	};
-	*/
-	var objParam = {
-		"intvisionImr" : strImr,
- 	};
-	
-	// 확정처리
-	modAjax.request("/dpm/maskConfirm.do", objParam, {
-		 async : false,
-		 success : function(data) {
-			var jsonData = JSON.parse(data);
-			if(jsonData.updCnt == 1) {
-				alert("성공적으로 반영하였습니다.");
-			} 
-			if(jsonData.errMsg != "success") {
-				alert("오류:" + jsonData.errMsg);
-			}
-			modDpmMaskVerifiInfo.selList();
-			
-		},
-		error : function(data) {
-			alert(data);
-		}
-	});
-	
-	
-});
-
 
 /**
  * 원복버튼 클릭
@@ -417,8 +363,7 @@ $("#textPrcDt").on("propertychange change keyup paste input", function(){
 		modDpmMaskVerifiInfo.selList();
 	}
 });
-    
-    
+
 /**
  * DOM  load 완료 시 실행
  */
@@ -427,16 +372,8 @@ $(document).ready(function() {
 	modDpmMaskVerifiInfo.init();
 	modDpmMaskVerifiInfo.selList();
 	
-	$("#box-center").height($("#gridContainer").height());
 	$("#box-right").height($("#gridContainer").height());
-	
-	
-	//$("#jqGrid").jqGrid('setFrozenColumns');
-	
-	//$("#viwerIframe").get(0).contentWindow.viewerSetHeight($("#gridContainer").height());
-	
 	$('iframe#embedded.embedded').height($("#gridContainer").height());
-	
 	
 });
 
@@ -448,10 +385,6 @@ $(window).on('resize', function(){
 	$('#viwerIframe').contents().find('div.v-content').height($("#gridContainer").height());
 	$('#viwerIframe').contents().find('iframe#embedded').height($("#gridContainer").height());
 	
-	$('#viwerIframe2').contents().find('div.v-content').height($("#gridContainer").height());
-	$('#viwerIframe2').contents().find('iframe#embedded').height($("#gridContainer").height());
-	
-
     
 });
 

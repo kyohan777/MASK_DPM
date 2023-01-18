@@ -62,8 +62,15 @@
 				$('iframe#embedded').hide();								
 			});
 			
-			$('.sfimg').dblclick( _ =>  Module.redraw());
-				
+			//$('.sfimg').dblclick( _ =>  Module.redraw());
+			$('.sfimg').dblclick(function(){
+				if($("#popupYn").val() =="Y"){
+					var src = $('.sfimg').attr("src");
+					if(src != null || src != "undefined" || src != ""){
+						exportReasonPop();
+					}
+				}
+			});	
 			$('.sfimg').mousedown(function(e) {
 				if (canPanning) {
 					e.preventDefault();

@@ -101,6 +101,31 @@ public class DpmVrfController {
         return response;
     }
     
+    /**
+     *  이미지 조회 전체 cnt
+     *  2023.01.09 
+     * @param paramVO
+     * @return
+     */
+    @RequestMapping(value = "/dpm/getDpmMaskVerifiInfoTotRowCnt.do")
+    @ResponseBody
+    public ResponseInspectVo getDpmMaskVerifiInfoTotRowCnt(InspectVO paramVO) {
+    	ResponseInspectVo response = new ResponseInspectVo();
+        
+        try {
+        	InspectVO one = dpmService.getDpmMaskVerifiInfoTotRowCnt(paramVO);
+        	if(one != null) {
+        		response.setTotRowCnt(one.getTotRowCnt());
+        	}
+            
+        } catch(Exception e) {
+            e.printStackTrace();
+            response.setRsYn("N");
+        }
+        
+        return response;
+    }    
+    
     
     /**
      *  [IMR] 결과 조회 사유 입력

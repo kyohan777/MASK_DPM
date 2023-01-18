@@ -22,6 +22,8 @@ public class CalibVerifiVo extends AbstractVO{
 	private Integer startPageNumber = 0;
 	private String  columnName="";
 	private String  sortOrder="";
+	private String code="";
+	private String cnm="";
 	
 		
 	public String getContractId() {
@@ -150,6 +152,18 @@ public class CalibVerifiVo extends AbstractVO{
 	}
 	public void setQueryType(String queryType) {
 		this.queryType = queryType;
+	}
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+	public String getCnm() {
+		return cnm;
+	}
+	public void setCnm(String cnm) {
+		this.cnm = cnm;
 	}
 	
 	

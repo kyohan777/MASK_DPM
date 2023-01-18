@@ -31,6 +31,16 @@ public class InspectVO extends AbstractVO{
 	private String  startPrcDt = "";
 	private String  endPrcDt = "";
 	private String  maskPrgStsc = "";
+	private String  maskPrgStscTxt = "";
+	private String  bprBsnDscTxt = "";
+	private String  imgPathOrg = "";
+	private String  elementId = "";
+	private Integer  imgTotalPageCnt = 0;
+	private String  queryType ="";
+	private String  chrrId ="";
+	private String purpose="";
+	private String queryReason="";
+
 	public String getPrcDt() {
 		return prcDt;
 	}
@@ -213,6 +223,60 @@ public class InspectVO extends AbstractVO{
 	public void setMaskPrgStsc(String maskPrgStsc) {
 		this.maskPrgStsc = maskPrgStsc;
 	}
+	public String getMaskPrgStscTxt() {
+		return maskPrgStscTxt;
+	}
+	public void setMaskPrgStscTxt(String maskPrgStscTxt) {
+		this.maskPrgStscTxt = maskPrgStscTxt;
+	}
+	public String getBprBsnDscTxt() {
+		return bprBsnDscTxt;
+	}
+	public void setBprBsnDscTxt(String bprBsnDscTxt) {
+		this.bprBsnDscTxt = bprBsnDscTxt;
+	}
+	public String getImgPathOrg() {
+		return imgPathOrg;
+	}
+	public void setImgPathOrg(String imgPathOrg) {
+		this.imgPathOrg = imgPathOrg;
+	}
+	public String getElementId() {
+		return elementId;
+	}
+	public void setElementId(String elementId) {
+		this.elementId = elementId;
+	}
+	public Integer getImgTotalPageCnt() {
+		return imgTotalPageCnt;
+	}
+	public void setImgTotalPageCnt(Integer imgTotalPageCnt) {
+		this.imgTotalPageCnt = imgTotalPageCnt;
+	}
+	public String getQueryType() {
+		return queryType;
+	}
+	public void setQueryType(String queryType) {
+		this.queryType = queryType;
+	}
+	public String getChrrId() {
+		return chrrId;
+	}
+	public void setChrrId(String chrrId) {
+		this.chrrId = chrrId;
+	}
+	public String getPurpose() {
+		return purpose;
+	}
+	public void setPurpose(String purpose) {
+		this.purpose = purpose;
+	}
+	public String getQueryReason() {
+		return queryReason;
+	}
+	public void setQueryReason(String queryReason) {
+		this.queryReason = queryReason;
+	}
 	@Override
 	public String toString() {
 		return "InspectVO [prcDt=" + prcDt + ", bprBsnDsc=" + bprBsnDsc + ", prcRat=" + prcRat + ", maskRat=" + maskRat
@@ -223,7 +287,10 @@ public class InspectVO extends AbstractVO{
 				+ ", startPageNumber=" + startPageNumber + ", stPrcDt=" + stPrcDt + ", edPrcDt=" + edPrcDt
 				+ ", columnName=" + columnName + ", sortOrder=" + sortOrder + ", gridLabels=" + gridLabels
 				+ ", gridNames=" + gridNames + ", gridWidths=" + gridWidths + ", gridAligns=" + gridAligns
-				+ ", startPrcDt=" + startPrcDt + ", endPrcDt=" + endPrcDt + ", maskPrgStsc=" + maskPrgStsc + "]";
+				+ ", startPrcDt=" + startPrcDt + ", endPrcDt=" + endPrcDt + ", maskPrgStsc=" + maskPrgStsc
+				+ ", maskPrgStscTxt=" + maskPrgStscTxt + ", bprBsnDscTxt=" + bprBsnDscTxt + ", imgPathOrg=" + imgPathOrg
+				+ ", elementId=" + elementId + ", imgTotalPageCnt=" + imgTotalPageCnt + ", queryType=" + queryType
+				+ ", chrrId=" + chrrId + ", purpose=" + purpose + ", queryReason=" + queryReason + "]";
 	}
 	
 }

@@ -48,10 +48,11 @@
 		}
 	</style>
 <body>
- <h1>   
+
+ <h1 style="width:520px">   
      <a href="#" onclick="goPage('Daily');">
-          <img src="../images/minerva-Logo.png" alt="SMBC"/>
-          <span>전자문서 관리시스템</span>
+          <img src="../images/samsung-logo.png" alt="로고"/>
+          <span style="width:310px">iDMask 이미지 마스킹점검 시스템</span>
      </a>
 </h1>
 <nav class="smbc-nav">
@@ -80,6 +81,7 @@
 	</ul>
 </div>
     <ul class="smbc-nav-btn-wrap">
+         <li class="logout-btn"> <img src="/images/security.png" style ="float:right; width:120x;height:40px;" alt="대외비"> </li>
          <li class="logout-btn"><button id="spnLogout">로그아웃</button></li>
     </ul>
 </nav>

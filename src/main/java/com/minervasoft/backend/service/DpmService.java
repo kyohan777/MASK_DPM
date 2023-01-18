@@ -73,6 +73,14 @@ public interface DpmService {
     public InspectVO getDpmMonthProInfoTotRowCnt(InspectVO paramVO) throws Exception;
     //이미지 조회 
     public List<InspectVO> getDpmMaskVerifiInfo(InspectVO paramVO) throws Exception;
+    //이미지 조회 cnt 조회
+    public InspectVO getDpmMaskVerifiInfoTotRowCnt(InspectVO paramVO) throws Exception;
+    //업무구분 코드 조회
+    public List<CalibVerifiVo> getJobCodeList()throws Exception;
+    //이미지 조회 조회 로그 등록
+    public void insertSearchLog(InspectVO parmaVO)throws Exception; 
+    
+    public InspectVO getElementIdImg(InspectVO parmaVO)throws Exception;
     
     public void insertCode(Map<String, Object> map) throws Exception;
     public void codeTableDel() throws Exception;
